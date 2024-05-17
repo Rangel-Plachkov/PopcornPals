@@ -53,8 +53,10 @@ public class Studio {
         this.description = description;
         this.founded = founded;
     }
+    public boolean equals(Studio studio) {
+        return this.name.equals(studio.getName()) && this.description.equals(studio.getDescription()) && this.founded.equals(studio.getFounded());
+    }
 
-    
 
 
 }
