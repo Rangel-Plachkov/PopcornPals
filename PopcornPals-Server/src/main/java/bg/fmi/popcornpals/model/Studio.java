@@ -38,26 +38,26 @@ public class Studio {
     @Pattern(regexp = RegexPattern.DESCRIPTION, message = "Studio: Invalid symbols in description")
     private String description;
 
-    private LocalDate founded;
+    private LocalDate foundingDate;
 
     public Studio(String name) {
         this.name = name;
     }
-    public Studio(String name, LocalDate founded) {
+    public Studio(String name, LocalDate foundingDate) {
         this.name = name;
-        this.founded = founded;
+        this.foundingDate = foundingDate;
     }
     public Studio(String name, String description) {
         this.name = name;
         this.description = description;
     }
-    public Studio(String name, String description, LocalDate founded) {
+    public Studio(String name, String description, LocalDate foundingDate) {
         this.name = name;
         this.description = description;
-        this.founded = founded;
+        this.foundingDate = foundingDate;
     }
     public boolean equals(Studio studio) {
-        return this.name.equals(studio.getName()) && this.description.equals(studio.getDescription()) && this.founded.equals(studio.getFounded());
+        return this.name.equals(studio.getName()) && this.description.equals(studio.getDescription()) && this.foundingDate.equals(studio.getFoundingDate());
     }
 
 
