@@ -2,6 +2,7 @@ package bg.fmi.popcornpals.model;
 
 import bg.fmi.popcornpals.enums.StringSize;
 import bg.fmi.popcornpals.enums.RegexPattern;
+import bg.fmi.popcornpals.enums.RatingConstraint;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,8 +26,8 @@ public class Review {
     private Integer ID;
 
     @NotNull(message = "Review: Rating cannot be null")
-    @Min(value = 1, message = "Review: Rating must be between 1 and 10")
-    @Max(value = 10, message = "Review: Rating must be between 1 and 10")
+    @Min(value = RatingConstraint.MIN, message = "Review: Rating must be at least " + RatingConstraint.MIN)
+    @Max(value = RatingConstraint.MAX, message = "Review: Rating must be at most " + RatingConstraint.MAX)
     private Integer rating;
 
     @NotBlank(message = "Review: Review cannot be blank")
