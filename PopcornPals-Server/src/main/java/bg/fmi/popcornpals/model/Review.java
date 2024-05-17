@@ -1,5 +1,8 @@
 package bg.fmi.popcornpals.model;
 
+import bg.fmi.popcornpals.enums.StringSize;
+import bg.fmi.popcornpals.enums.RegexPattern;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,9 +30,9 @@ public class Review {
     private Integer rating;
 
     @NotBlank(message = "Review: Review cannot be blank")
-    @Size(min = 1, max = 255, message = "Review: Review must be between 1 and 255 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9 .,'&()\\-!?:;\"%$@#\\n\\r\\t]+$" , message = "Review: Invalid symbols in review")
-    private String review;
+    @Size(max = StringSize.REVIEW_MAX, message = "Review: Review must be no more than " +  StringSize.REVIEW_MAX + "characters")
+    @Pattern(regexp = RegexPattern.DESCRIPTION , message = "Review: Invalid symbols in review")
+    private String description;
 
     @NotNull(message = "Review: Date cannot be null")
     private LocalDate date;
@@ -38,12 +41,12 @@ public class Review {
         this.rating = rating;
         this.date = date;
     }
-    public Review(Integer rating, String review, LocalDate date) {
+    public Review(Integer rating, String description, LocalDate date) {
         this.rating = rating;
-        this.review = review;
+        this.description = description;
         this.date = date;
     }
     public boolean equals(Review review) {
-        return this.rating.equals(review.getRating()) && this.review.equals(review.getReview()) && this.date.equals(review.getDate());
+        return this.rating.equals(review.getRating()) && this.description.equals(review.getDescription()) && this.date.equals(review.getDate());
     }
 }

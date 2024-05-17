@@ -1,5 +1,8 @@
 package bg.fmi.popcornpals.model;
 
+import bg.fmi.popcornpals.enums.StringSize;
+import bg.fmi.popcornpals.enums.RegexPattern;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,12 +30,12 @@ public class Studio {
 
     @NotNull(message = "Studio: Name cannot be null")
     @NotBlank(message = "Studio: Name cannot be blank")
-    @Size(min = 1, max = 255, message = "Studio: Name must be between 1 and 255 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9 .,'&()-]+$", message = "Studio: Name can contain only letters, digits and spaces")
+    @Size(max = StringSize.NAME_MAX, message = "Studio: Name must be no more than " +  StringSize.NAME_MAX + " characters")
+    @Pattern(regexp = RegexPattern.NAME, message = "Studio: Name can contain only letters, digits and spaces")
     private String name;
 
-    @Size(max = 255, message = "Studio: Description must be between 1 and 255 characters")
-    @Pattern(regexp = "^[a-zA-Z0-9 .,'&()\\-!?:;\"%$@#\\n\\r\\t]+$", message = "Studio: Invalid symbols in description")
+    @Size(max = StringSize.DESCRIPTION_MAX, message = "Studio: Description must be no more than " +  StringSize.DESCRIPTION_MAX + " characters")
+    @Pattern(regexp = RegexPattern.DESCRIPTION, message = "Studio: Invalid symbols in description")
     private String description;
 
     private LocalDate founded;
