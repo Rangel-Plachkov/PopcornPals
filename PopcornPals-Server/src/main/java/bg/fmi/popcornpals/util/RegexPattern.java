@@ -1,4 +1,4 @@
-package bg.fmi.popcornpals.enums;
+package bg.fmi.popcornpals.util;
 
 public interface RegexPattern {
 

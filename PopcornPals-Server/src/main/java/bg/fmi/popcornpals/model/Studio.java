@@ -1,7 +1,7 @@
 package bg.fmi.popcornpals.model;
 
-import bg.fmi.popcornpals.enums.StringSize;
-import bg.fmi.popcornpals.enums.RegexPattern;
+import bg.fmi.popcornpals.util.StringSize;
+import bg.fmi.popcornpals.util.RegexPattern;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
