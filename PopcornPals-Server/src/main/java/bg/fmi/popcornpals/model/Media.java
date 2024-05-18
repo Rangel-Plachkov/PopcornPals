@@ -3,6 +3,7 @@ package bg.fmi.popcornpals.model;
 import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.StringSize;
 import bg.fmi.popcornpals.util.Genre;
+import bg.fmi.popcornpals.util.MediaType;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +26,8 @@ public class Media {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer ID;
 
+    private MediaType type;
+
     @NotNull(message = "Media: Title cannot be null")
     @NotBlank(message = "Media: Title cannot be blank")
     @Size(max = StringSize.TITLE_MAX, message = "Media: Title must be no more than " +  StringSize.TITLE_MAX + " characters")
@@ -46,4 +49,28 @@ public class Media {
     @Size(max = StringSize.DESCRIPTION_MAX, message = "Media: Description must be no more than " +  StringSize.DESCRIPTION_MAX + " characters")
     @Pattern(regexp = RegexPattern.DESCRIPTION, message = "Media: Invalid symbols in description")
     private String description;
+    
+
+    public Media(MediaType type, String title){
+        this.type = type;
+        this.title = title;
+    }
+
+    public Media(MediaType type, String title, Genre genre, LocalDate releaseDate, LocalDate endDate, Integer length, String description) {
+        this.type = type;
+        this.title = title;
+        this.genre = genre;
+        this.releaseDate = releaseDate;
+        this.endDate = endDate;
+        this.length = length;
+        this.description = description;
+    }
+
+    public boolean equals(Media media) {
+        return this.type.equals(media.getType()) && this.title.equals(media.getTitle())
+                && this.genre.equals(media.getGenre()) && this.releaseDate.equals(media.getReleaseDate())
+                && this.endDate.equals(media.getEndDate()) && this.length.equals(media.getLength())
+                && this.description.equals(media.getDescription());
+    }
+
 }
