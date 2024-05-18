@@ -2,6 +2,7 @@ package bg.fmi.popcornpals.model;
 
 import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.StringSize;
+import bg.fmi.popcornpals.util.Genre;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,10 +31,12 @@ public class Media {
     @Pattern(regexp = RegexPattern.MEDIA_TITLE, message = "Media: Title can contain only letters, digits and spaces")
     private String title;
 
+    private Genre genre;
 
     private LocalDate releaseDate;
 
     private LocalDate endDate;
+
 
     @Min(value = 0, message = "Media: Length must be at least 0")
     private Integer length;
