@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.util.Objects;
 
 
 @Data
@@ -56,8 +57,16 @@ public class Studio {
         this.description = description;
         this.foundingDate = foundingDate;
     }
-    public boolean equals(Studio studio) {
-        return this.name.equals(studio.getName()) && this.description.equals(studio.getDescription()) && this.foundingDate.equals(studio.getFoundingDate());
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Studio studio)) return false;
+        return name.equals(studio.name)
+                && description.equals(studio.description) && foundingDate.equals(studio.foundingDate);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, foundingDate);
     }
 
 

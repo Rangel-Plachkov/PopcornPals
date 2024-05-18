@@ -13,7 +13,7 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import java.util.Objects;
 import java.time.LocalDate;
 
 @Entity
@@ -49,7 +49,7 @@ public class Media {
     @Size(max = StringSize.DESCRIPTION_MAX, message = "Media: Description must be no more than " +  StringSize.DESCRIPTION_MAX + " characters")
     @Pattern(regexp = RegexPattern.DESCRIPTION, message = "Media: Invalid symbols in description")
     private String description;
-    
+
 
     public Media(MediaType type, String title){
         this.type = type;
@@ -66,11 +66,18 @@ public class Media {
         this.description = description;
     }
 
-    public boolean equals(Media media) {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Media media)) return false;
         return this.type.equals(media.getType()) && this.title.equals(media.getTitle())
                 && this.genre.equals(media.getGenre()) && this.releaseDate.equals(media.getReleaseDate())
                 && this.endDate.equals(media.getEndDate()) && this.length.equals(media.getLength())
                 && this.description.equals(media.getDescription());
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, title, genre, releaseDate, endDate, length, description);
     }
 
 }

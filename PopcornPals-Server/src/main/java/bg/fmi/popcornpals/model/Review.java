@@ -3,7 +3,6 @@ package bg.fmi.popcornpals.model;
 import bg.fmi.popcornpals.util.StringSize;
 import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.RatingConstraint;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,9 +11,8 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
-
+import java.util.Objects;
 @Data
 @Entity
 @AllArgsConstructor
@@ -47,7 +45,15 @@ public class Review {
         this.description = description;
         this.date = date;
     }
-    public boolean equals(Review review) {
-        return this.rating.equals(review.getRating()) && this.description.equals(review.getDescription()) && this.date.equals(review.getDate());
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Review review)) return false;
+        return this.rating.equals(review.getRating())
+                && this.description.equals(review.getDescription()) && this.date.equals(review.getDate());
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(rating, description, date);
     }
 }
