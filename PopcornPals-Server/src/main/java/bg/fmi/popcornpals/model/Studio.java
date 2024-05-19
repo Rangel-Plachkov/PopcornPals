@@ -31,8 +31,8 @@ public class Studio {
 
     @NotNull(message = "Studio: Name cannot be null")
     @NotBlank(message = "Studio: Name cannot be blank")
-    @Size(max = StringSize.NAME_MAX, message = "Studio: Name must be no more than " +  StringSize.NAME_MAX + " characters")
-    @Pattern(regexp = RegexPattern.NAME, message = "Studio: Name can contain only letters, digits and spaces")
+    @Size(max = StringSize.STUDIO_NAME_MAX, message = "Studio: Name must be no more than " +  StringSize.STUDIO_NAME_MAX + " characters")
+    @Pattern(regexp = RegexPattern.STUDIO_NAME, message = "Studio: Name can contain only letters, digits and spaces")
     private String name;
 
     @Size(max = StringSize.DESCRIPTION_MAX, message = "Studio: Description must be no more than " +  StringSize.DESCRIPTION_MAX + " characters")
