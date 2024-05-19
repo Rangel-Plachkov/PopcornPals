@@ -2,10 +2,7 @@ package bg.fmi.popcornpals.model;
 
 import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.StringSize;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -14,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -31,6 +29,11 @@ public class Playlist {
     @Pattern(regexp = RegexPattern.PLAYLIST_NAME, message = "Playlist: Name can contain only letters, digits and spaces")
     private String name;
 
+    @ManyToMany
+    @JoinTable(name = "playlist_media",
+                joinColumns = @JoinColumn(name = "playlist_id"),
+                inverseJoinColumns = @JoinColumn(name = "media_id"))
+    private List<Media> content;
     public Playlist(String name) {
         this.name = name;
     }

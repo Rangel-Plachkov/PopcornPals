@@ -3,10 +3,7 @@ package bg.fmi.popcornpals.model;
 import bg.fmi.popcornpals.util.StringSize;
 import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.RatingConstraint;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
@@ -40,6 +37,10 @@ public class Review {
 
     @NotNull(message = "Review: Date cannot be null")
     private LocalDate date;
+
+    @ManyToOne
+    @JoinColumn(name = "media_id", nullable = false)
+    private Media media;
 
     public Review(Integer rating, LocalDate date) {
         this.rating = rating;

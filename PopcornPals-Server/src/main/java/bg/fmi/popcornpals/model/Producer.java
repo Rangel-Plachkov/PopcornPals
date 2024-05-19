@@ -2,10 +2,7 @@ package bg.fmi.popcornpals.model;
 
 import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.StringSize;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -15,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 @Data
@@ -37,6 +35,12 @@ public class Producer {
     private String description;
 
     private LocalDate birthdate;
+
+    @ManyToMany
+    @JoinTable(name = "producer_media",
+                joinColumns = @JoinColumn(name = "producer_id"),
+                inverseJoinColumns = @JoinColumn(name = "media_id"))
+    private List<Media> producedMedia;
 
     public Producer(String name) {
         this.name = name;

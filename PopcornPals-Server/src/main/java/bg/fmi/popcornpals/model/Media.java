@@ -5,10 +5,7 @@ import bg.fmi.popcornpals.util.StringSize;
 import bg.fmi.popcornpals.util.Genre;
 import bg.fmi.popcornpals.util.MediaType;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -17,6 +14,8 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 import java.util.Objects;
 import java.time.LocalDate;
 
@@ -55,7 +54,21 @@ public class Media {
     @Pattern(regexp = RegexPattern.DESCRIPTION, message = "Media: Invalid symbols in description")
     private String description;
 
+    @OneToMany(mappedBy = "media")
+    private List<Review> reviews;
 
+    @ManyToOne
+    @JoinColumn(name = "studio_id")
+    private Studio studio;
+
+    @ManyToMany(mappedBy = "starsIn")
+    private List<Actor> actors;
+
+    @ManyToMany(mappedBy = "producedMedia")
+    private List<Producer> producers;
+
+    @ManyToMany(mappedBy = "content")
+    private List<Playlist> playlists;
     public Media(MediaType type, String title){
         this.type = type;
         this.title = title;
