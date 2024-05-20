@@ -8,12 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudioService {
 
-    private final StudioRepository studioRepository;
-
     @Autowired
-    public StudioService(StudioRepository studioRepository) {
-        this.studioRepository = studioRepository;
-    }
+    private StudioRepository studioRepository;
+
 
     public Studio createStudio(Studio studio) {
         return studioRepository.save(studio);
