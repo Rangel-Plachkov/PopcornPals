@@ -17,7 +17,7 @@ public interface StudioMapper {
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "foundingDate", target = "foundingDate")
-    Studio fromDTO(StudioDTO studioDTO);
+    Studio toEntity(StudioDTO studioDTO);
 
 
 }
