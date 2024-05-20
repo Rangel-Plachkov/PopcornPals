@@ -3,10 +3,7 @@ package bg.fmi.popcornpals.model;
 import bg.fmi.popcornpals.util.StringSize;
 import bg.fmi.popcornpals.util.RegexPattern;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -15,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -31,8 +29,8 @@ public class Studio {
 
     @NotNull(message = "Studio: Name cannot be null")
     @NotBlank(message = "Studio: Name cannot be blank")
-    @Size(max = StringSize.NAME_MAX, message = "Studio: Name must be no more than " +  StringSize.NAME_MAX + " characters")
-    @Pattern(regexp = RegexPattern.NAME, message = "Studio: Name can contain only letters, digits and spaces")
+    @Size(max = StringSize.STUDIO_NAME_MAX, message = "Studio: Name must be no more than " +  StringSize.STUDIO_NAME_MAX + " characters")
+    @Pattern(regexp = RegexPattern.STUDIO_NAME, message = "Studio: Name can contain only letters, digits and spaces")
     private String name;
 
     @Size(max = StringSize.DESCRIPTION_MAX, message = "Studio: Description must be no more than " +  StringSize.DESCRIPTION_MAX + " characters")
@@ -40,6 +38,9 @@ public class Studio {
     private String description;
 
     private LocalDate foundingDate;
+
+    @OneToMany(mappedBy = "studio")
+    private List<Media> media;
 
     public Studio(String name) {
         this.name = name;
