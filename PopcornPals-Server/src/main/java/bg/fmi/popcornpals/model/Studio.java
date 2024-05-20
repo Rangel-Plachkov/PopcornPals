@@ -70,6 +70,4 @@ public class Studio {
         return Objects.hash(name, description, foundingDate);
     }
 
-
-
 }

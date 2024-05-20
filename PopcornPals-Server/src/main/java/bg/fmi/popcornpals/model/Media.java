@@ -54,6 +54,14 @@ public class Media {
     @Pattern(regexp = RegexPattern.DESCRIPTION, message = "Media: Invalid symbols in description")
     private String description;
 
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Media parent_id;
+
+    @OneToMany(mappedBy = "parent_id")
+    private List<Media> children;
+
+
     @OneToMany(mappedBy = "media")
     private List<Review> reviews;
 
@@ -73,6 +81,7 @@ public class Media {
         this.type = type;
         this.title = title;
     }
+
 
     public Media(MediaType type, String title, Genre genre, LocalDate releaseDate, LocalDate endDate, Integer length, String description) {
         this.type = type;
