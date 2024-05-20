@@ -9,6 +9,7 @@ public class PopcornPalsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(PopcornPalsApplication.class, args);
+        System.out.println("Hello, PopcornPals!");
     }
 
 }
