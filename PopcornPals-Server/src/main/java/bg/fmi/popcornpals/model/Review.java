@@ -42,6 +42,10 @@ public class Review {
     @JoinColumn(name = "media_id", nullable = false)
     private Media media;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User creator;
+
     public Review(Integer rating, LocalDate date) {
         this.rating = rating;
         this.date = date;
