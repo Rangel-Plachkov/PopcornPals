@@ -92,6 +92,9 @@ public class Media {
         this.length = length;
         this.description = description;
     }
+    public Media(String title){
+        this.title = title;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -85,8 +85,12 @@ public class StudioController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteStudioById(@PathVariable Long id) {
+        Studio existingStudio = studioService.getStudioById(id);
+        if (existingStudio == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         studioService.deleteStudioById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
     @DeleteMapping("/deleteAll")
     public ResponseEntity<Void> deleteAllStudios() {

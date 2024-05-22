@@ -2,8 +2,12 @@ package bg.fmi.popcornpals.mapper;
 
 import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.model.Media;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.AfterMapping;
+import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface MediaMapper {
@@ -29,4 +33,14 @@ public interface MediaMapper {
     @Mapping(source = "description", target = "description")
     @Mapping(source = "parent_id", target = "parent.ID")
     Media toEntity(MediaDTO mediaDTO);
+
+    @AfterMapping
+    default void setParentId(MediaDTO source, @MappingTarget Media destination) {
+        if (source.getParent_id() == null) {
+            destination.setParent(null);
+        }
+    }
+
+    List<MediaDTO> toDTOList(List<Media> mediaList);
+    List<Media> toEntityList(List<MediaDTO> mediaDTOList);
 }
