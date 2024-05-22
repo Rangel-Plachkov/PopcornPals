@@ -17,6 +17,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class StudioDTO {
 
+    private Long ID;
+
     @NotNull(message = "Studio: Name cannot be null")
     @NotBlank(message = "Studio: Name cannot be blank")
     @Size(max = StringSize.STUDIO_NAME_MAX, message = "Studio: Name must be no more than " +  StringSize.STUDIO_NAME_MAX + " characters")
@@ -29,6 +31,10 @@ public class StudioDTO {
 
     private LocalDate foundingDate;
 
+    public StudioDTO(Long ID, String name) {
+        this.ID = ID;
+        this.name = name;
+    }
     public StudioDTO(String name) {
         this.name = name;
     }
