@@ -8,13 +8,13 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface StudioMapper {
 
-    @Mapping(source = "id", target = "id")
+    @Mapping(source = "ID", target = "ID")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "foundingDate", target = "foundingDate")
     StudioDTO toDTO(Studio studio);
 
-    @Mapping(source = "id", target = "id")
+    @Mapping(source = "ID", target = "ID")
     @Mapping(source = "name", target = "name")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "foundingDate", target = "foundingDate")
