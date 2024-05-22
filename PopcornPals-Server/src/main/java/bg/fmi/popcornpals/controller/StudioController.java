@@ -35,7 +35,7 @@ public class StudioController {
         }
         return new ResponseEntity<>(studioMapper.toDTO(studio), HttpStatus.OK);
     }
-    @GetMapping("/readByName/")
+    @GetMapping("/readByName")
     public ResponseEntity<List<StudioDTO>> getStudioByName(@RequestParam (name = "name") String name) {
         List<Studio> studioList = studioService.getStudioByName(name);
 
