@@ -14,6 +14,7 @@ import java.util.List;
 @RequestMapping(path = "/actors/")
 public class ActorController {
     private final ActorService actorService;
+
     @Autowired
     public ActorController(ActorService actorService) {
         this.actorService = actorService;
@@ -23,23 +24,26 @@ public class ActorController {
     public ResponseEntity<ActorDTO> getActor(@PathVariable("id") Long actorId) {
         return new ResponseEntity<>(actorService.getActorById(actorId), HttpStatus.OK);
     }
-    @GetMapping("getByName/{name}")
-    public ResponseEntity<List<ActorDTO>> getActorsByName(@PathVariable("name") String actorName) {
-        return new ResponseEntity<>(actorService.getActorsByName(actorName), HttpStatus.OK);
-    }
+
     @GetMapping
-    public ResponseEntity<List<ActorDTO>> getActors() {
-        return new ResponseEntity<>(actorService.getActors(), HttpStatus.OK);
+    public ResponseEntity<List<ActorDTO>> getActors(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(value = "name", required = false) String actorName) {
+        return new ResponseEntity<>(actorService.getActors(pageNo, pageSize, actorName), HttpStatus.OK);
     }
+
     @PostMapping
     public ResponseEntity<ActorDTO> createActor(@RequestBody @Valid ActorDTO actorDTO) {
         return new ResponseEntity<>(actorService.createActor(actorDTO), HttpStatus.CREATED);
     }
+
     @PutMapping("{id}")
     public ResponseEntity<ActorDTO> updateActor(@PathVariable("id") Long actorId,
                                                 @RequestBody @Valid ActorDTO actorDTO) {
         return new ResponseEntity<>(actorService.updateActor(actorId, actorDTO), HttpStatus.OK);
     }
+
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteActor(@PathVariable("id") Long actorId) {
         actorService.deleteActor(actorId);
