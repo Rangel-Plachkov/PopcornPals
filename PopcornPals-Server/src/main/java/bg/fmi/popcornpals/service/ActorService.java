@@ -26,7 +26,7 @@ public class ActorService {
         return mapToDTO(actor);
     }
     public List<ActorDTO> getActorsByName(String actorName) {
-        return actorRepository.findAllByName(actorName).stream().map(a -> mapToDTO(a)).collect(Collectors.toList());
+        return actorRepository.findByNameIgnoreCaseContaining(actorName).stream().map(a -> mapToDTO(a)).collect(Collectors.toList());
     }
     public ActorDTO createActor(ActorDTO actorDTO) {
         Actor actor = mapToEntity(actorDTO);

@@ -20,28 +20,29 @@ public class ActorController {
     }
 
     @GetMapping("{id}")
-    public ActorDTO getActor(@PathVariable("id") Long actorId) {
-        return actorService.getActorById(actorId);
+    public ResponseEntity<ActorDTO> getActor(@PathVariable("id") Long actorId) {
+        return new ResponseEntity<>(actorService.getActorById(actorId), HttpStatus.OK);
     }
     @GetMapping("getByName/{name}")
-    public List<ActorDTO> getActorsByName(@PathVariable("name") String actorName) {
-        return actorService.getActorsByName(actorName);
+    public ResponseEntity<List<ActorDTO>> getActorsByName(@PathVariable("name") String actorName) {
+        return new ResponseEntity<>(actorService.getActorsByName(actorName), HttpStatus.OK);
     }
     @GetMapping
-    public List<ActorDTO> getActors() {
-        return actorService.getActors();
+    public ResponseEntity<List<ActorDTO>> getActors() {
+        return new ResponseEntity<>(actorService.getActors(), HttpStatus.OK);
     }
     @PostMapping
-    public ActorDTO createActor(@RequestBody ActorDTO actorDTO) {
-        return actorService.createActor(actorDTO);
+    public ResponseEntity<ActorDTO> createActor(@RequestBody @Valid ActorDTO actorDTO) {
+        return new ResponseEntity<>(actorService.createActor(actorDTO), HttpStatus.CREATED);
     }
     @PutMapping("{id}")
-    public ActorDTO updateActor(@PathVariable("id") Long actorId,
+    public ResponseEntity<ActorDTO> updateActor(@PathVariable("id") Long actorId,
                                                 @RequestBody @Valid ActorDTO actorDTO) {
-        return actorService.updateActor(actorId, actorDTO);
+        return new ResponseEntity<>(actorService.updateActor(actorId, actorDTO), HttpStatus.OK);
     }
     @DeleteMapping("{id}")
-    public void deleteActor(@PathVariable("id") Long actorId) {
+    public ResponseEntity<Void> deleteActor(@PathVariable("id") Long actorId) {
         actorService.deleteActor(actorId);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
