@@ -16,14 +16,15 @@ public class StudioService {
     public Studio createStudio(Studio studio) {
         return studioRepository.save(studio);
     }
-    public Studio getStudioById(Long id) {
-        return studioRepository.findById(id).orElse(null);
-    }
-    public List<Studio> getStudioByName(String name) {
-        return studioRepository.findByName(name);
-    }
-    public List<Studio> getAllStudios() {
-        return studioRepository.findAll();
+    public List<Studio> getStudios(Long id, String name) {
+        if(id != null){
+            Studio studio = studioRepository.findById(id).orElse(null);
+            return studio == null ? null : List.of(studio);
+        }else if(name != null && !name.isEmpty()){
+            return studioRepository.findByName(name);
+        }else{
+            return studioRepository.findAll();
+        }
     }
     public Studio updateStudio(Studio studio) {
         return studioRepository.save(studio);
