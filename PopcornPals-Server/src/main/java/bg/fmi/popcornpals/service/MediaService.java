@@ -2,6 +2,8 @@ package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.repository.MediaRepository;
+import bg.fmi.popcornpals.util.MediaType;
+import bg.fmi.popcornpals.util.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,21 @@ public class MediaService {
     }
     public List<Media> getAllMedia() {
         return mediaRepository.findAll();
+    }
+
+    public List<Media> getMedia(Long ID, String title, MediaType type, Genre genre) {
+        if(ID != null) {
+            Media media = mediaRepository.findById(ID).orElse(null);
+            return media == null ? null : List.of(media);
+        } else if (title != null && !title.isEmpty()) {
+            return mediaRepository.findByTitle(title);
+        } else if (type != null) {
+            return mediaRepository.findByType(type);
+        } else if (genre != null) {
+            return mediaRepository.findByGenre(genre);
+        } else {
+            return mediaRepository.findAll();
+        }
     }
     public Media updateMedia(Media media) {
         return mediaRepository.save(media);

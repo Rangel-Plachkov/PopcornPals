@@ -5,6 +5,8 @@ import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.mapper.MediaMapper;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.service.MediaService;
+import bg.fmi.popcornpals.util.Genre;
+import bg.fmi.popcornpals.util.MediaType;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,41 +23,27 @@ public class MediaController {
     @Autowired
     private MediaMapper mediaMapper;
 
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<MediaDTO> createMedia(@Valid @RequestBody MediaDTO media) {
-
-        Media temp = mediaMapper.toEntity(media);
-        //
-        Media createdMedia = mediaService.createMedia(temp);
+        media.setID(null);
+        Media createdMedia = mediaService.createMedia(mediaMapper.toEntity(media));
         return new ResponseEntity<>(mediaMapper.toDTO(createdMedia), HttpStatus.CREATED);
     }
-    @GetMapping("/readById/{id}")
-    public ResponseEntity<MediaDTO> getMediaById(@PathVariable Long id) {
-        Media media = mediaService.getMediaById(id);
-        if (media == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(mediaMapper.toDTO(media), HttpStatus.OK);
-    }
-    @GetMapping("/readByTitle")
-    public ResponseEntity<List<MediaDTO>> getMediaByTitle(@RequestParam (name = "title") String title) {
-        List<Media> mediaList = mediaService.getMediaByTitle(title);
+    @GetMapping
+    public ResponseEntity<List<MediaDTO>> getMedia(@RequestParam (name = "id", required = false) Long ID,
+                                                   @RequestParam (name = "title", required = false) String title,
+                                                   @RequestParam (name = "type", required = false)  MediaType type,
+                                                    @RequestParam (name = "genre", required = false) Genre genre) {
+        List<Media> mediaList = mediaService.getMedia(ID, title, type, genre);
         if(mediaList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(mediaMapper.toDTOList(mediaList), HttpStatus.OK);
+
     }
-    @GetMapping("/readAll")
-    public ResponseEntity<List<MediaDTO>> getAllMedia() {
-        List<Media> mediaList = mediaService.getAllMedia();
-        if(mediaList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(mediaMapper.toDTOList(mediaList), HttpStatus.OK);
-    }
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<MediaDTO> updateMedia(@PathVariable Long id, @Valid @RequestBody MediaDTO media) {
-        Media existingMedia = mediaService.getMediaById(id);
+        Media existingMedia = mediaService.getMedia(id,null,null,null).get(0);
         if(existingMedia == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
@@ -65,18 +53,18 @@ public class MediaController {
         MediaDTO updatedMediaDTO = mediaMapper.toDTO(updatedMedia);
         return new ResponseEntity<>(updatedMediaDTO, HttpStatus.OK);
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteMediaById(@PathVariable Long id) {
-        Media existingMedia = mediaService.getMediaById(id);
+        Media existingMedia = mediaService.getMedia(id,null,null,null).get(0);
         if(existingMedia == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         mediaService.deleteMediaById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @DeleteMapping("/deleteAll")
     public ResponseEntity<HttpStatus> deleteAllMedia() {
         mediaService.deleteAllMedia();
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
