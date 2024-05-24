@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/actors/")
+@RequestMapping(path = "api/actors/")
 public class ActorController {
     private final ActorService actorService;
 
