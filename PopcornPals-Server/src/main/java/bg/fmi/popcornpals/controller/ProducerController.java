@@ -27,4 +27,10 @@ public class ProducerController {
     public ResponseEntity<ProducerDTO> createProducer(@RequestBody @Valid ProducerDTO producerDTO) {
         return new ResponseEntity<>(producerService.createProducer(producerDTO), HttpStatus.CREATED);
     }
+
+    @PutMapping("{id}")
+    public ResponseEntity<ProducerDTO> updateProducer(@PathVariable("id") Long producerId,
+                                                      @RequestBody @Valid ProducerDTO producerDTO) {
+        return new ResponseEntity<>(producerService.updateProducer(producerId, producerDTO), HttpStatus.OK);
+    }
 }

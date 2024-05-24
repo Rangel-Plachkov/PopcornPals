@@ -25,6 +25,22 @@ public class ProducerService {
         return mapToDTO(newProducer);
     }
 
+    public ProducerDTO updateProducer(Long producerId, ProducerDTO producerDTO) {
+        Producer producer = producerRepository.findById(producerId).orElseThrow();
+
+        if(producerDTO.getName() != null) {
+            producer.setName(producerDTO.getName());
+        }
+        if(producerDTO.getDescription() != null) {
+            producer.setDescription(producerDTO.getDescription());
+        }
+        if(producerDTO.getBirthdate() != null) {
+            producer.setBirthdate(producerDTO.getBirthdate());
+        }
+        Producer newProducer = producerRepository.save(producer);
+        return mapToDTO(newProducer);
+    }
+
     private ProducerDTO mapToDTO(Producer producer) {
         ProducerDTO producerDTO = new ProducerDTO();
         producerDTO.setID(producer.getID());
