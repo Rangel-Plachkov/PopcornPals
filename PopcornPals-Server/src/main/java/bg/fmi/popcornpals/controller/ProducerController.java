@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "api/producers/")
 public class ProducerController {
@@ -16,6 +18,14 @@ public class ProducerController {
     @Autowired
     public ProducerController(ProducerService producerService) {
         this.producerService = producerService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ProducerDTO>> getProducers(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(value = "name", required = false) String producerName) {
+        return new ResponseEntity<>(producerService.getProducers(pageNo, pageSize, producerName), HttpStatus.OK);
     }
 
     @GetMapping("{id}")

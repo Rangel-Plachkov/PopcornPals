@@ -4,7 +4,13 @@ import bg.fmi.popcornpals.dto.ProducerDTO;
 import bg.fmi.popcornpals.model.Producer;
 import bg.fmi.popcornpals.repository.ProducerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProducerService {
@@ -18,6 +24,18 @@ public class ProducerService {
     public ProducerDTO getProducerById(Long producerId) {
         Producer producer = producerRepository.findById(producerId).orElseThrow();
         return mapToDTO(producer);
+    }
+
+    public List<ProducerDTO> getProducers(Integer pageNo, Integer pageSize, String producerName) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Producer> producers = null;
+        if(producerName != null) {
+            producers = producerRepository.findByNameIgnoreCaseContaining(producerName, pageable);
+        }
+        else {
+            producers = producerRepository.findAll(pageable);
+        }
+        return producers.getContent().stream().map(p -> mapToDTO(p)).collect(Collectors.toList());
     }
 
     public ProducerDTO createProducer(ProducerDTO producerDTO) {
