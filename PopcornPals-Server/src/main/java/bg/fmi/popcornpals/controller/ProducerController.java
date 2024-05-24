@@ -33,4 +33,10 @@ public class ProducerController {
                                                       @RequestBody @Valid ProducerDTO producerDTO) {
         return new ResponseEntity<>(producerService.updateProducer(producerId, producerDTO), HttpStatus.OK);
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteProducer(@PathVariable("id") Long producerId) {
+        producerService.deleteProducer(producerId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

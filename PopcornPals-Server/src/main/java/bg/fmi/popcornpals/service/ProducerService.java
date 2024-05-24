@@ -41,6 +41,11 @@ public class ProducerService {
         return mapToDTO(newProducer);
     }
 
+    public void deleteProducer(Long producerId) {
+        Producer toDelete = producerRepository.findById(producerId).orElseThrow();
+        producerRepository.delete(toDelete);
+    }
+
     private ProducerDTO mapToDTO(Producer producer) {
         ProducerDTO producerDTO = new ProducerDTO();
         producerDTO.setID(producer.getID());
