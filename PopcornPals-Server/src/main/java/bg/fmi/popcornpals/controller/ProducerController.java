@@ -18,6 +18,11 @@ public class ProducerController {
         this.producerService = producerService;
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<ProducerDTO> getProducer(@PathVariable("id") Long producerId) {
+        return new ResponseEntity<>(producerService.getProducerById(producerId), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<ProducerDTO> createProducer(@RequestBody @Valid ProducerDTO producerDTO) {
         return new ResponseEntity<>(producerService.createProducer(producerDTO), HttpStatus.CREATED);

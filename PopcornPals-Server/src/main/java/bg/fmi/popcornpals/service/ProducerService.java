@@ -15,6 +15,11 @@ public class ProducerService {
         this.producerRepository = producerRepository;
     }
 
+    public ProducerDTO getProducerById(Long producerId) {
+        Producer producer = producerRepository.findById(producerId).orElseThrow();
+        return mapToDTO(producer);
+    }
+
     public ProducerDTO createProducer(ProducerDTO producerDTO) {
         Producer newProducer = producerRepository.save(mapToEntity(producerDTO));
         return mapToDTO(newProducer);
