@@ -25,6 +25,24 @@ public class UserService {
         return mapToDTO(newUser);
     }
 
+    public UserDTO updateUser(Long userId, UserDTO userDTO) {
+        User user = userRepository.findById(userId).orElseThrow();
+
+        if(userDTO.getName() != null) {
+            user.setName(userDTO.getName());
+        }
+        if(userDTO.getUsername() != null) {
+            user.setUsername(userDTO.getUsername());
+        }
+        if(userDTO.getDescription() != null) {
+            user.setDescription(userDTO.getDescription());
+        }
+        if(userDTO.getBirthday() != null) {
+            user.setBirthday(userDTO.getBirthday());
+        }
+        return mapToDTO(userRepository.save(user));
+    }
+
     private UserDTO mapToDTO(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setID(user.getID());
