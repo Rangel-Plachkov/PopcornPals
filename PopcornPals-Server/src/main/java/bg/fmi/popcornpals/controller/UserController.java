@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "api/users/")
 public class UserController {
@@ -16,6 +18,15 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserDTO>> getUsers(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "username", required = false) String username) {
+        return new ResponseEntity<>(userService.getUsers(pageNo, pageSize, name, username), HttpStatus.OK);
     }
 
     @GetMapping("{id}")

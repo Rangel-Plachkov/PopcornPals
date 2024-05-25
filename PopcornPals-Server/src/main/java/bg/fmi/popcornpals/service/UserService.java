@@ -4,7 +4,13 @@ import bg.fmi.popcornpals.dto.UserDTO;
 import bg.fmi.popcornpals.model.User;
 import bg.fmi.popcornpals.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -13,6 +19,21 @@ public class UserService {
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public List<UserDTO> getUsers(Integer pageNo, Integer pageSize, String name, String username) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<User> users = null;
+        if(name != null) {
+            users = userRepository.findByNameIgnoreCaseContaining(name, pageable);
+        }
+        else if(username != null) {
+            users = userRepository.findByUsernameIgnoreCaseContaining(username, pageable);
+        }
+        else {
+            users = userRepository.findAll(pageable);
+        }
+        return users.getContent().stream().map(u -> mapToDTO(u)).collect(Collectors.toList());
     }
 
     public UserDTO getUserById(Long userId) {
