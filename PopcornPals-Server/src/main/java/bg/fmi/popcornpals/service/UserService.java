@@ -43,6 +43,11 @@ public class UserService {
         return mapToDTO(userRepository.save(user));
     }
 
+    public void deleteUser(Long userId) {
+        User toDelete = userRepository.findById(userId).orElseThrow();
+        userRepository.delete(toDelete);
+    }
+
     private UserDTO mapToDTO(User user) {
         UserDTO userDTO = new UserDTO();
         userDTO.setID(user.getID());
