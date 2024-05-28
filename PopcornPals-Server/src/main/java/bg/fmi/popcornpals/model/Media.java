@@ -55,10 +55,10 @@ public class Media {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Media parent_id;
+    @JoinColumn(name = "parent")
+    private Media parent;
 
-    @OneToMany(mappedBy = "parent_id")
+    @OneToMany(mappedBy = "parent")
     private List<Media> children;
 
 
@@ -91,6 +91,9 @@ public class Media {
         this.endDate = endDate;
         this.length = length;
         this.description = description;
+    }
+    public Media(String title){
+        this.title = title;
     }
 
     @Override
