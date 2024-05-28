@@ -1,7 +1,9 @@
 package bg.fmi.popcornpals.service;
 
+import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
 import bg.fmi.popcornpals.model.User;
+import bg.fmi.popcornpals.repository.PlaylistRepository;
 import bg.fmi.popcornpals.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,10 +17,12 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final PlaylistRepository playlistRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PlaylistRepository playlistRepository) {
         this.userRepository = userRepository;
+        this.playlistRepository = playlistRepository;
     }
 
     public List<UserDTO> getUsers(Integer pageNo, Integer pageSize, String name, String username) {
@@ -67,6 +71,11 @@ public class UserService {
     public void deleteUser(Long userId) {
         User toDelete = userRepository.findById(userId).orElseThrow();
         userRepository.delete(toDelete);
+    }
+
+    public List<PlaylistDTO> findPlaylistsByUser(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        return playlistRepository.findAllByUser(user.getID()).stream().map(p -> PlaylistDTO.mapToDTO(p)).collect(Collectors.toList());
     }
 
     private UserDTO mapToDTO(User user) {

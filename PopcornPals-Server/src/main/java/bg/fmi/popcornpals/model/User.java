@@ -50,7 +50,7 @@ public class User {
 
     private LocalDate birthday;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Playlist> playlists;
 
     @OneToMany(mappedBy = "creator")

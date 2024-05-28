@@ -1,5 +1,6 @@
 package bg.fmi.popcornpals.controller;
 
+import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
 import bg.fmi.popcornpals.service.UserService;
 import jakarta.validation.Valid;
@@ -49,5 +50,10 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long userId) {
         userService.deleteUser(userId);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("{id}/playlists")
+    public ResponseEntity<List<PlaylistDTO>> getPlaylists(@PathVariable("id") Long userId) {
+        return new ResponseEntity<>(userService.findPlaylistsByUser(userId), HttpStatus.OK);
     }
 }
