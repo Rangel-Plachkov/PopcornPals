@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/media")
+@RequestMapping("api/media/")
 public class MediaController {
     @Autowired
     private MediaService mediaService;
@@ -41,7 +41,7 @@ public class MediaController {
         return new ResponseEntity<>(mediaMapper.toDTOList(mediaList), HttpStatus.OK);
 
     }
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<MediaDTO> updateMedia(@PathVariable Long id, @Valid @RequestBody MediaDTO media) {
         Media existingMedia = mediaService.getMedia(id,null,null,null).get(0);
         if(existingMedia == null) {
@@ -53,7 +53,7 @@ public class MediaController {
         MediaDTO updatedMediaDTO = mediaMapper.toDTO(updatedMedia);
         return new ResponseEntity<>(updatedMediaDTO, HttpStatus.OK);
     }
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteMediaById(@PathVariable Long id) {
         Media existingMedia = mediaService.getMedia(id,null,null,null).get(0);
         if(existingMedia == null) {
@@ -62,7 +62,7 @@ public class MediaController {
         mediaService.deleteMediaById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @DeleteMapping("/deleteAll")
+    @DeleteMapping("deleteAll")
     public ResponseEntity<HttpStatus> deleteAllMedia() {
         mediaService.deleteAllMedia();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
