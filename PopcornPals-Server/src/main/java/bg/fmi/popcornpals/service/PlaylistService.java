@@ -41,7 +41,7 @@ public class PlaylistService {
         else {
             playlists = playlistRepository.findAll(pageable);
         }
-        return playlists.getContent().stream().map(playlist -> playlistMapper.toDTO(playlist)).collect(Collectors.toList());
+        return playlistMapper.toDTOList(playlists.getContent());
     }
 
     public PlaylistDTO getPlaylistById(Long playlistId) {

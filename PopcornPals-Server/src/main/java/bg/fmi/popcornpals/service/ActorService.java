@@ -33,7 +33,7 @@ public class ActorService {
         else {
             actors = actorRepository.findAll(pageable);
         }
-        return actors.getContent().stream().map(a -> actorMapper.toDTO(a)).collect(Collectors.toList());
+        return actorMapper.toDTOList(actors.getContent());
     }
 
     // To Do: create custom exception to throw

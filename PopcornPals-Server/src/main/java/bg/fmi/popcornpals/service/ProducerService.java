@@ -38,7 +38,7 @@ public class ProducerService {
         else {
             producers = producerRepository.findAll(pageable);
         }
-        return producers.getContent().stream().map(p -> producerMapper.toDTO(p)).collect(Collectors.toList());
+        return producerMapper.toDTOList(producers.getContent());
     }
 
     public ProducerDTO createProducer(ProducerDTO producerDTO) {

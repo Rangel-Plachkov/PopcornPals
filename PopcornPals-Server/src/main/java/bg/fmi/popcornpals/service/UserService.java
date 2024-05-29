@@ -45,7 +45,7 @@ public class UserService {
         else {
             users = userRepository.findAll(pageable);
         }
-        return users.getContent().stream().map(u -> userMapper.toDTO(u)).collect(Collectors.toList());
+        return userMapper.toDTOList(users.getContent());
     }
 
     public UserDTO getUserById(Long userId) {
@@ -86,6 +86,7 @@ public class UserService {
 
     public List<PlaylistDTO> findPlaylistsByUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
-        return playlistRepository.findAllByUser(user.getID()).stream().map(p -> playlistMapper.toDTO(p)).collect(Collectors.toList());
+        return playlistMapper.toDTOList(playlistRepository.findAllByUser(user.getID()));
+        //return playlistRepository.findAllByUser().stream().map(p -> playlistMapper.toDTO(p)).collect(Collectors.toList());
     }
 }
