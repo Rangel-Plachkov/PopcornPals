@@ -25,7 +25,7 @@ public class MediaService {
         } else if (title != null && !title.isEmpty()) {
             return mediaRepository.findByTitleContainingIgnoreCase(title);
         } else if (type != null) {
-            return mediaRepository.findByTypeContainingIgnoreCase(type);
+            return mediaRepository.findByType(type);
         } else if (genre != null) {
             return mediaRepository.findByGenre(genre);
         } else {
