@@ -1,5 +1,6 @@
 package bg.fmi.popcornpals.controller;
 
+import bg.fmi.popcornpals.mapper.ReviewMapper;
 import bg.fmi.popcornpals.service.ReviewService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ public class ReviewController {
 
     @Autowired
     private ReviewService reviewService;
+
+    @Autowired
+    private ReviewMapper reviewMapper;
 
 
 
