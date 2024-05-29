@@ -2,6 +2,7 @@ package bg.fmi.popcornpals.controller;
 
 import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
+import bg.fmi.popcornpals.dto.UserRequestDTO;
 import bg.fmi.popcornpals.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,24 +33,32 @@ public class UserController {
 
     @GetMapping("{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable("id") Long userId) {
-        return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
+        UserDTO userDTO = userService.getUserById(userId);
+        return userDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(userDTO, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserDTO userDTO) {
-        return new ResponseEntity<>(userService.createUser(userDTO), HttpStatus.CREATED);
+    public ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserRequestDTO userRequestDTO) {
+        return new ResponseEntity<>(userService.createUser(userRequestDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long userId,
-                                              @RequestBody @Valid UserDTO userDTO) {
-        return new ResponseEntity<>(userService.updateUser(userId, userDTO), HttpStatus.OK);
+                                              @RequestBody @Valid UserRequestDTO userRequestDTO) {
+        UserDTO updatedUserDTO = userService.updateUser(userId, userRequestDTO);
+        return updatedUserDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(updatedUserDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long userId) {
+        UserDTO userDTO = userService.getUserById(userId);
+        if(userDTO == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         userService.deleteUser(userId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("{id}/playlists")

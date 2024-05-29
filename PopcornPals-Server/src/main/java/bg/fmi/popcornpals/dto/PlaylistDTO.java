@@ -24,12 +24,4 @@ public class PlaylistDTO {
     private String name;
 
     private UserDTO creator;
-
-    public static PlaylistDTO mapToDTO(Playlist playlist) {
-        PlaylistDTO playlistDTO = new PlaylistDTO();
-        playlistDTO.setID(playlist.getID());
-        playlistDTO.setName(playlist.getName());
-        playlistDTO.setCreator(UserDTO.mapToDTO(playlist.getCreator()));
-        return playlistDTO;
-    }
 }

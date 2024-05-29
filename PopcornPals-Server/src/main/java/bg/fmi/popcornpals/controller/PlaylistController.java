@@ -31,24 +31,34 @@ public class PlaylistController {
 
     @GetMapping("{id}")
     public ResponseEntity<PlaylistDTO> getPlaylist(@PathVariable("id") Long playlistId) {
-        return new ResponseEntity<>(playlistService.getPlaylistById(playlistId), HttpStatus.OK);
+        PlaylistDTO playlistDTO = playlistService.getPlaylistById(playlistId);
+        return playlistDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(playlistDTO, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<PlaylistDTO> createPlaylist(@RequestBody @Valid PlaylistRequestDTO playlistRequestDTO) {
-        return new ResponseEntity<>(playlistService.createPlaylist(playlistRequestDTO), HttpStatus.CREATED);
+        PlaylistDTO playlistDTO = playlistService.createPlaylist(playlistRequestDTO);
+        return playlistDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(playlistDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<PlaylistDTO> updatePlaylist(@PathVariable("id") Long playlistId,
                                                       @RequestBody @Valid PlaylistRequestDTO playlistRequestDTO) {
-        return new ResponseEntity<>(playlistService.updatePlaylist(playlistId, playlistRequestDTO), HttpStatus.OK);
+        PlaylistDTO updatedPlaylistDTO = playlistService.updatePlaylist(playlistId, playlistRequestDTO);
+        return updatedPlaylistDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(updatedPlaylistDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deletePlaylist(@PathVariable("id") Long playlistId) {
+        PlaylistDTO playlistDTO = playlistService.getPlaylistById(playlistId);
+        if(playlistDTO == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         playlistService.deletePlaylist(playlistId);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
