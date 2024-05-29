@@ -17,24 +17,15 @@ public class MediaService {
     public Media createMedia(Media media) {
         return mediaRepository.save(media);
     }
-    public Media getMediaById(Long id) {
-        return mediaRepository.findById(id).orElse(null);
-    }
-    public List<Media> getMediaByTitle(String title) {
-        return mediaRepository.findByTitle(title);
-    }
-    public List<Media> getAllMedia() {
-        return mediaRepository.findAll();
-    }
 
     public List<Media> getMedia(Long ID, String title, MediaType type, Genre genre) {
         if(ID != null) {
             Media media = mediaRepository.findById(ID).orElse(null);
             return media == null ? null : List.of(media);
         } else if (title != null && !title.isEmpty()) {
-            return mediaRepository.findByTitle(title);
+            return mediaRepository.findByTitleContainingIgnoreCase(title);
         } else if (type != null) {
-            return mediaRepository.findByType(type);
+            return mediaRepository.findByTypeContainingIgnoreCase(type);
         } else if (genre != null) {
             return mediaRepository.findByGenre(genre);
         } else {
