@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @RestController
-@RequestMapping("/studios")
+@RequestMapping("/api/studios/")
 public class StudioController {
 
     @Autowired
@@ -44,7 +44,7 @@ public class StudioController {
 
         List<Studio> studioList = studioService.getStudios(id, name);
 
-        if (studioList == null) {
+        if (studioList == null || studioList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
@@ -53,7 +53,7 @@ public class StudioController {
         return new ResponseEntity<>(studioDTOList, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<StudioDTO> updateStudio(@PathVariable Long id, @Valid @RequestBody StudioDTO studio) {
         Studio existingStudio = studioService.getStudios(id, null).get(0);
         if (existingStudio == null) {
@@ -71,7 +71,7 @@ public class StudioController {
     }
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteStudioById(@PathVariable Long id) {
         Studio existingStudio = studioService.getStudios(id, null).get(0);
         if (existingStudio == null) {

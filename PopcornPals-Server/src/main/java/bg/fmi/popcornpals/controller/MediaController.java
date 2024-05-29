@@ -35,7 +35,7 @@ public class MediaController {
                                                    @RequestParam (name = "type", required = false)  MediaType type,
                                                     @RequestParam (name = "genre", required = false) Genre genre) {
         List<Media> mediaList = mediaService.getMedia(ID, title, type, genre);
-        if(mediaList.isEmpty()) {
+        if(mediaList == null || mediaList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(mediaMapper.toDTOList(mediaList), HttpStatus.OK);
