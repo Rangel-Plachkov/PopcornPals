@@ -30,7 +30,9 @@ public class ProducerController {
 
     @GetMapping("{id}")
     public ResponseEntity<ProducerDTO> getProducer(@PathVariable("id") Long producerId) {
-        return new ResponseEntity<>(producerService.getProducerById(producerId), HttpStatus.OK);
+        ProducerDTO producerDTO = producerService.getProducerById(producerId);
+        return producerDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(producerDTO, HttpStatus.OK);
     }
 
     @PostMapping
@@ -41,7 +43,9 @@ public class ProducerController {
     @PutMapping("{id}")
     public ResponseEntity<ProducerDTO> updateProducer(@PathVariable("id") Long producerId,
                                                       @RequestBody @Valid ProducerDTO producerDTO) {
-        return new ResponseEntity<>(producerService.updateProducer(producerId, producerDTO), HttpStatus.OK);
+        ProducerDTO updatedProducerDTO = producerService.updateProducer(producerId, producerDTO);
+        return updatedProducerDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(updatedProducerDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
