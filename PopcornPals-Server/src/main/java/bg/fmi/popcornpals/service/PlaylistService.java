@@ -3,6 +3,7 @@ package bg.fmi.popcornpals.service;
 import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.PlaylistRequestDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
+import bg.fmi.popcornpals.mapper.PlaylistMapper;
 import bg.fmi.popcornpals.model.Playlist;
 import bg.fmi.popcornpals.model.User;
 import bg.fmi.popcornpals.repository.PlaylistRepository;
@@ -20,12 +21,15 @@ import java.util.stream.Collectors;
 public class PlaylistService {
     private final PlaylistRepository playlistRepository;
     private final UserRepository userRepository;
+    private final PlaylistMapper playlistMapper;
 
     @Autowired
     public PlaylistService(PlaylistRepository playlistRepository,
-                           UserRepository userRepository) {
+                           UserRepository userRepository,
+                           PlaylistMapper playlistMapper) {
         this.playlistRepository = playlistRepository;
         this.userRepository = userRepository;
+        this.playlistMapper = playlistMapper;
     }
 
     public List<PlaylistDTO> getPlaylists(Integer pageNo, Integer pageSize, String name) {
@@ -37,44 +41,42 @@ public class PlaylistService {
         else {
             playlists = playlistRepository.findAll(pageable);
         }
-        return playlists.getContent().stream().map(playlist -> PlaylistDTO.mapToDTO(playlist)).collect(Collectors.toList());
+        return playlistMapper.toDTOList(playlists.getContent());
     }
 
     public PlaylistDTO getPlaylistById(Long playlistId) {
-        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow();
-        return PlaylistDTO.mapToDTO(playlist);
+        Playlist playlist = playlistRepository.findById(playlistId).orElse(null);
+        return playlistMapper.toDTO(playlist);
     }
 
     public PlaylistDTO createPlaylist(PlaylistRequestDTO playlistDTO) {
-        User user = userRepository.findById(playlistDTO.getCreator()).orElseThrow();
+        User user = userRepository.findById(playlistDTO.getCreator()).orElse(null);
+        if(user == null) {
+            return null;
+        }
         Playlist playlist = new Playlist();
         playlist.setName(playlistDTO.getName());
         playlist.setCreator(user);
         Playlist newPlaylist = playlistRepository.save(playlist);
-        return mapToDTO(newPlaylist);
+        return playlistMapper.toDTO(newPlaylist);
     }
 
     public PlaylistDTO updatePlaylist(Long playlistId, PlaylistRequestDTO playlistDTO) {
-        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow();
+        Playlist playlist = playlistRepository.findById(playlistId).orElse(null);
+        if(playlist == null) {
+            return null;
+        }
 
         if(playlistDTO.getName() != null) {
             playlist.setName(playlistDTO.getName());
         }
         // update the content list?
 
-        return PlaylistDTO.mapToDTO(playlistRepository.save(playlist));
+        return playlistMapper.toDTO(playlistRepository.save(playlist));
     }
 
     public void deletePlaylist(Long playlistId) {
         Playlist playlist = playlistRepository.findById(playlistId).orElseThrow();
         playlistRepository.delete(playlist);
-    }
-
-    private PlaylistDTO mapToDTO(Playlist playlist) {
-        PlaylistDTO playlistDTO = new PlaylistDTO();
-        playlistDTO.setID(playlist.getID());
-        playlistDTO.setName(playlist.getName());
-        playlistDTO.setCreator(UserDTO.mapToDTO(playlist.getCreator()));
-        return playlistDTO;
     }
 }

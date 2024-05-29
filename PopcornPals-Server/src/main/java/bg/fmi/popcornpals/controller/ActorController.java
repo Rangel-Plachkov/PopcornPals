@@ -22,7 +22,9 @@ public class ActorController {
 
     @GetMapping("{id}")
     public ResponseEntity<ActorDTO> getActor(@PathVariable("id") Long actorId) {
-        return new ResponseEntity<>(actorService.getActorById(actorId), HttpStatus.OK);
+        ActorDTO actorDTO = actorService.getActorById(actorId);
+        return actorDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(actorDTO, HttpStatus.OK);
     }
 
     @GetMapping
@@ -41,11 +43,17 @@ public class ActorController {
     @PutMapping("{id}")
     public ResponseEntity<ActorDTO> updateActor(@PathVariable("id") Long actorId,
                                                 @RequestBody @Valid ActorDTO actorDTO) {
-        return new ResponseEntity<>(actorService.updateActor(actorId, actorDTO), HttpStatus.OK);
+        ActorDTO updatedActorDTO = actorService.updateActor(actorId, actorDTO);
+        return updatedActorDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(updatedActorDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteActor(@PathVariable("id") Long actorId) {
+        ActorDTO actorDTO = actorService.getActorById(actorId);
+        if(actorDTO == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         actorService.deleteActor(actorId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

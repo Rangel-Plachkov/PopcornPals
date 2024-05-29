@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ActorDTO {
-    private Long Id;
+    private Long ID;
 
     @NotNull(message = "Actor: Name cannot be null")
     @NotBlank(message = "Actor: Name cannot be blank")

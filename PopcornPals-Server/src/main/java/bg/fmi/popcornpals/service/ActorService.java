@@ -1,6 +1,7 @@
 package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.ActorDTO;
+import bg.fmi.popcornpals.mapper.ActorMapper;
 import bg.fmi.popcornpals.model.Actor;
 import bg.fmi.popcornpals.repository.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ import java.util.stream.Collectors;
 @Service
 public class ActorService {
     private final ActorRepository actorRepository;
+    private final ActorMapper actorMapper;
 
     @Autowired
-    public ActorService(ActorRepository actorRepository) {
+    public ActorService(ActorRepository actorRepository, ActorMapper actorMapper) {
         this.actorRepository = actorRepository;
+        this.actorMapper = actorMapper;
     }
 
     public List<ActorDTO> getActors(Integer pageNo, Integer pageSize, String actorName) {
@@ -30,23 +33,26 @@ public class ActorService {
         else {
             actors = actorRepository.findAll(pageable);
         }
-        return actors.getContent().stream().map(a -> mapToDTO(a)).collect(Collectors.toList());
+        return actorMapper.toDTOList(actors.getContent());
     }
 
     // To Do: create custom exception to throw
     public ActorDTO getActorById(Long actorId) {
-        Actor actor = actorRepository.findById(actorId).orElseThrow();
-        return mapToDTO(actor);
+        Actor actor = actorRepository.findById(actorId).orElse(null);
+        return actorMapper.toDTO(actor);
     }
 
     public ActorDTO createActor(ActorDTO actorDTO) {
-        Actor actor = mapToEntity(actorDTO);
+        Actor actor = actorMapper.toEntity(actorDTO);
         Actor newActor = actorRepository.save(actor);
-        return mapToDTO(newActor);
+        return actorMapper.toDTO(newActor);
     }
 
     public ActorDTO updateActor(Long actorId, ActorDTO actorDTO) {
-        Actor actor = actorRepository.findById(actorId).orElseThrow();
+        Actor actor = actorRepository.findById(actorId).orElse(null);
+        if(actor == null) {
+            return null;
+        }
 
         if(actorDTO.getName() != null) {
             actor.setName(actorDTO.getName());
@@ -59,29 +65,11 @@ public class ActorService {
         }
 
         Actor updatedActor = actorRepository.save(actor);
-        return mapToDTO(updatedActor);
+        return actorMapper.toDTO(updatedActor);
     }
 
     public void deleteActor(Long actorId) {
         Actor toDelete = actorRepository.findById(actorId).orElseThrow();
         actorRepository.delete(toDelete);
-    }
-
-    private ActorDTO mapToDTO(Actor actor) {
-        ActorDTO actorDTO = new ActorDTO();
-        actorDTO.setId(actor.getID());
-        actorDTO.setName(actor.getName());
-        actorDTO.setDescription(actor.getDescription());
-        actorDTO.setBirthdate(actor.getBirthdate());
-        return actorDTO;
-    }
-
-    private Actor mapToEntity(ActorDTO actorDTO) {
-        Actor actor = new Actor();
-        actor.setID(actorDTO.getId());
-        actor.setName(actorDTO.getName());
-        actor.setDescription(actorDTO.getDescription());
-        actor.setBirthdate(actorDTO.getBirthdate());
-        return actor;
     }
 }

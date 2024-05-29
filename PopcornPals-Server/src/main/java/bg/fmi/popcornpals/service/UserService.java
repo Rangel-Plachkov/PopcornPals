@@ -2,6 +2,9 @@ package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
+import bg.fmi.popcornpals.dto.UserRequestDTO;
+import bg.fmi.popcornpals.mapper.PlaylistMapper;
+import bg.fmi.popcornpals.mapper.UserMapper;
 import bg.fmi.popcornpals.model.User;
 import bg.fmi.popcornpals.repository.PlaylistRepository;
 import bg.fmi.popcornpals.repository.UserRepository;
@@ -18,11 +21,16 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final PlaylistRepository playlistRepository;
+    private final UserMapper userMapper;
+    private final PlaylistMapper playlistMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository, PlaylistRepository playlistRepository) {
+    public UserService(UserRepository userRepository, PlaylistRepository playlistRepository,
+                       UserMapper userMapper, PlaylistMapper playlistMapper) {
         this.userRepository = userRepository;
         this.playlistRepository = playlistRepository;
+        this.userMapper = userMapper;
+        this.playlistMapper = playlistMapper;
     }
 
     public List<UserDTO> getUsers(Integer pageNo, Integer pageSize, String name, String username) {
@@ -37,35 +45,38 @@ public class UserService {
         else {
             users = userRepository.findAll(pageable);
         }
-        return users.getContent().stream().map(u -> mapToDTO(u)).collect(Collectors.toList());
+        return userMapper.toDTOList(users.getContent());
     }
 
     public UserDTO getUserById(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        return mapToDTO(user);
+        User user = userRepository.findById(userId).orElse(null);
+        return userMapper.toDTO(user);
     }
 
-    public UserDTO createUser(UserDTO userDTO) {
-        User newUser = userRepository.save(mapToEntity(userDTO));
-        return mapToDTO(newUser);
+    public UserDTO createUser(UserRequestDTO userRequestDTO) {
+        User newUser = userRepository.save(userMapper.toEntity(userRequestDTO));
+        return userMapper.toDTO(newUser);
     }
 
-    public UserDTO updateUser(Long userId, UserDTO userDTO) {
-        User user = userRepository.findById(userId).orElseThrow();
+    public UserDTO updateUser(Long userId, UserRequestDTO userRequestDTO) {
+        User user = userRepository.findById(userId).orElse(null);
+        if(user == null) {
+            return null;
+        }
 
-        if(userDTO.getName() != null) {
-            user.setName(userDTO.getName());
+        if(userRequestDTO.getName() != null) {
+            user.setName(userRequestDTO.getName());
         }
-        if(userDTO.getUsername() != null) {
-            user.setUsername(userDTO.getUsername());
+        if(userRequestDTO.getUsername() != null) {
+            user.setUsername(userRequestDTO.getUsername());
         }
-        if(userDTO.getDescription() != null) {
-            user.setDescription(userDTO.getDescription());
+        if(userRequestDTO.getDescription() != null) {
+            user.setDescription(userRequestDTO.getDescription());
         }
-        if(userDTO.getBirthday() != null) {
-            user.setBirthday(userDTO.getBirthday());
+        if(userRequestDTO.getBirthday() != null) {
+            user.setBirthday(userRequestDTO.getBirthday());
         }
-        return mapToDTO(userRepository.save(user));
+        return userMapper.toDTO(userRepository.save(user));
     }
 
     public void deleteUser(Long userId) {
@@ -75,29 +86,7 @@ public class UserService {
 
     public List<PlaylistDTO> findPlaylistsByUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow();
-        return playlistRepository.findAllByUser(user.getID()).stream().map(p -> PlaylistDTO.mapToDTO(p)).collect(Collectors.toList());
-    }
-
-    private UserDTO mapToDTO(User user) {
-        UserDTO userDTO = new UserDTO();
-        userDTO.setID(user.getID());
-        userDTO.setName(user.getName());
-        userDTO.setUsername(user.getUsername());
-        userDTO.setPassword(user.getPassword());
-        userDTO.setEmail(user.getEmail());
-        userDTO.setDescription(user.getDescription());
-        userDTO.setBirthday(user.getBirthday());
-        return userDTO;
-    }
-
-    private User mapToEntity(UserDTO userDTO) {
-        User user = new User();
-        user.setName(userDTO.getName());
-        user.setUsername(userDTO.getUsername());
-        user.setPassword(userDTO.getPassword());
-        user.setEmail(userDTO.getEmail());
-        user.setDescription(userDTO.getDescription());
-        user.setBirthday(userDTO.getBirthday());
-        return user;
+        return playlistMapper.toDTOList(playlistRepository.findAllByUser(user.getID()));
+        //return playlistRepository.findAllByUser().stream().map(p -> playlistMapper.toDTO(p)).collect(Collectors.toList());
     }
 }

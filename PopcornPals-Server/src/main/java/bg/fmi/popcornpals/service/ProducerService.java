@@ -1,6 +1,7 @@
 package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.ProducerDTO;
+import bg.fmi.popcornpals.mapper.ProducerMapper;
 import bg.fmi.popcornpals.model.Producer;
 import bg.fmi.popcornpals.repository.ProducerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +16,17 @@ import java.util.stream.Collectors;
 @Service
 public class ProducerService {
     private final ProducerRepository producerRepository;
+    private final ProducerMapper producerMapper;
 
     @Autowired
-    public ProducerService(ProducerRepository producerRepository) {
+    public ProducerService(ProducerRepository producerRepository, ProducerMapper producerMapper) {
         this.producerRepository = producerRepository;
+        this.producerMapper = producerMapper;
     }
 
     public ProducerDTO getProducerById(Long producerId) {
-        Producer producer = producerRepository.findById(producerId).orElseThrow();
-        return mapToDTO(producer);
+        Producer producer = producerRepository.findById(producerId).orElse(null);
+        return producerMapper.toDTO(producer);
     }
 
     public List<ProducerDTO> getProducers(Integer pageNo, Integer pageSize, String producerName) {
@@ -35,16 +38,19 @@ public class ProducerService {
         else {
             producers = producerRepository.findAll(pageable);
         }
-        return producers.getContent().stream().map(p -> mapToDTO(p)).collect(Collectors.toList());
+        return producerMapper.toDTOList(producers.getContent());
     }
 
     public ProducerDTO createProducer(ProducerDTO producerDTO) {
-        Producer newProducer = producerRepository.save(mapToEntity(producerDTO));
-        return mapToDTO(newProducer);
+        Producer newProducer = producerRepository.save(producerMapper.toEntity(producerDTO));
+        return producerMapper.toDTO(newProducer);
     }
 
     public ProducerDTO updateProducer(Long producerId, ProducerDTO producerDTO) {
-        Producer producer = producerRepository.findById(producerId).orElseThrow();
+        Producer producer = producerRepository.findById(producerId).orElse(null);
+        if(producer == null) {
+            return null;
+        }
 
         if(producerDTO.getName() != null) {
             producer.setName(producerDTO.getName());
@@ -56,28 +62,11 @@ public class ProducerService {
             producer.setBirthdate(producerDTO.getBirthdate());
         }
         Producer newProducer = producerRepository.save(producer);
-        return mapToDTO(newProducer);
+        return producerMapper.toDTO(newProducer);
     }
 
     public void deleteProducer(Long producerId) {
         Producer toDelete = producerRepository.findById(producerId).orElseThrow();
         producerRepository.delete(toDelete);
-    }
-
-    private ProducerDTO mapToDTO(Producer producer) {
-        ProducerDTO producerDTO = new ProducerDTO();
-        producerDTO.setID(producer.getID());
-        producerDTO.setName(producer.getName());
-        producerDTO.setDescription(producer.getDescription());
-        producerDTO.setBirthdate(producer.getBirthdate());
-        return producerDTO;
-    }
-
-    private Producer mapToEntity(ProducerDTO producerDTO) {
-        Producer producer = new Producer();
-        producer.setName(producerDTO.getName());
-        producer.setDescription(producerDTO.getDescription());
-        producer.setBirthdate(producerDTO.getBirthdate());
-        return producer;
     }
 }
