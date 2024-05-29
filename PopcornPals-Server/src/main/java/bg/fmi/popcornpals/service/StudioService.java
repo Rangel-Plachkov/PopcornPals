@@ -21,7 +21,7 @@ public class StudioService {
             Studio studio = studioRepository.findById(id).orElse(null);
             return studio == null ? null : List.of(studio);
         }else if(name != null && !name.isEmpty()){
-            return studioRepository.findByName(name);
+            return studioRepository.findByNameIgnoreCaseContaining(name);
         }else{
             return studioRepository.findAll();
         }

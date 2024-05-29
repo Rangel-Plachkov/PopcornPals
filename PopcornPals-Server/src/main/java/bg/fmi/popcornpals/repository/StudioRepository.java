@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface StudioRepository extends JpaRepository<Studio, Long> {
-    default List<Studio> findByName(String name){
-        return findAll().stream().filter(studio -> studio.getName().equals(name)).toList();
-    }
+
+    List<Studio> findByNameIgnoreCaseContaining(String name);
 }

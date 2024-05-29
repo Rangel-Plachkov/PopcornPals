@@ -30,6 +30,7 @@ public class Media {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long ID;
 
+
     private MediaType type;
 
     @NotNull(message = "Media: Title cannot be null")
