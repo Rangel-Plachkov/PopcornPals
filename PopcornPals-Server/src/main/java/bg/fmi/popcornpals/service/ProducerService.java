@@ -66,10 +66,7 @@ public class ProducerService {
     }
 
     public void deleteProducer(Long producerId) {
-        Producer toDelete = producerRepository.findById(producerId).orElse(null);
-        if(toDelete == null) {
-            return;
-        }
+        Producer toDelete = producerRepository.findById(producerId).orElseThrow();
         producerRepository.delete(toDelete);
     }
 }

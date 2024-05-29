@@ -50,6 +50,10 @@ public class ActorController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteActor(@PathVariable("id") Long actorId) {
+        ActorDTO actorDTO = actorService.getActorById(actorId);
+        if(actorDTO == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
         actorService.deleteActor(actorId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
