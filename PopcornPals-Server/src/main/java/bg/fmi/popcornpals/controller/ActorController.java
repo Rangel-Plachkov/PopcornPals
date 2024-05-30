@@ -64,7 +64,12 @@ public class ActorController {
     @GetMapping("{id}/media/")
     public ResponseEntity<List<MediaDTO>> getMedia(@PathVariable("id") Long actorId) {
         List<MediaDTO> media = actorService.getMedia(actorId);
-        return media == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-                new ResponseEntity<>(media, HttpStatus.OK);
+        if(media == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        else if(media.isEmpty()) {
+            return new ResponseEntity<>(media, HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(media, HttpStatus.OK);
     }
 }
