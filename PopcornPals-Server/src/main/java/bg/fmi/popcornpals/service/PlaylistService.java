@@ -62,7 +62,7 @@ public class PlaylistService {
         }
         List<Media> mediaList = playlistDTO.getContent() != null
                 ? mediaRepository.findAllById(playlistDTO.getContent())
-                : new ArrayList<>();
+                : new ArrayList<Media>();
         Playlist playlist = new Playlist();
         playlist.setName(playlistDTO.getName());
         playlist.setCreator(user);
@@ -78,10 +78,10 @@ public class PlaylistService {
         }
 
         playlist.setName(playlistDTO.getName());
-        if(playlistDTO.getContent() != null) {
-            List<Media> mediaList = mediaRepository.findAllById(playlistDTO.getContent());
-            playlist.setContent(mediaList);
-        }
+        List<Media> mediaList = playlistDTO.getContent() != null
+                ? mediaRepository.findAllById(playlistDTO.getContent())
+                : new ArrayList<Media>();
+        playlist.setContent(mediaList);
 
         return playlistMapper.toDTO(playlistRepository.save(playlist));
     }
