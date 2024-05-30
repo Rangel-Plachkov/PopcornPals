@@ -1,7 +1,9 @@
 package bg.fmi.popcornpals.service;
 
+import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.ProducerDTO;
 import bg.fmi.popcornpals.dto.ProducerRequestDTO;
+import bg.fmi.popcornpals.mapper.MediaMapper;
 import bg.fmi.popcornpals.mapper.ProducerMapper;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.model.Producer;
@@ -22,12 +24,15 @@ public class ProducerService {
     private final ProducerRepository producerRepository;
     private final ProducerMapper producerMapper;
     private final MediaRepository mediaRepository;
+    private final MediaMapper mediaMapper;
 
     @Autowired
-    public ProducerService(ProducerRepository producerRepository, ProducerMapper producerMapper, MediaRepository mediaRepository) {
+    public ProducerService(ProducerRepository producerRepository, ProducerMapper producerMapper,
+                           MediaRepository mediaRepository, MediaMapper mediaMapper) {
         this.producerRepository = producerRepository;
         this.producerMapper = producerMapper;
         this.mediaRepository = mediaRepository;
+        this.mediaMapper = mediaMapper;
     }
 
     public ProducerDTO getProducerById(Long producerId) {
@@ -83,5 +88,13 @@ public class ProducerService {
     public void deleteProducer(Long producerId) {
         Producer toDelete = producerRepository.findById(producerId).orElseThrow();
         producerRepository.delete(toDelete);
+    }
+
+    public List<MediaDTO> getProducedMedia(Long producerId) {
+        Producer producer = producerRepository.findById(producerId).orElse(null);
+        if(producer == null) {
+            return null;
+        }
+        return mediaMapper.toDTOList(producer.getProducedMedia());
     }
 }
