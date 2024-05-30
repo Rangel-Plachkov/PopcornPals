@@ -1,6 +1,7 @@
 package bg.fmi.popcornpals.controller;
 
 import bg.fmi.popcornpals.dto.ProducerDTO;
+import bg.fmi.popcornpals.dto.ProducerRequestDTO;
 import bg.fmi.popcornpals.service.ProducerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,14 +37,14 @@ public class ProducerController {
     }
 
     @PostMapping
-    public ResponseEntity<ProducerDTO> createProducer(@RequestBody @Valid ProducerDTO producerDTO) {
-        return new ResponseEntity<>(producerService.createProducer(producerDTO), HttpStatus.CREATED);
+    public ResponseEntity<ProducerDTO> createProducer(@RequestBody @Valid ProducerRequestDTO producerRequestDTO) {
+        return new ResponseEntity<>(producerService.createProducer(producerRequestDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<ProducerDTO> updateProducer(@PathVariable("id") Long producerId,
-                                                      @RequestBody @Valid ProducerDTO producerDTO) {
-        ProducerDTO updatedProducerDTO = producerService.updateProducer(producerId, producerDTO);
+                                                      @RequestBody @Valid ProducerRequestDTO producerRequestDTO) {
+        ProducerDTO updatedProducerDTO = producerService.updateProducer(producerId, producerRequestDTO);
         return updatedProducerDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
                 new ResponseEntity<>(updatedProducerDTO, HttpStatus.OK);
     }
