@@ -47,7 +47,7 @@ public interface ProducerMapper {
 
     default List<Long> mapMediaToIds(List<Media> mediaList) {
         if(mediaList == null) {
-            return new ArrayList<Long>();
+            return null;
         }
         List<Long> producedMedia = new ArrayList<Long>();
         for(Media media : mediaList) {
@@ -58,7 +58,7 @@ public interface ProducerMapper {
 
     default List<Media> mapIdsToMedia(List<Long> mediaIdList) {
         if(mediaIdList == null) {
-            return new ArrayList<Media>();
+            return null;
         }
         List<Media> producedMedia = new ArrayList<Media>();
         for(Long media : mediaIdList) {
