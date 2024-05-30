@@ -1,8 +1,10 @@
 package bg.fmi.popcornpals.service;
 
+import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.PlaylistRequestDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
+import bg.fmi.popcornpals.mapper.MediaMapper;
 import bg.fmi.popcornpals.mapper.PlaylistMapper;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.model.Playlist;
@@ -26,16 +28,19 @@ public class PlaylistService {
     private final UserRepository userRepository;
     private final PlaylistMapper playlistMapper;
     private final MediaRepository mediaRepository;
+    private final MediaMapper mediaMapper;
 
     @Autowired
     public PlaylistService(PlaylistRepository playlistRepository,
                            UserRepository userRepository,
                            PlaylistMapper playlistMapper,
-                           MediaRepository mediaRepository) {
+                           MediaRepository mediaRepository,
+                           MediaMapper mediaMapper) {
         this.playlistRepository = playlistRepository;
         this.userRepository = userRepository;
         this.playlistMapper = playlistMapper;
         this.mediaRepository = mediaRepository;
+        this.mediaMapper = mediaMapper;
     }
 
     public List<PlaylistDTO> getPlaylists(Integer pageNo, Integer pageSize, String name) {
@@ -89,5 +94,13 @@ public class PlaylistService {
     public void deletePlaylist(Long playlistId) {
         Playlist playlist = playlistRepository.findById(playlistId).orElseThrow();
         playlistRepository.delete(playlist);
+    }
+
+    public List<MediaDTO> getContent(Long playlistId) {
+        Playlist playlist = playlistRepository.findById(playlistId).orElse(null);
+        if(playlist == null) {
+            return null;
+        }
+        return mediaMapper.toDTOList(playlist.getContent());
     }
 }
