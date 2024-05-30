@@ -44,7 +44,7 @@ public interface PlaylistMapper {
 
     default List<Media> mapIdsToMedia(List<Long> mediaIdList) {
         if(mediaIdList == null) {
-            return new ArrayList<Media>();
+            return null;
         }
         List<Media> content = new ArrayList<Media>();
         for(Long media : mediaIdList) {
@@ -57,7 +57,7 @@ public interface PlaylistMapper {
 
     default List<Long> mapMediaToIds(List<Media> mediaList) {
         if(mediaList == null) {
-            return new ArrayList<Long>();
+            return null;
         }
         List<Long> content = new ArrayList<Long>();
         for(Media media : mediaList) {
