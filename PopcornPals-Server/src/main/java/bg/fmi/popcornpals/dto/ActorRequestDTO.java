@@ -1,14 +1,13 @@
 package bg.fmi.popcornpals.dto;
 
-import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.StringSize;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+import jdk.jfr.Name;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,7 +17,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ActorDTO {
+public class ActorRequestDTO {
     private Long ID;
 
     @NotNull(message = "Actor: Name cannot be null")
@@ -31,5 +30,5 @@ public class ActorDTO {
     @Pattern(regexp = RegexPattern.DESCRIPTION, message = "Actor: Invalid symbols in description")
     private String description;
     private LocalDate birthdate;
-    private List<MediaDTO> starsIn;
+    private List<Long> starsIn;
 }
