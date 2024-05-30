@@ -4,8 +4,10 @@ import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.PlaylistRequestDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
 import bg.fmi.popcornpals.mapper.PlaylistMapper;
+import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.model.Playlist;
 import bg.fmi.popcornpals.model.User;
+import bg.fmi.popcornpals.repository.MediaRepository;
 import bg.fmi.popcornpals.repository.PlaylistRepository;
 import bg.fmi.popcornpals.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,14 +25,17 @@ public class PlaylistService {
     private final PlaylistRepository playlistRepository;
     private final UserRepository userRepository;
     private final PlaylistMapper playlistMapper;
+    private final MediaRepository mediaRepository;
 
     @Autowired
     public PlaylistService(PlaylistRepository playlistRepository,
                            UserRepository userRepository,
-                           PlaylistMapper playlistMapper) {
+                           PlaylistMapper playlistMapper,
+                           MediaRepository mediaRepository) {
         this.playlistRepository = playlistRepository;
         this.userRepository = userRepository;
         this.playlistMapper = playlistMapper;
+        this.mediaRepository = mediaRepository;
     }
 
     public List<PlaylistDTO> getPlaylists(Integer pageNo, Integer pageSize, String name) {
@@ -54,9 +60,13 @@ public class PlaylistService {
         if(user == null) {
             return null;
         }
+        List<Media> mediaList = playlistDTO.getContent() != null
+                ? mediaRepository.findAllById(playlistDTO.getContent())
+                : new ArrayList<>();
         Playlist playlist = new Playlist();
         playlist.setName(playlistDTO.getName());
         playlist.setCreator(user);
+        playlist.setContent(mediaList);
         Playlist newPlaylist = playlistRepository.save(playlist);
         return playlistMapper.toDTO(newPlaylist);
     }
@@ -67,10 +77,11 @@ public class PlaylistService {
             return null;
         }
 
-        if(playlistDTO.getName() != null) {
-            playlist.setName(playlistDTO.getName());
+        playlist.setName(playlistDTO.getName());
+        if(playlistDTO.getContent() != null) {
+            List<Media> mediaList = mediaRepository.findAllById(playlistDTO.getContent());
+            playlist.setContent(mediaList);
         }
-        // update the content list?
 
         return playlistMapper.toDTO(playlistRepository.save(playlist));
     }
