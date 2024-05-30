@@ -2,7 +2,9 @@ package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.ActorDTO;
 import bg.fmi.popcornpals.dto.ActorRequestDTO;
+import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.mapper.ActorMapper;
+import bg.fmi.popcornpals.mapper.MediaMapper;
 import bg.fmi.popcornpals.model.Actor;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.repository.ActorRepository;
@@ -22,12 +24,15 @@ public class ActorService {
     private final ActorRepository actorRepository;
     private final ActorMapper actorMapper;
     private final MediaRepository mediaRepository;
+    private final MediaMapper mediaMapper;
 
     @Autowired
-    public ActorService(ActorRepository actorRepository, ActorMapper actorMapper, MediaRepository mediaRepository) {
+    public ActorService(ActorRepository actorRepository, ActorMapper actorMapper,
+                        MediaRepository mediaRepository, MediaMapper mediaMapper) {
         this.actorRepository = actorRepository;
         this.actorMapper = actorMapper;
         this.mediaRepository = mediaRepository;
+        this.mediaMapper = mediaMapper;
     }
 
     public List<ActorDTO> getActors(Integer pageNo, Integer pageSize, String actorName) {
@@ -83,5 +88,13 @@ public class ActorService {
     public void deleteActor(Long actorId) {
         Actor toDelete = actorRepository.findById(actorId).orElseThrow();
         actorRepository.delete(toDelete);
+    }
+
+    public List<MediaDTO> getMedia(Long actorId) {
+        Actor actor = actorRepository.findById(actorId).orElse(null);
+        if(actor == null) {
+            return null;
+        }
+        return mediaMapper.toDTOList(actor.getStarsIn());
     }
 }

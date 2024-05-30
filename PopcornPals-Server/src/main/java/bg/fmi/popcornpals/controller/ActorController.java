@@ -2,6 +2,8 @@ package bg.fmi.popcornpals.controller;
 
 import bg.fmi.popcornpals.dto.ActorDTO;
 import bg.fmi.popcornpals.dto.ActorRequestDTO;
+import bg.fmi.popcornpals.dto.MediaDTO;
+import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.service.ActorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,5 +59,12 @@ public class ActorController {
         }
         actorService.deleteActor(actorId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("{id}/media/")
+    public ResponseEntity<List<MediaDTO>> getMedia(@PathVariable("id") Long actorId) {
+        List<MediaDTO> media = actorService.getMedia(actorId);
+        return media == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
+                new ResponseEntity<>(media, HttpStatus.OK);
     }
 }
