@@ -1,6 +1,7 @@
 package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.ActorDTO;
+import bg.fmi.popcornpals.exception.ActorNotFoundException;
 import bg.fmi.popcornpals.mapper.ActorMapper;
 import bg.fmi.popcornpals.model.Actor;
 import bg.fmi.popcornpals.repository.ActorRepository;
@@ -36,9 +37,9 @@ public class ActorService {
         return actorMapper.toDTOList(actors.getContent());
     }
 
-    // To Do: create custom exception to throw
     public ActorDTO getActorById(Long actorId) {
-        Actor actor = actorRepository.findById(actorId).orElse(null);
+        Actor actor = actorRepository.findById(actorId)
+                .orElseThrow(ActorNotFoundException::new);
         return actorMapper.toDTO(actor);
     }
 
@@ -49,10 +50,8 @@ public class ActorService {
     }
 
     public ActorDTO updateActor(Long actorId, ActorDTO actorDTO) {
-        Actor actor = actorRepository.findById(actorId).orElse(null);
-        if(actor == null) {
-            return null;
-        }
+        Actor actor = actorRepository.findById(actorId)
+                .orElseThrow(ActorNotFoundException::new);
 
         if(actorDTO.getName() != null) {
             actor.setName(actorDTO.getName());
@@ -69,7 +68,8 @@ public class ActorService {
     }
 
     public void deleteActor(Long actorId) {
-        Actor toDelete = actorRepository.findById(actorId).orElseThrow();
+        Actor toDelete = actorRepository.findById(actorId)
+                .orElseThrow(ActorNotFoundException::new);
         actorRepository.delete(toDelete);
     }
 }
