@@ -3,6 +3,8 @@ package bg.fmi.popcornpals.service;
 import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.PlaylistRequestDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
+import bg.fmi.popcornpals.exception.PlaylistNotFoundException;
+import bg.fmi.popcornpals.exception.UserNotFoundException;
 import bg.fmi.popcornpals.mapper.PlaylistMapper;
 import bg.fmi.popcornpals.model.Playlist;
 import bg.fmi.popcornpals.model.User;
@@ -45,15 +47,15 @@ public class PlaylistService {
     }
 
     public PlaylistDTO getPlaylistById(Long playlistId) {
-        Playlist playlist = playlistRepository.findById(playlistId).orElse(null);
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(PlaylistNotFoundException::new);
         return playlistMapper.toDTO(playlist);
     }
 
     public PlaylistDTO createPlaylist(PlaylistRequestDTO playlistDTO) {
-        User user = userRepository.findById(playlistDTO.getCreator()).orElse(null);
-        if(user == null) {
-            return null;
-        }
+        User user = userRepository.findById(playlistDTO.getCreator())
+                .orElseThrow(UserNotFoundException::new);
+
         Playlist playlist = new Playlist();
         playlist.setName(playlistDTO.getName());
         playlist.setCreator(user);
@@ -62,21 +64,19 @@ public class PlaylistService {
     }
 
     public PlaylistDTO updatePlaylist(Long playlistId, PlaylistRequestDTO playlistDTO) {
-        Playlist playlist = playlistRepository.findById(playlistId).orElse(null);
-        if(playlist == null) {
-            return null;
-        }
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(PlaylistNotFoundException::new);
 
         if(playlistDTO.getName() != null) {
             playlist.setName(playlistDTO.getName());
         }
-        // update the content list?
 
         return playlistMapper.toDTO(playlistRepository.save(playlist));
     }
 
     public void deletePlaylist(Long playlistId) {
-        Playlist playlist = playlistRepository.findById(playlistId).orElseThrow();
+        Playlist playlist = playlistRepository.findById(playlistId)
+                .orElseThrow(PlaylistNotFoundException::new);
         playlistRepository.delete(playlist);
     }
 }
