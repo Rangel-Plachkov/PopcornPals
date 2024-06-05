@@ -40,4 +40,12 @@ public class GlobalExceptionHandler {
         errorResponse.put("timestamp", new Date());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> handleGeneralError(Exception ex) {
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("message", ex.getMessage() != null ? ex.getMessage() : "Unexpected error occurred");
+        errorResponse.put("status", 500);
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
