@@ -1,9 +1,6 @@
 package bg.fmi.popcornpals.controller;
 
-import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.ProducerDTO;
-import bg.fmi.popcornpals.dto.ProducerRequestDTO;
-import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.service.ProducerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +34,8 @@ public class ProducerController {
     }
 
     @PostMapping
-    public ResponseEntity<ProducerDTO> createProducer(@RequestBody @Valid ProducerRequestDTO producerRequestDTO) {
-        return new ResponseEntity<>(producerService.createProducer(producerRequestDTO), HttpStatus.CREATED);
+    public ResponseEntity<ProducerDTO> createProducer(@RequestBody @Valid ProducerDTO producerDTO) {
+        return new ResponseEntity<>(producerService.createProducer(producerDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
@@ -51,17 +48,5 @@ public class ProducerController {
     public ResponseEntity<Void> deleteProducer(@PathVariable("id") Long producerId) {
         producerService.deleteProducer(producerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @GetMapping("{id}/media/")
-    public ResponseEntity<List<MediaDTO>> getProducedMedia(@PathVariable("id") Long producerId) {
-        List<MediaDTO> media = producerService.getProducedMedia(producerId);
-        if(media == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        else if(media.isEmpty()) {
-            return new ResponseEntity<>(media, HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(media, HttpStatus.OK);
     }
 }

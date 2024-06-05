@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -29,5 +28,4 @@ public class ProducerDTO {
     @Pattern(regexp = RegexPattern.DESCRIPTION, message = "Producer: Invalid symbols in description")
     private String description;
     private LocalDate birthdate;
-    private List<MediaDTO> producedMedia;
 }

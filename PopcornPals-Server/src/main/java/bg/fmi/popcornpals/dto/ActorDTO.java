@@ -1,6 +1,5 @@
 package bg.fmi.popcornpals.dto;
 
-import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.StringSize;
 import jakarta.validation.constraints.NotBlank;
@@ -13,7 +12,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -31,5 +29,4 @@ public class ActorDTO {
     @Pattern(regexp = RegexPattern.DESCRIPTION, message = "Actor: Invalid symbols in description")
     private String description;
     private LocalDate birthdate;
-    private List<MediaDTO> starsIn;
 }

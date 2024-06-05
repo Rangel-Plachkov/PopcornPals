@@ -1,6 +1,5 @@
 package bg.fmi.popcornpals.controller;
 
-import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.PlaylistRequestDTO;
 import bg.fmi.popcornpals.service.PlaylistService;
@@ -52,15 +51,4 @@ public class PlaylistController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping("{id}/media/")
-    public ResponseEntity<List<MediaDTO>> getContent(@PathVariable("id") Long playlistId) {
-        List<MediaDTO> content = playlistService.getContent(playlistId);
-        if(content == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        else if(content.isEmpty()) {
-            return new ResponseEntity<>(content, HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(content, HttpStatus.OK);
-    }
 }
