@@ -1,6 +1,7 @@
 package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.ProducerDTO;
+import bg.fmi.popcornpals.exception.ProducerNotFoundException;
 import bg.fmi.popcornpals.mapper.ProducerMapper;
 import bg.fmi.popcornpals.model.Producer;
 import bg.fmi.popcornpals.repository.ProducerRepository;
@@ -25,7 +26,8 @@ public class ProducerService {
     }
 
     public ProducerDTO getProducerById(Long producerId) {
-        Producer producer = producerRepository.findById(producerId).orElse(null);
+        Producer producer = producerRepository.findById(producerId)
+                .orElseThrow(ProducerNotFoundException::new);
         return producerMapper.toDTO(producer);
     }
 
@@ -47,10 +49,8 @@ public class ProducerService {
     }
 
     public ProducerDTO updateProducer(Long producerId, ProducerDTO producerDTO) {
-        Producer producer = producerRepository.findById(producerId).orElse(null);
-        if(producer == null) {
-            return null;
-        }
+        Producer producer = producerRepository.findById(producerId)
+                .orElseThrow(ProducerNotFoundException::new);
 
         if(producerDTO.getName() != null) {
             producer.setName(producerDTO.getName());
@@ -66,7 +66,8 @@ public class ProducerService {
     }
 
     public void deleteProducer(Long producerId) {
-        Producer toDelete = producerRepository.findById(producerId).orElseThrow();
+        Producer toDelete = producerRepository.findById(producerId)
+                .orElseThrow(ProducerNotFoundException::new);
         producerRepository.delete(toDelete);
     }
 }
