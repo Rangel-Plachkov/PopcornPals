@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProducerDTO {
+public class ProducerRequestDTO {
     private Long ID;
 
     @NotNull(message = "Producer: Name cannot be null")
@@ -29,5 +29,5 @@ public class ProducerDTO {
     @Pattern(regexp = RegexPattern.DESCRIPTION, message = "Producer: Invalid symbols in description")
     private String description;
     private LocalDate birthdate;
-    private List<MediaDTO> producedMedia;
+    private List<Long> producedMedia;
 }
