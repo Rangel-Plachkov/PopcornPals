@@ -3,6 +3,7 @@ package bg.fmi.popcornpals.service;
 import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
 import bg.fmi.popcornpals.dto.UserRequestDTO;
+import bg.fmi.popcornpals.exception.UserNotFoundException;
 import bg.fmi.popcornpals.mapper.PlaylistMapper;
 import bg.fmi.popcornpals.mapper.UserMapper;
 import bg.fmi.popcornpals.model.User;
@@ -49,7 +50,8 @@ public class UserService {
     }
 
     public UserDTO getUserById(Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
         return userMapper.toDTO(user);
     }
 
@@ -59,10 +61,8 @@ public class UserService {
     }
 
     public UserDTO updateUser(Long userId, UserRequestDTO userRequestDTO) {
-        User user = userRepository.findById(userId).orElse(null);
-        if(user == null) {
-            return null;
-        }
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
 
         if(userRequestDTO.getName() != null) {
             user.setName(userRequestDTO.getName());
@@ -80,13 +80,14 @@ public class UserService {
     }
 
     public void deleteUser(Long userId) {
-        User toDelete = userRepository.findById(userId).orElseThrow();
+        User toDelete = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
         userRepository.delete(toDelete);
     }
 
     public List<PlaylistDTO> findPlaylistsByUser(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow();
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFoundException::new);
         return playlistMapper.toDTOList(playlistRepository.findAllByUser(user.getID()));
-        //return playlistRepository.findAllByUser().stream().map(p -> playlistMapper.toDTO(p)).collect(Collectors.toList());
     }
 }
