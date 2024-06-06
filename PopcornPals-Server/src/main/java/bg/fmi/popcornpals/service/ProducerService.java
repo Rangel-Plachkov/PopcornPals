@@ -2,6 +2,7 @@ package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.ProducerDTO;
+import bg.fmi.popcornpals.exception.ProducerNotFoundException;
 import bg.fmi.popcornpals.dto.ProducerRequestDTO;
 import bg.fmi.popcornpals.mapper.MediaMapper;
 import bg.fmi.popcornpals.mapper.ProducerMapper;
@@ -17,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProducerService {
@@ -36,7 +36,8 @@ public class ProducerService {
     }
 
     public ProducerDTO getProducerById(Long producerId) {
-        Producer producer = producerRepository.findById(producerId).orElse(null);
+        Producer producer = producerRepository.findById(producerId)
+                .orElseThrow(ProducerNotFoundException::new);
         return producerMapper.toDTO(producer);
     }
 
@@ -68,10 +69,8 @@ public class ProducerService {
     }
 
     public ProducerDTO updateProducer(Long producerId, ProducerRequestDTO producerRequestDTO) {
-        Producer producer = producerRepository.findById(producerId).orElse(null);
-        if(producer == null) {
-            return null;
-        }
+        Producer producer = producerRepository.findById(producerId)
+                .orElseThrow(ProducerNotFoundException::new);
 
         producer.setName(producerRequestDTO.getName());
         producer.setDescription(producerRequestDTO.getDescription());
@@ -86,15 +85,14 @@ public class ProducerService {
     }
 
     public void deleteProducer(Long producerId) {
-        Producer toDelete = producerRepository.findById(producerId).orElseThrow();
+        Producer toDelete = producerRepository.findById(producerId)
+                .orElseThrow(ProducerNotFoundException::new);
         producerRepository.delete(toDelete);
     }
 
     public List<MediaDTO> getProducedMedia(Long producerId) {
-        Producer producer = producerRepository.findById(producerId).orElse(null);
-        if(producer == null) {
-            return null;
-        }
+        Producer producer = producerRepository.findById(producerId)
+                .orElseThrow(ProducerNotFoundException::new);
         return mediaMapper.toDTOList(producer.getProducedMedia());
     }
 }

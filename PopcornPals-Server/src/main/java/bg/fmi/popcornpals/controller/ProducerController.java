@@ -33,9 +33,7 @@ public class ProducerController {
 
     @GetMapping("{id}")
     public ResponseEntity<ProducerDTO> getProducer(@PathVariable("id") Long producerId) {
-        ProducerDTO producerDTO = producerService.getProducerById(producerId);
-        return producerDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-                new ResponseEntity<>(producerDTO, HttpStatus.OK);
+        return new ResponseEntity<>(producerService.getProducerById(producerId), HttpStatus.OK);
     }
 
     @PostMapping
@@ -46,17 +44,11 @@ public class ProducerController {
     @PutMapping("{id}")
     public ResponseEntity<ProducerDTO> updateProducer(@PathVariable("id") Long producerId,
                                                       @RequestBody @Valid ProducerRequestDTO producerRequestDTO) {
-        ProducerDTO updatedProducerDTO = producerService.updateProducer(producerId, producerRequestDTO);
-        return updatedProducerDTO == null ? new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-                new ResponseEntity<>(updatedProducerDTO, HttpStatus.OK);
+        return new ResponseEntity<>(producerService.updateProducer(producerId, producerRequestDTO), HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteProducer(@PathVariable("id") Long producerId) {
-        ProducerDTO producerDTO = producerService.getProducerById(producerId);
-        if(producerDTO == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         producerService.deleteProducer(producerId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -64,10 +56,7 @@ public class ProducerController {
     @GetMapping("{id}/media/")
     public ResponseEntity<List<MediaDTO>> getProducedMedia(@PathVariable("id") Long producerId) {
         List<MediaDTO> media = producerService.getProducedMedia(producerId);
-        if(media == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        else if(media.isEmpty()) {
+        if(media.isEmpty()) {
             return new ResponseEntity<>(media, HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(media, HttpStatus.OK);
