@@ -64,18 +64,11 @@ public class UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
 
-        if(userRequestDTO.getName() != null) {
-            user.setName(userRequestDTO.getName());
-        }
-        if(userRequestDTO.getUsername() != null) {
-            user.setUsername(userRequestDTO.getUsername());
-        }
-        if(userRequestDTO.getDescription() != null) {
-            user.setDescription(userRequestDTO.getDescription());
-        }
-        if(userRequestDTO.getBirthday() != null) {
-            user.setBirthday(userRequestDTO.getBirthday());
-        }
+        user.setName(userRequestDTO.getName());
+        user.setUsername(userRequestDTO.getUsername());
+        user.setDescription(userRequestDTO.getDescription());
+        user.setBirthday(userRequestDTO.getBirthday());
+
         return userMapper.toDTO(userRepository.save(user));
     }
 

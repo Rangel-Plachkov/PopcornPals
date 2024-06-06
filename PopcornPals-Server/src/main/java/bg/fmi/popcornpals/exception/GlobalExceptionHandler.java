@@ -46,6 +46,7 @@ public class GlobalExceptionHandler {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("message", ex.getMessage() != null ? ex.getMessage() : "Unexpected error occurred");
         errorResponse.put("status", 500);
+        errorResponse.put("timestamp", new Date());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
