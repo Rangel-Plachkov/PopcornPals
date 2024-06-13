@@ -2,9 +2,10 @@ package bg.fmi.popcornpals.mapper;
 
 import bg.fmi.popcornpals.dto.StudioDTO;
 import bg.fmi.popcornpals.model.Studio;
+import org.aspectj.lang.annotation.After;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
