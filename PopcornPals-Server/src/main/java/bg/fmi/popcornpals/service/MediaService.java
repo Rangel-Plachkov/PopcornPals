@@ -1,12 +1,18 @@
 package bg.fmi.popcornpals.service;
 
+import bg.fmi.popcornpals.dto.MediaRequestDTO;
+import bg.fmi.popcornpals.exception.MediaNotFoundException;
 import bg.fmi.popcornpals.model.Media;
+import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.repository.MediaRepository;
+import bg.fmi.popcornpals.mapper.MediaMapper;
 import bg.fmi.popcornpals.util.MediaType;
 import bg.fmi.popcornpals.util.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -14,32 +20,44 @@ public class MediaService {
     @Autowired
     private MediaRepository mediaRepository;
 
-    public Media createMedia(Media media) {
-        return mediaRepository.save(media);
+    @Autowired
+    private MediaMapper mediaMapper;
+
+    public MediaDTO createMedia(MediaRequestDTO media) {
+        Media newMedia = mediaMapper.toEntity(media);
+        return mediaMapper.toDTO(mediaRepository.save(newMedia));
     }
 
-    public List<Media> getMedia(Long ID, String title, MediaType type, Genre genre) {
-        if(ID != null) {
-            Media media = mediaRepository.findById(ID).orElse(null);
-            return media == null ? null : List.of(media);
-        } else if (title != null && !title.isEmpty()) {
-            return mediaRepository.findByTitleContainingIgnoreCase(title);
-        } else if (type != null) {
-            return mediaRepository.findByType(type);
-        } else if (genre != null) {
-            return mediaRepository.findByGenre(genre);
-        } else {
-            return mediaRepository.findAll();
-        }
+    public MediaDTO getMediaById(Long id) {
+        Media media = mediaRepository.findById(id)
+                .orElseThrow(MediaNotFoundException::new);
+        return mediaMapper.toDTO(media);
     }
-    public Media updateMedia(Media media) {
-        return mediaRepository.save(media);
+
+    public List<MediaDTO> getMedia(Integer pageNo, Integer pageSize, String title, MediaType type, Genre genre) {
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Media> media = null;
+        if(title != null) {
+            media = mediaRepository.findByTitleContainingIgnoreCase(title, pageable);
+        } else if(type != null) {
+            media = mediaRepository.findByType(type, pageable);
+        } else if(genre != null) {
+            media = mediaRepository.findByGenre(genre, pageable);
+        } else {
+            media = mediaRepository.findAll(pageable);
+        }
+        return mediaMapper.toDTOList(media.getContent());
+    }
+
+    public MediaDTO updateMedia(Long mediaId ,MediaRequestDTO media) {
+        Media existingMedia = mediaRepository.findById(mediaId)
+                .orElseThrow(MediaNotFoundException::new);
+        existingMedia = mediaMapper.toEntity(media);
+        return mediaMapper.toDTO(mediaRepository.save(existingMedia));
     }
     public void deleteMediaById(Long id) {
-        mediaRepository.deleteById(id);
+        Media toDelete = mediaRepository.findById(id)
+                .orElseThrow(MediaNotFoundException::new);
+        mediaRepository.delete(toDelete);
     }
-    public void deleteAllMedia() {
-        mediaRepository.deleteAll();
-    }
-
 }
