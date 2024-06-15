@@ -1,7 +1,7 @@
 package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.StudioDTO;
-import bg.fmi.popcornpals.exception.StudioNotFoundException;
+import bg.fmi.popcornpals.exception.notfound.StudioNotFoundException;
 import bg.fmi.popcornpals.mapper.StudioMapper;
 import bg.fmi.popcornpals.model.Studio;
 import bg.fmi.popcornpals.repository.StudioRepository;

@@ -3,7 +3,7 @@ package bg.fmi.popcornpals.service;
 import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
 import bg.fmi.popcornpals.dto.UserRequestDTO;
-import bg.fmi.popcornpals.exception.UserNotFoundException;
+import bg.fmi.popcornpals.exception.notfound.UserNotFoundException;
 import bg.fmi.popcornpals.mapper.PlaylistMapper;
 import bg.fmi.popcornpals.mapper.UserMapper;
 import bg.fmi.popcornpals.model.User;
@@ -16,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
