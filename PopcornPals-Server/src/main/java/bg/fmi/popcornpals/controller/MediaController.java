@@ -52,9 +52,9 @@ public class MediaController {
                                                 @Valid @RequestBody MediaRequestDTO media) {
         return new ResponseEntity<>(mediaService.updateMedia(id, media), HttpStatus.OK);
     }
-    @PatchMapping("{id}/studio")
+    @PatchMapping("{id}/studio/{studioId}")
     public ResponseEntity<MediaDTO> assignStudio(@PathVariable Long id,
-                                               @RequestBody Long studioId) {
+                                                @PathVariable Long studioId) {
         return new ResponseEntity<>(mediaService.assignStudio(id, studioId), HttpStatus.OK);
     }
     

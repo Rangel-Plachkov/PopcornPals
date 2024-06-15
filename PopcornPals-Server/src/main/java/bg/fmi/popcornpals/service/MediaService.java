@@ -91,7 +91,6 @@ public class MediaService {
                 .orElseThrow(MediaNotFoundException::new);
         Studio studio = studioRepository.findById(studioId)
                 .orElseThrow(StudioNotFoundException::new);
-
         media.setStudio(studio);
         return mediaMapper.toDTO(mediaRepository.save(media));
     }
