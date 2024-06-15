@@ -1,11 +1,18 @@
 package bg.fmi.popcornpals.service;
 
+import bg.fmi.popcornpals.dto.ActorDTO;
 import bg.fmi.popcornpals.dto.MediaRequestDTO;
+import bg.fmi.popcornpals.dto.StudioDTO;
 import bg.fmi.popcornpals.exception.MediaNotFoundException;
+import bg.fmi.popcornpals.mapper.StudioMapper;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.dto.MediaDTO;
+import bg.fmi.popcornpals.model.Studio;
+import bg.fmi.popcornpals.exception.StudioNotFoundException;
 import bg.fmi.popcornpals.repository.MediaRepository;
+import bg.fmi.popcornpals.mapper.ActorMapper;
 import bg.fmi.popcornpals.mapper.MediaMapper;
+import bg.fmi.popcornpals.repository.StudioRepository;
 import bg.fmi.popcornpals.util.MediaType;
 import bg.fmi.popcornpals.util.Genre;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +29,14 @@ public class MediaService {
 
     @Autowired
     private MediaMapper mediaMapper;
+
+    @Autowired
+    private StudioMapper studioMapper;
+    @Autowired
+    private StudioRepository studioRepository;
+
+    @Autowired
+    private ActorMapper actorMapper;
 
     public MediaDTO createMedia(MediaRequestDTO media) {
         Media newMedia = mediaMapper.toEntity(media);
@@ -48,6 +63,23 @@ public class MediaService {
         }
         return mediaMapper.toDTOList(media.getContent());
     }
+    public List<ActorDTO> getActorsInMedia(Long id) {
+        Media media = mediaRepository.findById(id)
+                .orElseThrow(MediaNotFoundException::new);
+
+        return actorMapper.toDTOList(media.getActors());
+    }
+    public StudioDTO getStudioOfMedia(Long id) {
+        Media media = mediaRepository.findById(id)
+                .orElseThrow(MediaNotFoundException::new);
+        Studio studio = media.getStudio();
+        if(studio == null) {
+            throw new StudioNotFoundException();
+        }
+
+
+        return studioMapper.toDTO(media.getStudio());
+    }
 
     public MediaDTO updateMedia(Long mediaId ,MediaRequestDTO media) {
         Media existingMedia = mediaRepository.findById(mediaId)
@@ -55,6 +87,16 @@ public class MediaService {
         existingMedia = mediaMapper.toEntity(media);
         return mediaMapper.toDTO(mediaRepository.save(existingMedia));
     }
+    public MediaDTO assignStudio(Long mediaId, Long studioId) {
+        Media media = mediaRepository.findById(mediaId)
+                .orElseThrow(MediaNotFoundException::new);
+        Studio studio = studioRepository.findById(studioId)
+                .orElseThrow(StudioNotFoundException::new);
+
+        media.setStudio(studio);
+        return mediaMapper.toDTO(mediaRepository.save(media));
+    }
+
     public void deleteMediaById(Long id) {
         Media toDelete = mediaRepository.findById(id)
                 .orElseThrow(MediaNotFoundException::new);
