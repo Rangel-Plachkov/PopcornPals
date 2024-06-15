@@ -22,6 +22,14 @@ public class GlobalExceptionHandler {
         errorResponse.put("timestamp", new Date());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(NoContentException.class)
+    public ResponseEntity<Map<String, Object>> handleNoContentException(NoContentException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", 204);
+        response.put("message", ex.getMessage());
+        response.put("timestamp", new Date());
+        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationError(MethodArgumentNotValidException ex) {

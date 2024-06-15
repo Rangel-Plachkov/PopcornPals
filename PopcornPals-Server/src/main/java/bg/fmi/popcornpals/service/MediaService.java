@@ -4,6 +4,7 @@ import bg.fmi.popcornpals.dto.ActorDTO;
 import bg.fmi.popcornpals.dto.MediaRequestDTO;
 import bg.fmi.popcornpals.dto.StudioDTO;
 import bg.fmi.popcornpals.exception.MediaNotFoundException;
+import bg.fmi.popcornpals.exception.NoAssignedStudioException;
 import bg.fmi.popcornpals.mapper.StudioMapper;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.dto.MediaDTO;
@@ -74,10 +75,8 @@ public class MediaService {
                 .orElseThrow(MediaNotFoundException::new);
         Studio studio = media.getStudio();
         if(studio == null) {
-            throw new StudioNotFoundException();
+            throw new NoAssignedStudioException();
         }
-
-
         return studioMapper.toDTO(media.getStudio());
     }
 
