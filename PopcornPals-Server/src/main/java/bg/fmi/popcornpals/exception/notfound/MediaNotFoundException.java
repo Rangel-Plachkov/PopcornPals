@@ -1,4 +1,4 @@
-package bg.fmi.popcornpals.exception;
+package bg.fmi.popcornpals.exception.notfound;
 
 public class MediaNotFoundException extends NotFoundException {
     public MediaNotFoundException() {

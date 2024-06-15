@@ -2,7 +2,7 @@ package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.ProducerDTO;
-import bg.fmi.popcornpals.exception.ProducerNotFoundException;
+import bg.fmi.popcornpals.exception.notfound.ProducerNotFoundException;
 import bg.fmi.popcornpals.dto.ProducerRequestDTO;
 import bg.fmi.popcornpals.mapper.MediaMapper;
 import bg.fmi.popcornpals.mapper.ProducerMapper;
