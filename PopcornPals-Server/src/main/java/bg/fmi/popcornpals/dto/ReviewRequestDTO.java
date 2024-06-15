@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,7 +17,7 @@ public class ReviewRequestDTO {
     @NotNull(message = "Review: User ID cannot be null")
     private Long userID;
     @NotNull(message = "Review: Movie ID cannot be null")
-    private Long movieID;
+    private Long mediaID;
 
     @NotNull(message = "Review: Rating cannot be null")
     @Min(value = RatingConstraint.MIN, message = "Review: Rating must be at least " + RatingConstraint.MIN)
@@ -28,9 +29,9 @@ public class ReviewRequestDTO {
     @Pattern(regexp = RegexPattern.DESCRIPTION , message = "Review: Invalid symbols in review")
     private String description;
 
-    public ReviewRequestDTO(Long userID, Long movieID, Integer rating) {
+    public ReviewRequestDTO(Long userID, Long mediaID, Integer rating) {
         this.userID = userID;
-        this.movieID = movieID;
+        this.mediaID = mediaID;
         this.rating = rating;
     }
 }
