@@ -1,5 +1,6 @@
 package bg.fmi.popcornpals.exception;
 
+import bg.fmi.popcornpals.exception.nocontent.NoContentException;
 import bg.fmi.popcornpals.exception.notfound.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

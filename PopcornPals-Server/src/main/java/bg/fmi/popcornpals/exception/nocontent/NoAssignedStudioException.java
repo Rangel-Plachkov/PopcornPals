@@ -1,4 +1,4 @@
-package bg.fmi.popcornpals.exception;
+package bg.fmi.popcornpals.exception.nocontent;
 
 public class NoAssignedStudioException extends NoContentException{
     public NoAssignedStudioException() {

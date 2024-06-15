@@ -4,7 +4,7 @@ import bg.fmi.popcornpals.dto.ActorDTO;
 import bg.fmi.popcornpals.dto.MediaRequestDTO;
 import bg.fmi.popcornpals.dto.StudioDTO;
 import bg.fmi.popcornpals.exception.notfound.MediaNotFoundException;
-import bg.fmi.popcornpals.exception.NoAssignedStudioException;
+import bg.fmi.popcornpals.exception.nocontent.NoAssignedStudioException;
 import bg.fmi.popcornpals.mapper.StudioMapper;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.dto.MediaDTO;
