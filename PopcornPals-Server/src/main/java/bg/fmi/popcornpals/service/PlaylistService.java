@@ -3,8 +3,8 @@ package bg.fmi.popcornpals.service;
 import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.PlaylistRequestDTO;
-import bg.fmi.popcornpals.exception.PlaylistNotFoundException;
-import bg.fmi.popcornpals.exception.UserNotFoundException;
+import bg.fmi.popcornpals.exception.notfound.PlaylistNotFoundException;
+import bg.fmi.popcornpals.exception.notfound.UserNotFoundException;
 import bg.fmi.popcornpals.mapper.MediaMapper;
 import bg.fmi.popcornpals.mapper.PlaylistMapper;
 import bg.fmi.popcornpals.model.Media;
@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PlaylistService {

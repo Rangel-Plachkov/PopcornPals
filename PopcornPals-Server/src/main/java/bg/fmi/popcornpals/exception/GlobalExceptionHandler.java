@@ -1,5 +1,7 @@
 package bg.fmi.popcornpals.exception;
 
+import bg.fmi.popcornpals.exception.nocontent.NoContentException;
+import bg.fmi.popcornpals.exception.notfound.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -7,7 +9,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,14 @@ public class GlobalExceptionHandler {
         errorResponse.put("message", ex.getMessage());
         errorResponse.put("timestamp", new Date());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(NoContentException.class)
+    public ResponseEntity<Map<String, Object>> handleNoContentException(NoContentException ex) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("status", 204);
+        response.put("message", ex.getMessage());
+        response.put("timestamp", new Date());
+        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

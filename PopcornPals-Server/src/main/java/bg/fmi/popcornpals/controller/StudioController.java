@@ -33,58 +33,33 @@ public class StudioController {
     @PostMapping
     public ResponseEntity<StudioDTO> createStudio(@Valid @RequestBody StudioDTO studio) {
         studio.setID(null);
-        Studio createdStudio = studioService.createStudio(studioMapper.toEntity(studio));
-        return new ResponseEntity<>(studioMapper.toDTO(createdStudio), HttpStatus.CREATED);
+        return new ResponseEntity<>(studioService.createStudio(studio), HttpStatus.CREATED);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<StudioDTO> getStudio(@PathVariable("id") Long studioId) {
+        return new ResponseEntity<>(studioService.getStudioById(studioId), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<StudioDTO>> getStudios(
-            @RequestParam(required = false) Long id,
-            @RequestParam(required = false) String name) {
-
-        List<Studio> studioList = studioService.getStudios(id, name);
-
-        if (studioList == null || studioList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        List<StudioDTO> studioDTOList = studioMapper.toDTOList(studioList);
-
-        return new ResponseEntity<>(studioDTOList, HttpStatus.OK);
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(value = "name", required = false) String studioName) {
+        return new ResponseEntity<>(studioService.getStudios(pageNo, pageSize, studioName), HttpStatus.OK);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<StudioDTO> updateStudio(@PathVariable Long id, @Valid @RequestBody StudioDTO studio) {
-        Studio existingStudio = studioService.getStudios(id, null).get(0);
-        if (existingStudio == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        studio.setID(id);
-        Studio studioToUpdate = studioMapper.toEntity(studio);
-
-        Studio updatedStudio = studioService.updateStudio(studioToUpdate);
-
-        StudioDTO updatedStudioDTO = studioMapper.toDTO(updatedStudio);
-
-        return new ResponseEntity<>(updatedStudioDTO, HttpStatus.OK);
+    public ResponseEntity<StudioDTO> updateStudio(@PathVariable("id") Long studioId,
+                                                  @RequestBody @Valid StudioDTO studioDTO) {
+        return new ResponseEntity<>(studioService.updateStudio(studioId, studioDTO), HttpStatus.OK);
     }
 
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteStudioById(@PathVariable Long id) {
-        Studio existingStudio = studioService.getStudios(id, null).get(0);
-        if (existingStudio == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        studioService.deleteStudioById(id);
+        studioService.deleteStudio(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @DeleteMapping("/deleteAll")
-    public ResponseEntity<Void> deleteAllStudios() {
-        studioService.deleteAllStudios();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
 
 }

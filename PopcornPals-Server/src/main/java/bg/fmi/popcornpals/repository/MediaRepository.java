@@ -2,16 +2,17 @@ package bg.fmi.popcornpals.repository;
 
 import bg.fmi.popcornpals.util.MediaType;
 import bg.fmi.popcornpals.util.Genre;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import bg.fmi.popcornpals.model.Media;
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 @Repository
 public interface MediaRepository extends JpaRepository<Media, Long>{
 
-    List<Media> findByTitleContainingIgnoreCase(String title);
-    List<Media> findByType(MediaType type);
-    List<Media> findByGenre(Genre genre);
+    Page<Media> findByTitleContainingIgnoreCase(String title, Pageable pageable);
+    Page<Media> findByType(MediaType type, Pageable pageable);
+    Page<Media> findByGenre(Genre genre, Pageable pageable);
 
 }

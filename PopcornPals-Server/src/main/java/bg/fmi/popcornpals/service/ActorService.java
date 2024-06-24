@@ -1,7 +1,7 @@
 package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.ActorDTO;
-import bg.fmi.popcornpals.exception.ActorNotFoundException;
+import bg.fmi.popcornpals.exception.notfound.ActorNotFoundException;
 import bg.fmi.popcornpals.dto.ActorRequestDTO;
 import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.mapper.ActorMapper;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ActorService {
