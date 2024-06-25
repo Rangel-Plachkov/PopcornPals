@@ -13,6 +13,7 @@ import bg.fmi.popcornpals.model.User;
 import bg.fmi.popcornpals.repository.MediaRepository;
 import bg.fmi.popcornpals.repository.PlaylistRepository;
 import bg.fmi.popcornpals.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class PlaylistService {
     private final PlaylistRepository playlistRepository;

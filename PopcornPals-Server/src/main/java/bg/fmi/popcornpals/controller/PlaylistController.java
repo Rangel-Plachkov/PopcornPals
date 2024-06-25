@@ -6,6 +6,7 @@ import bg.fmi.popcornpals.dto.PlaylistRequestDTO;
 import bg.fmi.popcornpals.service.PlaylistService;
 import bg.fmi.popcornpals.util.PaginationProperties;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping(path = "api/playlists/")
 public class PlaylistController {
