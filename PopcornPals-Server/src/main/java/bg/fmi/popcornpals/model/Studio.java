@@ -2,8 +2,11 @@ package bg.fmi.popcornpals.model;
 
 import bg.fmi.popcornpals.util.StringSize;
 import bg.fmi.popcornpals.util.RegexPattern;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -14,7 +17,6 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
-
 
 @Data
 @Entity

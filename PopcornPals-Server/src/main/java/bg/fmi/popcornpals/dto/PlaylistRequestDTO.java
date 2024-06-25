@@ -1,6 +1,5 @@
 package bg.fmi.popcornpals.dto;
 
-import bg.fmi.popcornpals.model.Playlist;
 import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.StringSize;
 import jakarta.validation.constraints.NotBlank;

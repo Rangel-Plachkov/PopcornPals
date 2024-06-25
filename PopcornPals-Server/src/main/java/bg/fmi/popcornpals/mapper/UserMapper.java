@@ -5,7 +5,6 @@ import bg.fmi.popcornpals.dto.UserRequestDTO;
 import bg.fmi.popcornpals.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
 import java.util.List;
 
 @Mapper(componentModel = "spring")

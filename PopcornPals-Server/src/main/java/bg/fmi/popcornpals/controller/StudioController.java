@@ -1,7 +1,6 @@
 package bg.fmi.popcornpals.controller;
 
 import bg.fmi.popcornpals.dto.StudioDTO;
-import bg.fmi.popcornpals.mapper.StudioMapper;
 import bg.fmi.popcornpals.dto.StudioRequestDTO;
 import bg.fmi.popcornpals.service.StudioService;
 import bg.fmi.popcornpals.util.PaginationProperties;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 
 @RestController
@@ -28,8 +26,6 @@ public class StudioController {
     @Autowired
     private StudioService studioService;
 
-    @Autowired
-    private StudioMapper studioMapper;
 
     @PostMapping
     public ResponseEntity<StudioDTO> createStudio(@Valid @RequestBody StudioRequestDTO studio) {

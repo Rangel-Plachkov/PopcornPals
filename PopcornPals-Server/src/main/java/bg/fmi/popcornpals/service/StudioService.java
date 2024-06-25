@@ -1,6 +1,5 @@
 package bg.fmi.popcornpals.service;
 
-import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.StudioDTO;
 import bg.fmi.popcornpals.dto.StudioRequestDTO;
 import bg.fmi.popcornpals.exception.notfound.StudioNotFoundException;
@@ -8,14 +7,11 @@ import bg.fmi.popcornpals.mapper.StudioMapper;
 import bg.fmi.popcornpals.model.Studio;
 import bg.fmi.popcornpals.repository.StudioRepository;
 import bg.fmi.popcornpals.repository.MediaRepository;
-import bg.fmi.popcornpals.model.Media;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-
 import java.util.List;
 
 @Service
@@ -23,8 +19,6 @@ public class StudioService {
 
     @Autowired
     private StudioRepository studioRepository;
-    @Autowired
-    private MediaRepository mediaRepository;
     @Autowired
     private StudioMapper studioMapper;
 

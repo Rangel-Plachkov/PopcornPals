@@ -3,7 +3,6 @@ package bg.fmi.popcornpals.mapper;
 import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.MediaRequestDTO;
 import bg.fmi.popcornpals.model.Media;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;

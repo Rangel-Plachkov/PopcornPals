@@ -1,16 +1,23 @@
 package bg.fmi.popcornpals.controller;
 
 import bg.fmi.popcornpals.dto.ReviewRequestDTO;
-import bg.fmi.popcornpals.mapper.ReviewMapper;
 import bg.fmi.popcornpals.service.ReviewService;
 import bg.fmi.popcornpals.dto.ReviewDTO;
 import bg.fmi.popcornpals.util.PaginationProperties;
 import bg.fmi.popcornpals.util.ReviewSortTypes;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
 @RestController
