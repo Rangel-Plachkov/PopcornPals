@@ -1,5 +1,6 @@
 package bg.fmi.popcornpals.controller;
 
+import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.StudioDTO;
 import bg.fmi.popcornpals.dto.StudioRequestDTO;
 import bg.fmi.popcornpals.service.StudioService;
@@ -44,6 +45,15 @@ public class StudioController {
             @RequestParam(value = "name", required = false) String studioName) {
         return new ResponseEntity<>(studioService.getStudios(pageNo, pageSize, studioName), HttpStatus.OK);
     }
+
+    @GetMapping("{id}/media")
+    public ResponseEntity<List<MediaDTO>> getStudioMedia(
+            @PathVariable("id") Long studioId,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize) {
+        return new ResponseEntity<>(studioService.getStudioMedia(pageNo,pageSize,studioId), HttpStatus.OK);
+    }
+
 
     @PutMapping("{id}")
     public ResponseEntity<StudioDTO> updateStudio(@PathVariable("id") Long studioId,

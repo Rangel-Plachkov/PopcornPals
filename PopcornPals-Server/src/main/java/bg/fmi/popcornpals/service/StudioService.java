@@ -1,10 +1,13 @@
 package bg.fmi.popcornpals.service;
 
+import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.StudioDTO;
 import bg.fmi.popcornpals.dto.StudioRequestDTO;
 import bg.fmi.popcornpals.exception.notfound.StudioNotFoundException;
 import bg.fmi.popcornpals.mapper.StudioMapper;
+import bg.fmi.popcornpals.mapper.MediaMapper;
 import bg.fmi.popcornpals.model.Studio;
+import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.repository.StudioRepository;
 import bg.fmi.popcornpals.repository.MediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +23,11 @@ public class StudioService {
     @Autowired
     private StudioRepository studioRepository;
     @Autowired
+    private MediaRepository mediaRepository;
+    @Autowired
     private StudioMapper studioMapper;
+    @Autowired
+    private MediaMapper mediaMapper;
 
 
     public StudioDTO createStudio(StudioRequestDTO studioDTO) {
@@ -44,6 +51,17 @@ public class StudioService {
             studios = studioRepository.findAll(pageable);
         }
         return studioMapper.toDTOList(studios.getContent());
+    }
+    public List<MediaDTO> getStudioMedia(Integer pageNo, Integer pageSize,Long studioId) {
+        Studio studio = studioRepository.findById(studioId)
+                .orElseThrow(StudioNotFoundException::new);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        Page<Media> media = null;
+        media = mediaRepository.findByStudio(studio, pageable);
+        if(media.isEmpty()) {
+            return null;
+        }
+        return mediaMapper.toDTOList(media.getContent());
     }
 
 
