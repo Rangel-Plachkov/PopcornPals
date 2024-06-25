@@ -3,6 +3,7 @@ package bg.fmi.popcornpals.service;
 import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.StudioDTO;
 import bg.fmi.popcornpals.dto.StudioRequestDTO;
+import bg.fmi.popcornpals.exception.nocontent.NoAssignedMediaException;
 import bg.fmi.popcornpals.exception.notfound.StudioNotFoundException;
 import bg.fmi.popcornpals.mapper.StudioMapper;
 import bg.fmi.popcornpals.mapper.MediaMapper;
@@ -59,7 +60,7 @@ public class StudioService {
         Page<Media> media = null;
         media = mediaRepository.findByStudio(studio, pageable);
         if(media.isEmpty()) {
-            return null;
+            throw new NoAssignedMediaException();
         }
         return mediaMapper.toDTOList(media.getContent());
     }
