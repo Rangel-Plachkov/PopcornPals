@@ -15,4 +15,5 @@ public interface MediaRepository extends JpaRepository<Media, Long>{
     Page<Media> findByType(MediaType type, Pageable pageable);
     Page<Media> findByGenre(Genre genre, Pageable pageable);
 
+
 }

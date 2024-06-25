@@ -1,10 +1,14 @@
 package bg.fmi.popcornpals.service;
 
+import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.StudioDTO;
+import bg.fmi.popcornpals.dto.StudioRequestDTO;
 import bg.fmi.popcornpals.exception.notfound.StudioNotFoundException;
 import bg.fmi.popcornpals.mapper.StudioMapper;
 import bg.fmi.popcornpals.model.Studio;
 import bg.fmi.popcornpals.repository.StudioRepository;
+import bg.fmi.popcornpals.repository.MediaRepository;
+import bg.fmi.popcornpals.model.Media;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +24,12 @@ public class StudioService {
     @Autowired
     private StudioRepository studioRepository;
     @Autowired
+    private MediaRepository mediaRepository;
+    @Autowired
     private StudioMapper studioMapper;
 
 
-    public StudioDTO createStudio(StudioDTO studioDTO) {
+    public StudioDTO createStudio(StudioRequestDTO studioDTO) {
         Studio studio = studioMapper.toEntity(studioDTO);
         studio.setID(null);
         Studio createdStudio = studioRepository.save(studio);
@@ -46,7 +52,8 @@ public class StudioService {
         return studioMapper.toDTOList(studios.getContent());
     }
 
-    public StudioDTO updateStudio(Long studioId, StudioDTO studioDTO) {
+
+    public StudioDTO updateStudio(Long studioId, StudioRequestDTO studioDTO) {
         Studio studio = studioRepository.findById(studioId)
                 .orElseThrow(StudioNotFoundException::new);
 

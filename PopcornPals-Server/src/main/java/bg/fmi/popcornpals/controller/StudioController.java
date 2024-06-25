@@ -2,7 +2,7 @@ package bg.fmi.popcornpals.controller;
 
 import bg.fmi.popcornpals.dto.StudioDTO;
 import bg.fmi.popcornpals.mapper.StudioMapper;
-import bg.fmi.popcornpals.model.Studio;
+import bg.fmi.popcornpals.dto.StudioRequestDTO;
 import bg.fmi.popcornpals.service.StudioService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +31,7 @@ public class StudioController {
     private StudioMapper studioMapper;
 
     @PostMapping
-    public ResponseEntity<StudioDTO> createStudio(@Valid @RequestBody StudioDTO studio) {
-        studio.setID(null);
+    public ResponseEntity<StudioDTO> createStudio(@Valid @RequestBody StudioRequestDTO studio) {
         return new ResponseEntity<>(studioService.createStudio(studio), HttpStatus.CREATED);
     }
 
@@ -51,7 +50,7 @@ public class StudioController {
 
     @PutMapping("{id}")
     public ResponseEntity<StudioDTO> updateStudio(@PathVariable("id") Long studioId,
-                                                  @RequestBody @Valid StudioDTO studioDTO) {
+                                                  @RequestBody @Valid StudioRequestDTO studioDTO) {
         return new ResponseEntity<>(studioService.updateStudio(studioId, studioDTO), HttpStatus.OK);
     }
 
