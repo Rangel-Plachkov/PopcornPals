@@ -26,7 +26,6 @@ import java.util.List;
 public class MediaController {
     @Autowired
     private MediaService mediaService;
-
     @PostMapping
     public ResponseEntity<MediaDTO> createMedia(@Valid @RequestBody MediaRequestDTO media) {
         return new ResponseEntity<>(mediaService.createMedia(media), HttpStatus.CREATED);
@@ -66,7 +65,6 @@ public class MediaController {
                                                 @PathVariable Long studioId) {
         return new ResponseEntity<>(mediaService.assignStudio(id, studioId), HttpStatus.OK);
     }
-    
     @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteMediaById(@PathVariable Long id) {
         mediaService.deleteMediaById(id);
