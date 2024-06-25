@@ -4,6 +4,7 @@ import bg.fmi.popcornpals.dto.ActorDTO;
 import bg.fmi.popcornpals.dto.ActorRequestDTO;
 import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.service.ActorService;
+import bg.fmi.popcornpals.util.PaginationProperties;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,8 @@ public class ActorController {
 
     @GetMapping
     public ResponseEntity<List<ActorDTO>> getActors(
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize,
             @RequestParam(value = "name", required = false) String actorName) {
         return new ResponseEntity<>(actorService.getActors(pageNo, pageSize, actorName), HttpStatus.OK);
     }

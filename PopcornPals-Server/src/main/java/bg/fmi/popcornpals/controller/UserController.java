@@ -4,6 +4,7 @@ import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
 import bg.fmi.popcornpals.dto.UserRequestDTO;
 import bg.fmi.popcornpals.service.UserService;
+import bg.fmi.popcornpals.util.PaginationProperties;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,8 +25,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getUsers(
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize,
             @RequestParam(value = "name", required = false) String name,
             @RequestParam(value = "username", required = false) String username) {
         return new ResponseEntity<>(userService.getUsers(pageNo, pageSize, name, username), HttpStatus.OK);

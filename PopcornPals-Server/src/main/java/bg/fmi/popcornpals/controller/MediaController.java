@@ -7,6 +7,7 @@ import bg.fmi.popcornpals.dto.MediaRequestDTO;
 import bg.fmi.popcornpals.dto.StudioDTO;
 import bg.fmi.popcornpals.service.MediaService;
 import bg.fmi.popcornpals.util.Genre;
+import bg.fmi.popcornpals.util.PaginationProperties;
 import bg.fmi.popcornpals.util.MediaType;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,8 @@ public class MediaController {
         return new ResponseEntity<>(mediaService.getMediaById(id), HttpStatus.OK);
     }
     @GetMapping
-    public ResponseEntity<List<MediaDTO>> getMedia(@RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
-                                                   @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+    public ResponseEntity<List<MediaDTO>> getMedia(@RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO , required = false) Integer pageNo,
+                                                   @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize,
                                                    @RequestParam (name = "title", required = false) String title,
                                                    @RequestParam (name = "type", required = false)  MediaType type,
                                                    @RequestParam (name = "genre", required = false) Genre genre) {

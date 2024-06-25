@@ -5,6 +5,7 @@ import bg.fmi.popcornpals.dto.ProducerDTO;
 import bg.fmi.popcornpals.dto.ProducerRequestDTO;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.service.ProducerService;
+import bg.fmi.popcornpals.util.PaginationProperties;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,8 @@ public class ProducerController {
 
     @GetMapping
     public ResponseEntity<List<ProducerDTO>> getProducers(
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize,
             @RequestParam(value = "name", required = false) String producerName) {
         return new ResponseEntity<>(producerService.getProducers(pageNo, pageSize, producerName), HttpStatus.OK);
     }

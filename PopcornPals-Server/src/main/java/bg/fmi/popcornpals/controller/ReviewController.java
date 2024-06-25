@@ -4,6 +4,7 @@ import bg.fmi.popcornpals.dto.ReviewRequestDTO;
 import bg.fmi.popcornpals.mapper.ReviewMapper;
 import bg.fmi.popcornpals.service.ReviewService;
 import bg.fmi.popcornpals.dto.ReviewDTO;
+import bg.fmi.popcornpals.util.PaginationProperties;
 import bg.fmi.popcornpals.util.ReviewSortTypes;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -34,8 +35,8 @@ public class ReviewController {
             @RequestParam(value = "mediaID" , required = false) Long mediaID,
             @RequestParam(value = "userID" ,required = false) Long userID,
             @RequestBody(required = false)ReviewSortTypes sortType,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) {
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize) {
         return new ResponseEntity<>(reviewService.getReview(mediaID, userID, sortType, pageNo, pageSize), HttpStatus.OK);
     }
 

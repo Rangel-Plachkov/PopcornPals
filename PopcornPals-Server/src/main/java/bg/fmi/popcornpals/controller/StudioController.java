@@ -4,6 +4,7 @@ import bg.fmi.popcornpals.dto.StudioDTO;
 import bg.fmi.popcornpals.mapper.StudioMapper;
 import bg.fmi.popcornpals.dto.StudioRequestDTO;
 import bg.fmi.popcornpals.service.StudioService;
+import bg.fmi.popcornpals.util.PaginationProperties;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,8 +43,8 @@ public class StudioController {
 
     @GetMapping
     public ResponseEntity<List<StudioDTO>> getStudios(
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize,
             @RequestParam(value = "name", required = false) String studioName) {
         return new ResponseEntity<>(studioService.getStudios(pageNo, pageSize, studioName), HttpStatus.OK);
     }
