@@ -1,13 +1,15 @@
 package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.ActorDTO;
+import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.MediaRequestDTO;
+import bg.fmi.popcornpals.dto.ProducerDTO;
 import bg.fmi.popcornpals.dto.StudioDTO;
 import bg.fmi.popcornpals.exception.notfound.MediaNotFoundException;
 import bg.fmi.popcornpals.exception.nocontent.NoAssignedStudioException;
+import bg.fmi.popcornpals.mapper.ProducerMapper;
 import bg.fmi.popcornpals.mapper.StudioMapper;
 import bg.fmi.popcornpals.model.Media;
-import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.model.Studio;
 import bg.fmi.popcornpals.exception.notfound.StudioNotFoundException;
 import bg.fmi.popcornpals.repository.MediaRepository;
@@ -27,17 +29,16 @@ import java.util.List;
 public class MediaService {
     @Autowired
     private MediaRepository mediaRepository;
-
+    @Autowired
+    private StudioRepository studioRepository;
     @Autowired
     private MediaMapper mediaMapper;
-
     @Autowired
     private StudioMapper studioMapper;
     @Autowired
-    private StudioRepository studioRepository;
-
-    @Autowired
     private ActorMapper actorMapper;
+    @Autowired
+    private ProducerMapper producerMapper;
 
     public MediaDTO createMedia(MediaRequestDTO media) {
         Media newMedia = mediaMapper.toEntity(media);
@@ -67,8 +68,12 @@ public class MediaService {
     public List<ActorDTO> getActorsInMedia(Long id) {
         Media media = mediaRepository.findById(id)
                 .orElseThrow(MediaNotFoundException::new);
-
         return actorMapper.toDTOList(media.getActors());
+    }
+    public List<ProducerDTO> getProducerOfMedia(Long id) {
+        Media media = mediaRepository.findById(id)
+                .orElseThrow(MediaNotFoundException::new);
+        return producerMapper.toDTOList(media.getProducers());
     }
     public StudioDTO getStudioOfMedia(Long id) {
         Media media = mediaRepository.findById(id)
@@ -79,6 +84,7 @@ public class MediaService {
         }
         return studioMapper.toDTO(media.getStudio());
     }
+
 
     public MediaDTO updateMedia(Long mediaId ,MediaRequestDTO media) {
         Media existingMedia = mediaRepository.findById(mediaId)

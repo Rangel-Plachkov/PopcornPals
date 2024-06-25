@@ -1,9 +1,6 @@
 package bg.fmi.popcornpals.controller;
 
-import bg.fmi.popcornpals.dto.ActorDTO;
-import bg.fmi.popcornpals.dto.MediaDTO;
-import bg.fmi.popcornpals.dto.MediaRequestDTO;
-import bg.fmi.popcornpals.dto.StudioDTO;
+import bg.fmi.popcornpals.dto.*;
 import bg.fmi.popcornpals.service.MediaService;
 import bg.fmi.popcornpals.util.Genre;
 import bg.fmi.popcornpals.util.PaginationProperties;
@@ -49,6 +46,10 @@ public class MediaController {
     @GetMapping("{id}/actors")
     public ResponseEntity<List<ActorDTO>> getActorsInMedia(@PathVariable Long id) {
         return new ResponseEntity<>(mediaService.getActorsInMedia(id), HttpStatus.OK);
+    }
+    @GetMapping("{id}/producers")
+    public ResponseEntity<List<ProducerDTO>> getProducersInMedia(@PathVariable Long id) {
+        return new ResponseEntity<>(mediaService.getProducerOfMedia(id), HttpStatus.OK);
     }
     @GetMapping("{id}/studio")
     public ResponseEntity<StudioDTO> getStudioOfMedia(@PathVariable Long id) {
