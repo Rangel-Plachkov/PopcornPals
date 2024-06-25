@@ -44,7 +44,9 @@ public class MediaService {
 
     public MediaDTO createMedia(MediaRequestDTO media) {
         Media newMedia = mediaMapper.toEntity(media);
-        return mediaMapper.toDTO(mediaRepository.save(newMedia));
+        Media savedMedia = mediaRepository.save(newMedia);
+        log.info("Media with id {} was created", savedMedia.getID());
+        return mediaMapper.toDTO(savedMedia);
     }
 
     public MediaDTO getMediaById(Long id) {
@@ -92,7 +94,9 @@ public class MediaService {
         Media existingMedia = mediaRepository.findById(mediaId)
                 .orElseThrow(MediaNotFoundException::new);
         existingMedia = mediaMapper.toEntity(media);
-        return mediaMapper.toDTO(mediaRepository.save(existingMedia));
+        Media updatedMedia = mediaRepository.save(existingMedia);
+        log.info("Media with id {} was updated", updatedMedia.getID());
+        return mediaMapper.toDTO(updatedMedia);
     }
     public MediaDTO assignStudio(Long mediaId, Long studioId) {
         Media media = mediaRepository.findById(mediaId)
@@ -100,12 +104,14 @@ public class MediaService {
         Studio studio = studioRepository.findById(studioId)
                 .orElseThrow(StudioNotFoundException::new);
         media.setStudio(studio);
+        log.info("Assigned studio with id {} to media with id {}", studioId, mediaId);
         return mediaMapper.toDTO(mediaRepository.save(media));
     }
 
     public void deleteMediaById(Long id) {
         Media toDelete = mediaRepository.findById(id)
                 .orElseThrow(MediaNotFoundException::new);
+        log.info("Media with id {} was deleted", id);
         mediaRepository.delete(toDelete);
     }
 }

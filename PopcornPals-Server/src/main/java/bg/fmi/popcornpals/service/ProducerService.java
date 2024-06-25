@@ -66,6 +66,7 @@ public class ProducerService {
         producer.setProducedMedia(producedMedia);
 
         Producer newProducer = producerRepository.save(producer);
+        log.info("Created new producer with id: " + newProducer.getID());
         return producerMapper.toDTO(newProducer);
     }
 
@@ -82,12 +83,14 @@ public class ProducerService {
         producer.setProducedMedia(producedMedia);
 
         Producer newProducer = producerRepository.save(producer);
+        log.info("Updated producer with id: " + newProducer.getID());
         return producerMapper.toDTO(newProducer);
     }
 
     public void deleteProducer(Long producerId) {
         Producer toDelete = producerRepository.findById(producerId)
                 .orElseThrow(ProducerNotFoundException::new);
+        log.info("Deleted producer with id: " + toDelete.getID());
         producerRepository.delete(toDelete);
     }
 

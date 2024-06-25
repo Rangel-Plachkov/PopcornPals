@@ -66,6 +66,7 @@ public class ActorService {
         actor.setStarsIn(starsIn);
 
         Actor newActor = actorRepository.save(actor);
+        log.info("Created new actor with id: " + newActor.getID());
         return actorMapper.toDTO(newActor);
     }
 
@@ -82,6 +83,7 @@ public class ActorService {
         actor.setStarsIn(starsIn);
 
         Actor updatedActor = actorRepository.save(actor);
+        log.info("Updated actor with id: " + updatedActor.getID());
         return actorMapper.toDTO(updatedActor);
     }
 
@@ -89,6 +91,7 @@ public class ActorService {
         Actor toDelete = actorRepository.findById(actorId)
                 .orElseThrow(ActorNotFoundException::new);
         actorRepository.delete(toDelete);
+        log.info("Deleted actor with id: " + actorId);
     }
 
     public List<MediaDTO> getMedia(Long actorId) {

@@ -37,6 +37,7 @@ public class StudioService {
         Studio studio = studioMapper.toEntity(studioDTO);
         studio.setID(null);
         Studio createdStudio = studioRepository.save(studio);
+        log.info("Studio with id {} was created", createdStudio.getID());
         return studioMapper.toDTO(createdStudio);
     }
     public StudioDTO getStudioById(Long id) {
@@ -73,11 +74,13 @@ public class StudioService {
                 .orElseThrow(StudioNotFoundException::new);
         studio = studioMapper.toEntity(studioDTO);
         Studio updatedStudio = studioRepository.save(studio);
+        log.info("Studio with id {} was updated", updatedStudio.getID());
         return studioMapper.toDTO(updatedStudio);
     }
     public void deleteStudio(Long id) {
         Studio toDelete = studioRepository.findById(id)
                 .orElseThrow(StudioNotFoundException::new);
+        log.info("Studio with id {} was deleted", toDelete.getID());
         studioRepository.delete(toDelete);
     }
 }

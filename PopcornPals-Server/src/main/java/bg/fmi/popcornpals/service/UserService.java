@@ -57,6 +57,7 @@ public class UserService {
 
     public UserDTO createUser(UserRequestDTO userRequestDTO) {
         User newUser = userRepository.save(userMapper.toEntity(userRequestDTO));
+        log.info("User with id {} was created", newUser.getID());
         return userMapper.toDTO(newUser);
     }
 
@@ -68,13 +69,14 @@ public class UserService {
         user.setUsername(userRequestDTO.getUsername());
         user.setDescription(userRequestDTO.getDescription());
         user.setBirthday(userRequestDTO.getBirthday());
-
+        log.info("User with id {} was updated", user.getID());
         return userMapper.toDTO(userRepository.save(user));
     }
 
     public void deleteUser(Long userId) {
         User toDelete = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
+        log.info("User with id {} was deleted", toDelete.getID());
         userRepository.delete(toDelete);
     }
 
