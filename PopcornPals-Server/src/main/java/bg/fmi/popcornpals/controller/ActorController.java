@@ -6,6 +6,7 @@ import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.service.ActorService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +29,7 @@ public class ActorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ActorDTO>> getActors(
+    public ResponseEntity<Page<ActorDTO>> getActors(
             @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
             @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
             @RequestParam(value = "name", required = false) String actorName) {

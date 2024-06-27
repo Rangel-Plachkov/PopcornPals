@@ -36,7 +36,7 @@ public class ActorService {
         this.mediaMapper = mediaMapper;
     }
 
-    public List<ActorDTO> getActors(Integer pageNo, Integer pageSize, String actorName) {
+    public Page<ActorDTO> getActors(Integer pageNo, Integer pageSize, String actorName) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Actor> actors = null;
         if(actorName != null) {
@@ -45,7 +45,8 @@ public class ActorService {
         else {
             actors = actorRepository.findAll(pageable);
         }
-        return actorMapper.toDTOList(actors.getContent());
+        return actors.map(actor -> actorMapper.toDTO(actor));
+        //return actorMapper.toDTOList(actors.getContent());
     }
 
     public ActorDTO getActorById(Long actorId) {
