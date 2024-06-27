@@ -11,6 +11,7 @@ import bg.fmi.popcornpals.model.Studio;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.repository.StudioRepository;
 import bg.fmi.popcornpals.repository.MediaRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import java.util.List;
 
+@Slf4j
 @Service
 public class StudioService {
 
@@ -35,6 +37,7 @@ public class StudioService {
         Studio studio = studioMapper.toEntity(studioDTO);
         studio.setID(null);
         Studio createdStudio = studioRepository.save(studio);
+        log.info("Studio with id {} was created", createdStudio.getID());
         return studioMapper.toDTO(createdStudio);
     }
     public StudioDTO getStudioById(Long id) {
@@ -71,11 +74,13 @@ public class StudioService {
                 .orElseThrow(StudioNotFoundException::new);
         studio = studioMapper.toEntity(studioDTO);
         Studio updatedStudio = studioRepository.save(studio);
+        log.info("Studio with id {} was updated", updatedStudio.getID());
         return studioMapper.toDTO(updatedStudio);
     }
     public void deleteStudio(Long id) {
         Studio toDelete = studioRepository.findById(id)
                 .orElseThrow(StudioNotFoundException::new);
+        log.info("Studio with id {} was deleted", toDelete.getID());
         studioRepository.delete(toDelete);
     }
 }

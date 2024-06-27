@@ -13,6 +13,7 @@ import bg.fmi.popcornpals.model.User;
 import bg.fmi.popcornpals.repository.MediaRepository;
 import bg.fmi.popcornpals.repository.PlaylistRepository;
 import bg.fmi.popcornpals.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class PlaylistService {
     private final PlaylistRepository playlistRepository;
@@ -74,6 +76,7 @@ public class PlaylistService {
         playlist.setContent(mediaList);
 
         Playlist newPlaylist = playlistRepository.save(playlist);
+        log.info("Created new playlist with id: " + newPlaylist.getID());
         return playlistMapper.toDTO(newPlaylist);
     }
 
@@ -87,12 +90,15 @@ public class PlaylistService {
                 : new ArrayList<Media>();
         playlist.setContent(mediaList);
 
-        return playlistMapper.toDTO(playlistRepository.save(playlist));
+        Playlist updatedPlaylist = playlistRepository.save(playlist);
+        log.info("Updated playlist with id: " + updatedPlaylist.getID());
+        return playlistMapper.toDTO(updatedPlaylist);
     }
 
     public void deletePlaylist(Long playlistId) {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(PlaylistNotFoundException::new);
+        log.info("Deleted playlist with id: " + playlist.getID());
         playlistRepository.delete(playlist);
     }
 

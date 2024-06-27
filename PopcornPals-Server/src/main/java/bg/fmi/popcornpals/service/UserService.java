@@ -9,6 +9,7 @@ import bg.fmi.popcornpals.mapper.UserMapper;
 import bg.fmi.popcornpals.model.User;
 import bg.fmi.popcornpals.repository.PlaylistRepository;
 import bg.fmi.popcornpals.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+@Slf4j
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -55,6 +57,7 @@ public class UserService {
 
     public UserDTO createUser(UserRequestDTO userRequestDTO) {
         User newUser = userRepository.save(userMapper.toEntity(userRequestDTO));
+        log.info("User with id {} was created", newUser.getID());
         return userMapper.toDTO(newUser);
     }
 
@@ -66,13 +69,14 @@ public class UserService {
         user.setUsername(userRequestDTO.getUsername());
         user.setDescription(userRequestDTO.getDescription());
         user.setBirthday(userRequestDTO.getBirthday());
-
+        log.info("User with id {} was updated", user.getID());
         return userMapper.toDTO(userRepository.save(user));
     }
 
     public void deleteUser(Long userId) {
         User toDelete = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
+        log.info("User with id {} was deleted", toDelete.getID());
         userRepository.delete(toDelete);
     }
 

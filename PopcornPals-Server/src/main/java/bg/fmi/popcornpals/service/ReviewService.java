@@ -13,6 +13,7 @@ import bg.fmi.popcornpals.repository.MediaRepository;
 import bg.fmi.popcornpals.repository.ReviewRepository;
 import bg.fmi.popcornpals.repository.UserRepository;
 import bg.fmi.popcornpals.util.ReviewSortTypes;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+@Slf4j
 @Service
 public class ReviewService {
 
@@ -42,6 +44,7 @@ public class ReviewService {
         newReview.setCreator(user);
         newReview.setMedia(media);
         Review savedReview = reviewRepository.save(newReview);
+        log.info("Review with id {} was created", savedReview.getID());
         return reviewMapper.toDTO(savedReview);
     }
     public ReviewDTO getReviewById(Long id) {
@@ -78,11 +81,14 @@ public class ReviewService {
         Review existingReview = reviewRepository.findById(reviewID)
                 .orElseThrow(ReviewNotFoundException::new);
         existingReview = reviewMapper.toEntity(review);
-        return reviewMapper.toDTO(reviewRepository.save(existingReview));
+        Review updatedReview = reviewRepository.save(existingReview);
+        log.info("Review with id {} was updated", updatedReview.getID());
+        return reviewMapper.toDTO(updatedReview);
     }
     public void deleteReviewById(Long id) {
         Review existingReview = reviewRepository.findById(id)
                 .orElseThrow(ReviewNotFoundException::new);
+        log.info("Review with id {} was deleted", existingReview.getID());
         reviewRepository.delete(existingReview);
     }
 
