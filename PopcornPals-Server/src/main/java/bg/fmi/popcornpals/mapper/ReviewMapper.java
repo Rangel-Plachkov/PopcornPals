@@ -1,15 +1,12 @@
 package bg.fmi.popcornpals.mapper;
 
-import bg.fmi.popcornpals.dto.MediaRequestDTO;
 import bg.fmi.popcornpals.dto.ReviewRequestDTO;
-import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.model.Review;
 import bg.fmi.popcornpals.dto.ReviewDTO;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;

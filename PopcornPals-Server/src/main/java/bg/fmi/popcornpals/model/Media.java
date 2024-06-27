@@ -4,8 +4,14 @@ import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.StringSize;
 import bg.fmi.popcornpals.util.Genre;
 import bg.fmi.popcornpals.util.MediaType;
-
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,11 +20,9 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.util.List;
 import java.util.Objects;
 import java.time.LocalDate;
-
 
 @Entity
 @Data

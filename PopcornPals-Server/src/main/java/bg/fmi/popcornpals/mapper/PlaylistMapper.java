@@ -6,8 +6,6 @@ import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.model.Playlist;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-
 import java.util.ArrayList;
 import java.util.List;
 

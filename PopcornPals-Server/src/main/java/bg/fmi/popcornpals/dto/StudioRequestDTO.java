@@ -14,9 +14,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudioDTO {
-
-    private Long ID;
+public class StudioRequestDTO {
 
     @NotNull(message = "Studio: Name cannot be null")
     @NotBlank(message = "Studio: Name cannot be blank")
@@ -30,17 +28,7 @@ public class StudioDTO {
 
     private LocalDate foundingDate;
 
-    public StudioDTO(String name, String description, LocalDate foundingDate) {
-        this.name = name;
-        this.description = description;
-        this.foundingDate = foundingDate;
-    }
-
-    public StudioDTO(Long ID, String name) {
-        this.ID = ID;
-        this.name = name;
-    }
-    public StudioDTO(String name) {
+    public StudioRequestDTO(String name) {
         this.name = name;
     }
 }

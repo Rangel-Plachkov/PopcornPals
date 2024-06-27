@@ -1,9 +1,9 @@
 package bg.fmi.popcornpals.controller;
 
 import bg.fmi.popcornpals.dto.StudioDTO;
-import bg.fmi.popcornpals.mapper.StudioMapper;
-import bg.fmi.popcornpals.model.Studio;
+import bg.fmi.popcornpals.dto.StudioRequestDTO;
 import bg.fmi.popcornpals.service.StudioService;
+import bg.fmi.popcornpals.util.PaginationProperties;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import java.util.List;
 
 @RestController
@@ -27,12 +26,9 @@ public class StudioController {
     @Autowired
     private StudioService studioService;
 
-    @Autowired
-    private StudioMapper studioMapper;
 
     @PostMapping
-    public ResponseEntity<StudioDTO> createStudio(@Valid @RequestBody StudioDTO studio) {
-        studio.setID(null);
+    public ResponseEntity<StudioDTO> createStudio(@Valid @RequestBody StudioRequestDTO studio) {
         return new ResponseEntity<>(studioService.createStudio(studio), HttpStatus.CREATED);
     }
 
@@ -43,15 +39,15 @@ public class StudioController {
 
     @GetMapping
     public ResponseEntity<List<StudioDTO>> getStudios(
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize,
             @RequestParam(value = "name", required = false) String studioName) {
         return new ResponseEntity<>(studioService.getStudios(pageNo, pageSize, studioName), HttpStatus.OK);
     }
 
     @PutMapping("{id}")
     public ResponseEntity<StudioDTO> updateStudio(@PathVariable("id") Long studioId,
-                                                  @RequestBody @Valid StudioDTO studioDTO) {
+                                                  @RequestBody @Valid StudioRequestDTO studioDTO) {
         return new ResponseEntity<>(studioService.updateStudio(studioId, studioDTO), HttpStatus.OK);
     }
 

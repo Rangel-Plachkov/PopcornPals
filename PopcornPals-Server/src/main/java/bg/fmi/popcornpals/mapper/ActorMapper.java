@@ -4,10 +4,8 @@ import bg.fmi.popcornpals.dto.ActorDTO;
 import bg.fmi.popcornpals.dto.ActorRequestDTO;
 import bg.fmi.popcornpals.model.Actor;
 import bg.fmi.popcornpals.model.Media;
-import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
 import java.util.ArrayList;
 import java.util.List;
 
