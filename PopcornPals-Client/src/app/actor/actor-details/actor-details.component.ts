@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MaterialModule } from "../material/material.module";
-import { Actor } from "../models/actor"
-import { ActorService } from '../services/actor.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { MaterialModule } from "../../material/material.module";
+import { Actor } from "../../models/actor"
+import { ActorService } from '../../services/actor.service';
+import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { error } from 'console';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -31,5 +31,14 @@ export class ActorDetailsComponent implements OnInit {
       console.log(error.error.message);
       this.router.navigate([`**`]);
     });
+  }
+
+  viewMedia() {
+    this.router.navigate([`actors/${this.id}/media`]);
+  }
+
+  deleteActor() {
+    this.actorService.deleteActor(this.id).subscribe();
+    this.router.navigate([`actors`]);
   }
 }

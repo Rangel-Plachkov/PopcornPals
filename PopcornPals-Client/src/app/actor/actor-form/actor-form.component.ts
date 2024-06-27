@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { MaterialModule } from "../material/material.module";
+import { MaterialModule } from "../../material/material.module";
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { ReactiveFormsModule, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Validators } from '@angular/forms';
-import { ActorService } from '../services/actor.service';
+import { ActorService } from '../../services/actor.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgFor, NgIf } from '@angular/common';
 

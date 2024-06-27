@@ -27,4 +27,14 @@ export class ActorService {
   public createActor(actor: any): Observable<any> {
     return this.http.post<Actor>(this.actorUrl, actor); 
   }
+
+  public getMedia(id: number | string, pageNo: number, pageSize: number) {
+    let queryParams = new HttpParams().append("pageNo", pageNo)
+                                      .append("pageSize", pageSize);
+    return this.http.get<Actor>(this.actorUrl + `${id}/media/`, { params: queryParams });
+  }
+
+  public deleteActor(id: number | string) {
+    return this.http.delete(this.actorUrl + `${id}`);
+  }
 }

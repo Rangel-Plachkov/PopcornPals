@@ -54,8 +54,11 @@ public class ActorController {
     }
 
     @GetMapping("{id}/media/")
-    public ResponseEntity<List<MediaDTO>> getMedia(@PathVariable("id") Long actorId) {
-        List<MediaDTO> media = actorService.getMedia(actorId);
+    public ResponseEntity<Page<MediaDTO>> getMedia(
+            @PathVariable("id") Long actorId,
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) {
+        Page<MediaDTO> media = actorService.getMedia(actorId, pageNo, pageSize);
         if(media.isEmpty()) {
             return new ResponseEntity<>(media, HttpStatus.NO_CONTENT);
         }

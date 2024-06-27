@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { MaterialModule } from '../material/material.module';
-import { ActorService } from '../services/actor.service';
-import { Actor } from '../models/actor';
+import { MaterialModule } from '../../material/material.module';
+import { ActorService } from '../../services/actor.service';
+import { Actor } from '../../models/actor';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 
@@ -14,7 +14,7 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class ActorListComponent implements OnInit {
   title: string = "Actors";
-  displayedColumns: string[] = ['id', 'name', 'description', 'birthdate', 'details'];
+  displayedColumns: string[] = ['name', 'description', 'birthdate', 'details'];
   actors: Actor[] = [];
 
   pageNo:number = 0;

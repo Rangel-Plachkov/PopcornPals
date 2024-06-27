@@ -1,0 +1,17 @@
+<mat-card class="actor" appearance="outlined">
+    <mat-card-header>
+        <mat-card-title>
+            {{ actor.name }}
+        </mat-card-title>
+        <mat-card-subtitle>
+            Birthdate: {{ actor.birthdate }}
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        {{ actor.description }}
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-flat-button color="primary" (click)="viewMedia()">Media</button>
+        <button mat-flat-button color="accent" (click)="deleteActor()">Delete Actor</button>
+    </mat-card-actions>
+</mat-card>

@@ -12,6 +12,7 @@ import bg.fmi.popcornpals.repository.ActorRepository;
 import bg.fmi.popcornpals.repository.MediaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -92,9 +93,14 @@ public class ActorService {
         actorRepository.delete(toDelete);
     }
 
-    public List<MediaDTO> getMedia(Long actorId) {
+    public Page<MediaDTO> getMedia(Long actorId, Integer pageNo, Integer pageSize) {
         Actor actor = actorRepository.findById(actorId)
                 .orElseThrow(ActorNotFoundException::new);
-        return mediaMapper.toDTOList(actor.getStarsIn());
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<MediaDTO> mediaList = mediaMapper.toDTOList(actor.getStarsIn());
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), mediaList.size());
+        List<MediaDTO> pageContent = mediaList.subList(start, end);
+        return new PageImpl<>(pageContent, pageable, mediaList.size());
     }
 }
