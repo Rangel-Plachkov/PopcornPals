@@ -31,7 +31,7 @@ export class ActorService {
   public getMedia(id: number | string, pageNo: number, pageSize: number) {
     let queryParams = new HttpParams().append("pageNo", pageNo)
                                       .append("pageSize", pageSize);
-    return this.http.get<Actor>(this.actorUrl + `${id}/media/`, { params: queryParams });
+    return this.http.get<any>(this.actorUrl + `${id}/media/`, { params: queryParams });
   }
 
   public deleteActor(id: number | string) {

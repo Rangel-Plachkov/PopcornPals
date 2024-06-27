@@ -18,8 +18,7 @@ export const routes: Routes = [
     },
     { 
         path: 'actors/:id', 
-        component: ActorDetailsComponent,
-        title: 'Actor'
+        component: ActorDetailsComponent
     },
     {
         path: 'actors/:id/media',
@@ -27,11 +26,13 @@ export const routes: Routes = [
     },
     {
         path: 'create',
-        component: ActorFormComponent
+        component: ActorFormComponent,
+        title: 'Create Actor'
     },
     {
         path: '**',
         pathMatch: 'full',
-        component: PageNotFoundComponent
+        component: PageNotFoundComponent,
+        title: 'Page Not Found'
     }
 ];

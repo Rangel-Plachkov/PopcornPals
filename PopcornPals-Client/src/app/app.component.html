@@ -1,10 +1,9 @@
-<router-outlet>
 <mat-toolbar>
-<button mat-button color="accent" routerLink="">Home</button>
-<button mat-button color="accent" [matMenuTriggerFor]="menu">Actors</button>
-<mat-menu #menu="matMenu" color="accent">
-  <button mat-menu-item routerLink="/actors">Actors</button>
-  <button mat-menu-item routerLink="/create">Create Actor</button>
-</mat-menu>
+    <button mat-button color="accent" routerLink="">Home</button>
+    <button mat-button color="accent" [matMenuTriggerFor]="menu">Actors</button>
+    <mat-menu #menu="matMenu" color="accent">
+      <button mat-menu-item routerLink="/actors">Actors</button>
+      <button mat-menu-item routerLink="/create">Create Actor</button>
+    </mat-menu>
 </mat-toolbar>
-</router-outlet>
+<router-outlet></router-outlet>
