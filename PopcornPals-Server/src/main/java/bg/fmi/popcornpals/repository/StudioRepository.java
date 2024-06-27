@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StudioRepository extends JpaRepository<Studio, Long> {
-
     Page<Studio> findByNameIgnoreCaseContaining(String name, Pageable page);
 }

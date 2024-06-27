@@ -1,9 +1,6 @@
 package bg.fmi.popcornpals.controller;
 
-import bg.fmi.popcornpals.dto.ActorDTO;
-import bg.fmi.popcornpals.dto.MediaDTO;
-import bg.fmi.popcornpals.dto.MediaRequestDTO;
-import bg.fmi.popcornpals.dto.StudioDTO;
+import bg.fmi.popcornpals.dto.*;
 import bg.fmi.popcornpals.service.MediaService;
 import bg.fmi.popcornpals.util.Genre;
 import bg.fmi.popcornpals.util.PaginationProperties;
@@ -29,7 +26,6 @@ import java.util.List;
 public class MediaController {
     @Autowired
     private MediaService mediaService;
-
     @PostMapping
     public ResponseEntity<MediaDTO> createMedia(@Valid @RequestBody MediaRequestDTO media) {
         return new ResponseEntity<>(mediaService.createMedia(media), HttpStatus.CREATED);
@@ -50,6 +46,10 @@ public class MediaController {
     public ResponseEntity<List<ActorDTO>> getActorsInMedia(@PathVariable Long id) {
         return new ResponseEntity<>(mediaService.getActorsInMedia(id), HttpStatus.OK);
     }
+    @GetMapping("{id}/producers")
+    public ResponseEntity<List<ProducerDTO>> getProducersInMedia(@PathVariable Long id) {
+        return new ResponseEntity<>(mediaService.getProducerOfMedia(id), HttpStatus.OK);
+    }
     @GetMapping("{id}/studio")
     public ResponseEntity<StudioDTO> getStudioOfMedia(@PathVariable Long id) {
         return new ResponseEntity<>(mediaService.getStudioOfMedia(id), HttpStatus.OK);
@@ -65,7 +65,6 @@ public class MediaController {
                                                 @PathVariable Long studioId) {
         return new ResponseEntity<>(mediaService.assignStudio(id, studioId), HttpStatus.OK);
     }
-    
     @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteMediaById(@PathVariable Long id) {
         mediaService.deleteMediaById(id);
