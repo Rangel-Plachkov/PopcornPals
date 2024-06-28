@@ -13,6 +13,7 @@ import bg.fmi.popcornpals.repository.MediaRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,7 @@ public class ActorService {
         this.mediaMapper = mediaMapper;
     }
 
-    public List<ActorDTO> getActors(Integer pageNo, Integer pageSize, String actorName) {
+    public Page<ActorDTO> getActors(Integer pageNo, Integer pageSize, String actorName) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Actor> actors = null;
         if(actorName != null) {
@@ -45,7 +46,8 @@ public class ActorService {
         else {
             actors = actorRepository.findAll(pageable);
         }
-        return actorMapper.toDTOList(actors.getContent());
+        return actors.map(actor -> actorMapper.toDTO(actor));
+        //return actorMapper.toDTOList(actors.getContent());
     }
 
     public ActorDTO getActorById(Long actorId) {
@@ -94,9 +96,14 @@ public class ActorService {
         log.info("Deleted actor with id: " + actorId);
     }
 
-    public List<MediaDTO> getMedia(Long actorId) {
+    public Page<MediaDTO> getMedia(Long actorId, Integer pageNo, Integer pageSize) {
         Actor actor = actorRepository.findById(actorId)
                 .orElseThrow(ActorNotFoundException::new);
-        return mediaMapper.toDTOList(actor.getStarsIn());
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<MediaDTO> mediaList = mediaMapper.toDTOList(actor.getStarsIn());
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), mediaList.size());
+        List<MediaDTO> pageContent = mediaList.subList(start, end);
+        return new PageImpl<>(pageContent, pageable, mediaList.size());
     }
 }

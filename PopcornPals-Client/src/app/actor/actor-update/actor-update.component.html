@@ -1,0 +1,37 @@
+<form class="form-container" [formGroup]="actorForm">
+    <h1>Update Actor</h1>
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" class="form-control" required>
+    </mat-form-field>
+
+    <mat-form-field >
+        <mat-label>Description</mat-label>
+        <input matInput formControlName="description">
+    </mat-form-field>
+    
+    <mat-form-field>
+        <mat-label>Enter Actor Birthdate</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="birthdate">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Media</mat-label>
+        <mat-select [formControl]="mediaControl" multiple>
+          <mat-select-trigger>
+            {{ mediaControl.value?.[0]?.title || '' }}
+            <ng-container *ngIf="(mediaControl.value?.length || 0) > 1">
+                <span>
+                (+{{ (mediaControl.value?.length || 0) - 1 }} {{ mediaControl.value?.length === 2 ? 'other' : 'others' }})
+                </span>
+            </ng-container>
+          </mat-select-trigger>
+          <mat-option *ngFor="let media of mediaList" [value]="media">{{ media.title }}, {{ media.releaseDate.getFullYear() }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    <button mat-flat-button color="primary" [disabled]="!actorForm.valid || actorForm.pristine" (click)="updateActor()">Update</button>
+</form>

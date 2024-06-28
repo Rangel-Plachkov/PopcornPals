@@ -8,6 +8,7 @@ import bg.fmi.popcornpals.util.PaginationProperties;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,7 +39,8 @@ public class ActorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ActorDTO>> getActors(
+
+    public ResponseEntity<Page<ActorDTO>> getActors(
             @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
             @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize,
             @RequestParam(value = "name", required = false) String actorName) {
@@ -63,8 +65,11 @@ public class ActorController {
     }
 
     @GetMapping("{id}/media/")
-    public ResponseEntity<List<MediaDTO>> getMedia(@PathVariable("id") Long actorId) {
-        List<MediaDTO> media = actorService.getMedia(actorId);
+    public ResponseEntity<Page<MediaDTO>> getMedia(
+            @PathVariable("id") Long actorId,
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) {
+        Page<MediaDTO> media = actorService.getMedia(actorId, pageNo, pageSize);
         if(media.isEmpty()) {
             return new ResponseEntity<>(media, HttpStatus.NO_CONTENT);
         }
