@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { ActorFormComponent } from './actor/actor-form/actor-form.component';
 import { ActorMediaComponent } from './actor/actor-media/actor-media.component';
 import { ActorUpdateComponent } from './actor/actor-update/actor-update.component';
+import { ProducerListComponent } from './producer/producer-list/producer-list.component';
 
 export const routes: Routes = [
     {
@@ -15,6 +16,7 @@ export const routes: Routes = [
     },
     {
         path: 'api',
+        title: 'PopcornPals',
         component: AppComponent
     },
     { 
@@ -46,6 +48,16 @@ export const routes: Routes = [
                         component: ActorUpdateComponent
                     }
                 ]
+            }
+        ]
+    },
+    {
+        path: 'api/producers',
+        children: [
+            {
+                path: '',
+                component: ProducerListComponent,
+                title: 'Producers'
             }
         ]
     },

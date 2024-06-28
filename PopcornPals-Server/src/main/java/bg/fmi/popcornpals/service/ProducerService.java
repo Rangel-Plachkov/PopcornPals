@@ -42,7 +42,7 @@ public class ProducerService {
         return producerMapper.toDTO(producer);
     }
 
-    public List<ProducerDTO> getProducers(Integer pageNo, Integer pageSize, String producerName) {
+    public Page<ProducerDTO> getProducers(Integer pageNo, Integer pageSize, String producerName) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Producer> producers = null;
         if(producerName != null) {
@@ -51,7 +51,7 @@ public class ProducerService {
         else {
             producers = producerRepository.findAll(pageable);
         }
-        return producerMapper.toDTOList(producers.getContent());
+        return producers.map(producer -> producerMapper.toDTO(producer));
     }
 
     public ProducerDTO createProducer(ProducerRequestDTO producerRequestDTO) {

@@ -17,16 +17,16 @@ export class ActorListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'description', 'birthdate', 'details'];
   actors: Actor[] = [];
 
-  pageNo:number = 0;
-  pageSize:number = 5;
-  name:string = "";
-  totalItems:number = 0;
+  pageNo: number = 0;
+  pageSize: number = 5;
+  name: string = "";
+  totalItems: number = 0;
   
   constructor(private actorService: ActorService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() : void {
     this.loadActors();
-    }
+  }
 
   loadActors() {
     this.actorService.getActors(this.pageNo, this.pageSize, this.name).subscribe( data => {
@@ -37,7 +37,6 @@ export class ActorListComponent implements OnInit {
   }
 
   getPageData(event: PageEvent) {
-    console.log(name);
     this.pageNo = event.pageIndex;
     this.pageSize = event.pageSize;
     this.loadActors();

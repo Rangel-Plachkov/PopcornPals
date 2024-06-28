@@ -47,7 +47,6 @@ public class ActorService {
             actors = actorRepository.findAll(pageable);
         }
         return actors.map(actor -> actorMapper.toDTO(actor));
-        //return actorMapper.toDTOList(actors.getContent());
     }
 
     public ActorDTO getActorById(Long actorId) {
