@@ -24,4 +24,7 @@ export class ProducerService {
     return this.http.get<Producer>(this.producerUrl + `${id}`); 
   }
 
+  public createProducer(producer: any): Observable<Producer> {
+    return this.http.post<Producer>(this.producerUrl, producer);
+  }
 }
