@@ -33,7 +33,7 @@ export class ProducerDetailsComponent implements OnInit {
   }
 
   viewProducedMedia() {
-
+    this.router.navigate([`./media`], {relativeTo: this.activatedRoute});
   }
 
   updateProducer() {
@@ -41,6 +41,7 @@ export class ProducerDetailsComponent implements OnInit {
   }
 
   deleteProducer() {
-
+    this.producerService.deleteProducer(this.id).subscribe();
+    this.router.navigate([`api/producers`]);
   }
 }

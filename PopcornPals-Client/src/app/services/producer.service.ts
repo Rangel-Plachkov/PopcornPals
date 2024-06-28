@@ -27,4 +27,14 @@ export class ProducerService {
   public createProducer(producer: any): Observable<Producer> {
     return this.http.post<Producer>(this.producerUrl, producer);
   }
+
+  public getMedia(id: number | string, pageNo: number, pageSize: number): Observable<any> {
+    let queryParams = new HttpParams().append("pageNo", pageNo)
+                                      .append("pageSize", pageSize);
+    return this.http.get<any>(this.producerUrl + `${id}/media/`, { params: queryParams });
+  }
+
+  public deleteProducer(id: string | number) {
+    return this.http.delete(this.producerUrl + `${id}`);
+  }
 }

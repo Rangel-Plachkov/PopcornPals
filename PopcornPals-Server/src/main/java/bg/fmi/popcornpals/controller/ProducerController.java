@@ -64,8 +64,11 @@ public class ProducerController {
     }
 
     @GetMapping("{id}/media/")
-    public ResponseEntity<List<MediaDTO>> getProducedMedia(@PathVariable("id") Long producerId) {
-        List<MediaDTO> media = producerService.getProducedMedia(producerId);
+    public ResponseEntity<Page<MediaDTO>> getProducedMedia(
+            @PathVariable("id") Long producerId,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize) {
+        Page<MediaDTO> media = producerService.getProducedMedia(producerId, pageNo, pageSize);
         if(media.isEmpty()) {
             return new ResponseEntity<>(media, HttpStatus.NO_CONTENT);
         }
