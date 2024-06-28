@@ -37,7 +37,7 @@ export class ProducerDetailsComponent implements OnInit {
   }
 
   updateProducer() {
-
+    this.router.navigate([`./update`], {relativeTo: this.activatedRoute});
   }
 
   deleteProducer() {

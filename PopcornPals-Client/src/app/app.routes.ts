@@ -10,6 +10,7 @@ import { ProducerListComponent } from './producer/producer-list/producer-list.co
 import { ProducerDetailsComponent } from './producer/producer-details/producer-details.component';
 import { ProducerCreateComponent } from './producer/producer-create/producer-create.component';
 import { ProducerMediaComponent } from './producer/producer-media/producer-media.component';
+import { ProducerUpdateComponent } from './producer/producer-update/producer-update.component';
 
 export const routes: Routes = [
     {
@@ -77,6 +78,10 @@ export const routes: Routes = [
                     {
                         path: 'media',
                         component: ProducerMediaComponent
+                    },
+                    {
+                        path: 'update',
+                        component: ProducerUpdateComponent
                     }
                 ]
             }

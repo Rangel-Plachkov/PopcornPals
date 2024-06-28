@@ -28,6 +28,10 @@ export class ProducerService {
     return this.http.post<Producer>(this.producerUrl, producer);
   }
 
+  public updateProducer(id: number | string, producer: any): Observable<Producer> {
+    return this.http.put<Producer>(this.producerUrl + `${id}`, producer);
+  }
+
   public getMedia(id: number | string, pageNo: number, pageSize: number): Observable<any> {
     let queryParams = new HttpParams().append("pageNo", pageNo)
                                       .append("pageSize", pageSize);
