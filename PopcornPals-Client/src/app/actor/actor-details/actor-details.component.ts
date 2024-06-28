@@ -38,11 +38,11 @@ export class ActorDetailsComponent implements OnInit {
   }
 
   viewMedia() {
-    this.router.navigate([`actors/${this.id}/media`]);
+    this.router.navigate([`./media`], {relativeTo: this.activatedRoute});
   }
 
   updateActor() {
-    this.router.navigate([`actors/${this.id}/update`]);
+    this.router.navigate([`./update`], {relativeTo: this.activatedRoute});
   }
 
   deleteActor() {

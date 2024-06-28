@@ -94,7 +94,7 @@ export class ActorUpdateComponent implements OnInit {
     console.log(this.actorForm.value);
     this.actorService.updateActor(this.id, this.actorForm.value).subscribe((data) => {
       console.log(data);
-      this.router.navigate([`actors`]);
+      this.router.navigate([`api/actors`]);
     }, (error: HttpErrorResponse) => {
       console.log(error.error.errors);
     });

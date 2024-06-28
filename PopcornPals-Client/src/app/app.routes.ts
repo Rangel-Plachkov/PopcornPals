@@ -10,29 +10,44 @@ import { ActorUpdateComponent } from './actor/actor-update/actor-update.componen
 export const routes: Routes = [
     {
         path: '',
+        pathMatch: 'full',
+        redirectTo: 'api'
+    },
+    {
+        path: 'api',
         component: AppComponent
     },
     { 
-        path: 'actors', 
-        component: ActorListComponent,
-        title: 'Actors'
-    },
-    { 
-        path: 'actors/:id', 
-        component: ActorDetailsComponent
-    },
-    {
-        path: 'actors/:id/media',
-        component: ActorMediaComponent
-    },
-    {
-        path: 'actors/:id/update',
-        component: ActorUpdateComponent
-    },
-    {
-        path: 'create',
-        component: ActorFormComponent,
-        title: 'Create Actor'
+        path: 'api/actors',
+        children: [
+            { 
+                path: '',
+                component: ActorListComponent,
+                title: 'Actors'
+            },
+            {
+                path: 'create',
+                component: ActorFormComponent,
+                title: 'Create Actor'
+            },
+            {
+                path: ':id',
+                children: [
+                    {
+                        path: '',
+                        component: ActorDetailsComponent
+                    },
+                    {
+                        path: 'media',
+                        component: ActorMediaComponent
+                    },
+                    {
+                        path: 'update',
+                        component: ActorUpdateComponent
+                    }
+                ]
+            }
+        ]
     },
     {
         path: '**',

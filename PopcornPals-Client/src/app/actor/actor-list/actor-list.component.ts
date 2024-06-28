@@ -22,7 +22,7 @@ export class ActorListComponent implements OnInit {
   name:string = "";
   totalItems:number = 0;
   
-  constructor(private actorService: ActorService, private router: Router) { }
+  constructor(private actorService: ActorService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() : void {
     this.loadActors();
@@ -49,6 +49,6 @@ export class ActorListComponent implements OnInit {
 
   viewDetails(id: number) {
     console.log(id);
-    this.router.navigate([`actors/${id}`]);
+    this.router.navigate([`./${id}`], {relativeTo: this.activatedRoute});
   }
 }

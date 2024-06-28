@@ -8,6 +8,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { NgFor, NgIf } from '@angular/common';
 import { MediaService } from '../../services/media.service';
 import { Media } from '../../models/media';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-actor-form',
@@ -32,7 +33,8 @@ export class ActorFormComponent {
 
   constructor(private formBuilder: FormBuilder, 
               private actorService: ActorService, 
-              private mediaService: MediaService) {
+              private mediaService: MediaService,
+              private router: Router) {
     this.getMedia();
   }
 
@@ -51,6 +53,7 @@ export class ActorFormComponent {
     console.log(this.actorForm.value);
     this.actorService.createActor(this.actorForm.value).subscribe((data) => {
       console.log(data);
+      this.router.navigate([`api/actors`]);
     }, (error: HttpErrorResponse) => {
       console.log(error.error.errors);
     });
