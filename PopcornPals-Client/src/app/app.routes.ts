@@ -7,6 +7,7 @@ import { ActorFormComponent } from './actor/actor-form/actor-form.component';
 import { ActorMediaComponent } from './actor/actor-media/actor-media.component';
 import { ActorUpdateComponent } from './actor/actor-update/actor-update.component';
 import { ProducerListComponent } from './producer/producer-list/producer-list.component';
+import { ProducerDetailsComponent } from './producer/producer-details/producer-details.component';
 
 export const routes: Routes = [
     {
@@ -58,6 +59,15 @@ export const routes: Routes = [
                 path: '',
                 component: ProducerListComponent,
                 title: 'Producers'
+            },
+            {
+                path: ':id',
+                children: [
+                    {
+                        path: '',
+                        component: ProducerDetailsComponent
+                    }
+                ]
             }
         ]
     },

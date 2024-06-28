@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Producer } from '../models/producer';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,10 @@ export class ProducerService {
                                       .append("pageSize", pageSize)
                                       .append("name", name);
     return this.http.get<any>(this.producerUrl, { params: queryParams });
+  }
+
+  public getProducer(id: string | number): Observable<Producer> {
+    return this.http.get<Producer>(this.producerUrl + `${id}`); 
   }
 
 }

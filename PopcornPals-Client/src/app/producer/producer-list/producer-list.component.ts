@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MaterialModule } from '../../material/material.module';
 import { Producer } from '../../models/producer';
 import { ProducerService } from '../../services/producer.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
 
 @Component({
@@ -21,7 +21,7 @@ export class ProducerListComponent implements OnInit {
   name: string = "";
   totalItems: number = 0;
 
-  constructor(private producerService: ProducerService, private router: Router) { }
+  constructor(private producerService: ProducerService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.loadProducers();
@@ -46,6 +46,6 @@ export class ProducerListComponent implements OnInit {
   }
 
   viewDetails(id: number) {
-    // navigate
+    this.router.navigate([`./${id}`], {relativeTo: this.activatedRoute});
   }
 }
