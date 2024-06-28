@@ -24,6 +24,10 @@ export class ActorDetailsComponent implements OnInit {
   }
   ngOnInit() : void {
     this.id = this.activatedRoute.snapshot.params['id'];
+    this.loadActor();
+  }
+
+  loadActor() {
     this.actorService.getActor(parseInt(this.id)).subscribe(( data: Actor ) => {
       console.log(data);
       this.actor = data;
@@ -35,6 +39,10 @@ export class ActorDetailsComponent implements OnInit {
 
   viewMedia() {
     this.router.navigate([`actors/${this.id}/media`]);
+  }
+
+  updateActor() {
+    this.router.navigate([`actors/${this.id}/update`]);
   }
 
   deleteActor() {

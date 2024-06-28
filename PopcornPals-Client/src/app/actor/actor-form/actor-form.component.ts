@@ -18,14 +18,14 @@ import { Media } from '../../models/media';
   styleUrl: './actor-form.component.css'
 })
 export class ActorFormComponent {
+  mediaControl = new FormControl<Media[]>([]);
   actorForm: FormGroup = this.formBuilder.group({
     name: ['', Validators.required],
     description: [],
     birthdate: [],
-    starsIn: []
+    starsIn: this.mediaControl
   });
 
-  mediaControl = new FormControl<Media[]>([]);
   mediaList: Media[] = [];
   title: string = '';
   errorMessages: string[] = [];

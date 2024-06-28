@@ -20,12 +20,16 @@ export class ActorService {
     return this.http.get<any>(this.actorUrl, { params: queryParams });
   }
 
-  public getActor(id: number | string ): Observable<Actor> {
+  public getActor(id: number | string): Observable<Actor> {
     return this.http.get<Actor>(this.actorUrl + `${id}`);
   }
 
-  public createActor(actor: any): Observable<any> {
+  public createActor(actor: any): Observable<Actor> {
     return this.http.post<Actor>(this.actorUrl, actor); 
+  }
+
+  public updateActor(id: number | string, actor: any): Observable<Actor> {
+    return this.http.put<Actor>(this.actorUrl + `${id}`, actor);
   }
 
   public getMedia(id: number | string, pageNo: number, pageSize: number) {

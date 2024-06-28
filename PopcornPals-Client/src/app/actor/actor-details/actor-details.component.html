@@ -4,14 +4,17 @@
             {{ actor.name }}
         </mat-card-title>
         <mat-card-subtitle>
-            Birthdate: {{ actor.birthdate }}
+            Birthdate: {{ actor.birthdate || 'Unknown' }}
         </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
         {{ actor.description }}
     </mat-card-content>
     <mat-card-actions>
+        <div class="button-row">
         <button mat-flat-button color="primary" (click)="viewMedia()">Media</button>
+        <button mat-flat-button color="primary" (click)="updateActor()">Update Actor</button>
         <button mat-flat-button color="accent" (click)="deleteActor()">Delete Actor</button>
+        </div>
     </mat-card-actions>
 </mat-card>

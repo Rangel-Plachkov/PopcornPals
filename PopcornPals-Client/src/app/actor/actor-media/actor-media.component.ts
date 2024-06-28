@@ -23,6 +23,7 @@ export class ActorMediaComponent implements OnInit {
   constructor(private actorService: ActorService, private activatedRoute: ActivatedRoute) {
     this.media = [];
   }
+  
   ngOnInit() : void {
     this.id = this.activatedRoute.snapshot.params['id'];
     this.loadMedia();

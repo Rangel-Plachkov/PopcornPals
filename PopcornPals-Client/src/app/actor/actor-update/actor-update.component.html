@@ -1,5 +1,5 @@
 <form class="form-container" [formGroup]="actorForm">
-    <h1>Create Actor</h1>
+    <h1>Update Actor</h1>
     <mat-form-field>
         <mat-label>Name</mat-label>
         <input matInput formControlName="name" class="form-control" required>
@@ -18,7 +18,7 @@
         <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field appearance="fill">
         <mat-label>Media</mat-label>
         <mat-select [formControl]="mediaControl" multiple>
           <mat-select-trigger>
@@ -33,5 +33,5 @@
         </mat-select>
       </mat-form-field>
 
-    <button mat-flat-button color="primary" [disabled]="!actorForm.valid" (click)="createActor()">Create</button>
+    <button mat-flat-button color="primary" [disabled]="!actorForm.valid || actorForm.pristine" (click)="updateActor()">Update</button>
 </form>
