@@ -3,7 +3,12 @@ package bg.fmi.popcornpals.model;
 import bg.fmi.popcornpals.util.StringSize;
 import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.RatingConstraint;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
@@ -15,6 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.Objects;
+
 @Data
 @Entity
 @AllArgsConstructor

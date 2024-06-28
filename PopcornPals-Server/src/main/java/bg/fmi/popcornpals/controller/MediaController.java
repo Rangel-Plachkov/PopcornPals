@@ -1,70 +1,74 @@
 package bg.fmi.popcornpals.controller;
 
-
-import bg.fmi.popcornpals.dto.MediaDTO;
-import bg.fmi.popcornpals.mapper.MediaMapper;
-import bg.fmi.popcornpals.model.Media;
+import bg.fmi.popcornpals.dto.*;
 import bg.fmi.popcornpals.service.MediaService;
 import bg.fmi.popcornpals.util.Genre;
+import bg.fmi.popcornpals.util.PaginationProperties;
 import bg.fmi.popcornpals.util.MediaType;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("api/media/")
 public class MediaController {
     @Autowired
     private MediaService mediaService;
-    @Autowired
-    private MediaMapper mediaMapper;
-
     @PostMapping
-    public ResponseEntity<MediaDTO> createMedia(@Valid @RequestBody MediaDTO media) {
-        media.setID(null);
-        Media createdMedia = mediaService.createMedia(mediaMapper.toEntity(media));
-        return new ResponseEntity<>(mediaMapper.toDTO(createdMedia), HttpStatus.CREATED);
+    public ResponseEntity<MediaDTO> createMedia(@Valid @RequestBody MediaRequestDTO media) {
+        return new ResponseEntity<>(mediaService.createMedia(media), HttpStatus.CREATED);
+    }
+    @GetMapping("{id}")
+    public ResponseEntity<MediaDTO> getMedia(@PathVariable Long id) {
+        return new ResponseEntity<>(mediaService.getMediaById(id), HttpStatus.OK);
     }
     @GetMapping
-    public ResponseEntity<List<MediaDTO>> getMedia(@RequestParam (name = "id", required = false) Long ID,
+    public ResponseEntity<List<MediaDTO>> getMedia(@RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO , required = false) Integer pageNo,
+                                                   @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize,
                                                    @RequestParam (name = "title", required = false) String title,
                                                    @RequestParam (name = "type", required = false)  MediaType type,
-                                                    @RequestParam (name = "genre", required = false) Genre genre) {
-        List<Media> mediaList = mediaService.getMedia(ID, title, type, genre);
-        if(mediaList == null || mediaList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(mediaMapper.toDTOList(mediaList), HttpStatus.OK);
-
+                                                   @RequestParam (name = "genre", required = false) Genre genre) {
+        return new ResponseEntity<>(mediaService.getMedia(pageNo, pageSize, title, type, genre), HttpStatus.OK);
     }
+    @GetMapping("{id}/actors")
+    public ResponseEntity<List<ActorDTO>> getActorsInMedia(@PathVariable Long id) {
+        return new ResponseEntity<>(mediaService.getActorsInMedia(id), HttpStatus.OK);
+    }
+    @GetMapping("{id}/producers")
+    public ResponseEntity<List<ProducerDTO>> getProducersInMedia(@PathVariable Long id) {
+        return new ResponseEntity<>(mediaService.getProducerOfMedia(id), HttpStatus.OK);
+    }
+    @GetMapping("{id}/studio")
+    public ResponseEntity<StudioDTO> getStudioOfMedia(@PathVariable Long id) {
+        return new ResponseEntity<>(mediaService.getStudioOfMedia(id), HttpStatus.OK);
+    }
+
     @PutMapping("{id}")
-    public ResponseEntity<MediaDTO> updateMedia(@PathVariable Long id, @Valid @RequestBody MediaDTO media) {
-        Media existingMedia = mediaService.getMedia(id,null,null,null).get(0);
-        if(existingMedia == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        media.setID(id);
-        Media mediaToUpdate = mediaMapper.toEntity(media);
-        Media updatedMedia = mediaService.updateMedia(mediaToUpdate);
-        MediaDTO updatedMediaDTO = mediaMapper.toDTO(updatedMedia);
-        return new ResponseEntity<>(updatedMediaDTO, HttpStatus.OK);
+    public ResponseEntity<MediaDTO> updateMedia(@PathVariable Long id,
+                                                @Valid @RequestBody MediaRequestDTO media) {
+        return new ResponseEntity<>(mediaService.updateMedia(id, media), HttpStatus.OK);
+    }
+    @PatchMapping("{id}/studio/{studioId}")
+    public ResponseEntity<MediaDTO> assignStudio(@PathVariable Long id,
+                                                @PathVariable Long studioId) {
+        return new ResponseEntity<>(mediaService.assignStudio(id, studioId), HttpStatus.OK);
     }
     @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> deleteMediaById(@PathVariable Long id) {
-        Media existingMedia = mediaService.getMedia(id,null,null,null).get(0);
-        if(existingMedia == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         mediaService.deleteMediaById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-    @DeleteMapping("deleteAll")
-    public ResponseEntity<HttpStatus> deleteAllMedia() {
-        mediaService.deleteAllMedia();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

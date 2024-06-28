@@ -1,16 +1,27 @@
 package bg.fmi.popcornpals.controller;
 
-import bg.fmi.popcornpals.mapper.ReviewMapper;
+import bg.fmi.popcornpals.dto.ReviewRequestDTO;
 import bg.fmi.popcornpals.service.ReviewService;
 import bg.fmi.popcornpals.dto.ReviewDTO;
-import bg.fmi.popcornpals.model.Review;
+import bg.fmi.popcornpals.util.PaginationProperties;
+import bg.fmi.popcornpals.util.ReviewSortTypes;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/review/")
 public class ReviewController {
@@ -18,52 +29,33 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @Autowired
-    private ReviewMapper reviewMapper;
 
     @PostMapping
-    public ResponseEntity<ReviewDTO> createReview(@Valid @RequestBody ReviewDTO review) {
-        review.setID(null);
-        Review createdReview = reviewService.createReview(reviewMapper.toEntity(review));
-        return new ResponseEntity<>(reviewMapper.toDTO(createdReview), HttpStatus.CREATED);
+    public ResponseEntity<ReviewDTO> createReview(@Valid @RequestBody ReviewRequestDTO review) {
+        return new ResponseEntity<>(reviewService.createReview(review), HttpStatus.CREATED);
     }
+    @GetMapping("{id}")
+    public ResponseEntity<ReviewDTO> getReview(@PathVariable Long id) {
+        return new ResponseEntity<>(reviewService.getReviewById(id), HttpStatus.OK);
+    }
+
     @GetMapping
-    public ResponseEntity<List<ReviewDTO>> getStudios(
-            @RequestParam(required = false) Long id){
-
-        List<Review> reviewList = reviewService.getReview(id);
-
-        if (reviewList == null || reviewList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        List<ReviewDTO> reviewDTOList = reviewMapper.toDTOList(reviewList);
-
-        return new ResponseEntity<>(reviewDTOList, HttpStatus.OK);
+    public ResponseEntity<List<ReviewDTO>> getReview(
+            @RequestParam(value = "mediaID" , required = false) Long mediaID,
+            @RequestParam(value = "userID" ,required = false) Long userID,
+            @RequestBody(required = false)ReviewSortTypes sortType,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize) {
+        return new ResponseEntity<>(reviewService.getReview(mediaID, userID, sortType, pageNo, pageSize), HttpStatus.OK);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<ReviewDTO> updateReview(@PathVariable Long id, @Valid @RequestBody ReviewDTO review) {
-        Review existingReview = reviewService.getReview(id).get(0);
-        if (existingReview == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        review.setID(id);
-        Review updatedReview = reviewService.updateReview(reviewMapper.toEntity(review));
-        return new ResponseEntity<>(reviewMapper.toDTO(updatedReview), HttpStatus.OK);
+    public ResponseEntity<ReviewDTO> updateReview(@PathVariable Long id, @Valid @RequestBody ReviewRequestDTO review) {
+        return new ResponseEntity<>(reviewService.updateReview(id, review), HttpStatus.OK);
     }
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteReview(@PathVariable Long id) {
-        Review existingReview = reviewService.getReview(id).get(0);
-        if (existingReview == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         reviewService.deleteReviewById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-    @DeleteMapping("/deleteAll")
-    public ResponseEntity<Void> deleteAllReview() {
-        reviewService.deleteAllReview();
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

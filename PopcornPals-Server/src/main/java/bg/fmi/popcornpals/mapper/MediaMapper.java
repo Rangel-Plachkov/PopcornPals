@@ -1,8 +1,8 @@
 package bg.fmi.popcornpals.mapper;
 
 import bg.fmi.popcornpals.dto.MediaDTO;
+import bg.fmi.popcornpals.dto.MediaRequestDTO;
 import bg.fmi.popcornpals.model.Media;
-
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -34,6 +34,17 @@ public interface MediaMapper {
     @Mapping(source = "parent_id", target = "parent.ID")
     Media toEntity(MediaDTO mediaDTO);
 
+
+    @Mapping(source = "type", target = "type")
+    @Mapping(source = "title", target = "title")
+    @Mapping(source = "genre", target = "genre")
+    @Mapping(source = "releaseDate", target = "releaseDate")
+    @Mapping(source = "endDate", target = "endDate")
+    @Mapping(source = "length", target = "length")
+    @Mapping(source = "description", target = "description")
+    @Mapping(source = "parent_id", target = "parent.ID")
+    Media toEntity(MediaRequestDTO mediaRequestDTO);
+
     @AfterMapping
     default void setParentId(MediaDTO source, @MappingTarget Media destination) {
         if (source.getParent_id() == null) {
@@ -43,4 +54,7 @@ public interface MediaMapper {
 
     List<MediaDTO> toDTOList(List<Media> mediaList);
     List<Media> toEntityList(List<MediaDTO> mediaDTOList);
+
+    List<MediaRequestDTO> toRequestDTOList(List<Media> mediaList);
+
 }

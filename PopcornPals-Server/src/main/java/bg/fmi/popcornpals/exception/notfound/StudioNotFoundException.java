@@ -1,4 +1,4 @@
-package bg.fmi.popcornpals.exception;
+package bg.fmi.popcornpals.exception.notfound;
 
 public class StudioNotFoundException extends NotFoundException {
     public StudioNotFoundException() {

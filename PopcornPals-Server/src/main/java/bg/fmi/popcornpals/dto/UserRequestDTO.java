@@ -2,12 +2,14 @@ package bg.fmi.popcornpals.dto;
 
 import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.StringSize;
-import jakarta.validation.constraints.*;
-import jdk.jfr.Name;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
 @Data

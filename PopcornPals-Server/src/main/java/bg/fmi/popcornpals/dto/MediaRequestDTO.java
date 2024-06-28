@@ -16,9 +16,7 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MediaDTO {
-
-    private Long ID;
+public class MediaRequestDTO {
     private MediaType type;
 
     @NotNull(message = "Media: Title cannot be null")
@@ -41,7 +39,7 @@ public class MediaDTO {
 
     private Long parent_id;
 
-    public MediaDTO(String title, String genre, LocalDate releaseDate, LocalDate endDate, Integer length, String description, Long parent_id) {
+    public MediaRequestDTO(String title, String genre, LocalDate releaseDate, LocalDate endDate, Integer length, String description, Long parent_id) {
         this.title = title;
         this.genre = genre;
         this.releaseDate = releaseDate;
@@ -50,7 +48,8 @@ public class MediaDTO {
         this.description = description;
         this.parent_id = parent_id;
     }
-    public MediaDTO(String title) {
+    public MediaRequestDTO(String title) {
         this.title = title;
     }
+
 }

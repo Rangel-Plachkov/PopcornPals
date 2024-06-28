@@ -47,6 +47,6 @@ export class ActorDetailsComponent implements OnInit {
 
   deleteActor() {
     this.actorService.deleteActor(this.id).subscribe();
-    this.router.navigate([`actors`]);
+    this.router.navigate([`api/actors`]);
   }
 }

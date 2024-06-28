@@ -1,7 +1,7 @@
 package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.ActorDTO;
-import bg.fmi.popcornpals.exception.ActorNotFoundException;
+import bg.fmi.popcornpals.exception.notfound.ActorNotFoundException;
 import bg.fmi.popcornpals.dto.ActorRequestDTO;
 import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.mapper.ActorMapper;
@@ -10,17 +10,17 @@ import bg.fmi.popcornpals.model.Actor;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.repository.ActorRepository;
 import bg.fmi.popcornpals.repository.MediaRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class ActorService {
     private final ActorRepository actorRepository;
@@ -68,6 +68,7 @@ public class ActorService {
         actor.setStarsIn(starsIn);
 
         Actor newActor = actorRepository.save(actor);
+        log.info("Created new actor with id: " + newActor.getID());
         return actorMapper.toDTO(newActor);
     }
 
@@ -84,6 +85,7 @@ public class ActorService {
         actor.setStarsIn(starsIn);
 
         Actor updatedActor = actorRepository.save(actor);
+        log.info("Updated actor with id: " + updatedActor.getID());
         return actorMapper.toDTO(updatedActor);
     }
 
@@ -91,6 +93,7 @@ public class ActorService {
         Actor toDelete = actorRepository.findById(actorId)
                 .orElseThrow(ActorNotFoundException::new);
         actorRepository.delete(toDelete);
+        log.info("Deleted actor with id: " + actorId);
     }
 
     public Page<MediaDTO> getMedia(Long actorId, Integer pageNo, Integer pageSize) {

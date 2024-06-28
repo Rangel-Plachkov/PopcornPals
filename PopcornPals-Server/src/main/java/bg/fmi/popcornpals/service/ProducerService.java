@@ -2,7 +2,7 @@ package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.ProducerDTO;
-import bg.fmi.popcornpals.exception.ProducerNotFoundException;
+import bg.fmi.popcornpals.exception.notfound.ProducerNotFoundException;
 import bg.fmi.popcornpals.dto.ProducerRequestDTO;
 import bg.fmi.popcornpals.mapper.MediaMapper;
 import bg.fmi.popcornpals.mapper.ProducerMapper;
@@ -10,15 +10,16 @@ import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.model.Producer;
 import bg.fmi.popcornpals.repository.MediaRepository;
 import bg.fmi.popcornpals.repository.ProducerRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Service
 public class ProducerService {
     private final ProducerRepository producerRepository;
@@ -65,6 +66,7 @@ public class ProducerService {
         producer.setProducedMedia(producedMedia);
 
         Producer newProducer = producerRepository.save(producer);
+        log.info("Created new producer with id: " + newProducer.getID());
         return producerMapper.toDTO(newProducer);
     }
 
@@ -81,12 +83,14 @@ public class ProducerService {
         producer.setProducedMedia(producedMedia);
 
         Producer newProducer = producerRepository.save(producer);
+        log.info("Updated producer with id: " + newProducer.getID());
         return producerMapper.toDTO(newProducer);
     }
 
     public void deleteProducer(Long producerId) {
         Producer toDelete = producerRepository.findById(producerId)
                 .orElseThrow(ProducerNotFoundException::new);
+        log.info("Deleted producer with id: " + toDelete.getID());
         producerRepository.delete(toDelete);
     }
 
