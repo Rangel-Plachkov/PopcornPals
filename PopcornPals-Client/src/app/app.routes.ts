@@ -34,12 +34,12 @@ export const routes: Routes = [
             { 
                 path: '',
                 component: ActorListComponent,
-                title: 'Actors'
+                title: 'PopcornPals | Actors'
             },
             {
                 path: 'create',
                 component: ActorFormComponent,
-                title: 'Create Actor'
+                title: 'PopcornPals | Create Actor'
             },
             {
                 path: ':id',
@@ -54,6 +54,7 @@ export const routes: Routes = [
                     },
                     {
                         path: 'update',
+                        title: 'PopcornPals | Update Actor',
                         component: ActorUpdateComponent
                     }
                 ]
@@ -66,12 +67,12 @@ export const routes: Routes = [
             {
                 path: '',
                 component: ProducerListComponent,
-                title: 'Producers'
+                title: 'PopcornPals | Producers'
             },
             {
                 path: 'create',
                 component: ProducerCreateComponent,
-                title: 'Create Producer'
+                title: 'PopcornPals | Create Producer'
             },
             {
                 path: ':id',
@@ -86,6 +87,7 @@ export const routes: Routes = [
                     },
                     {
                         path: 'update',
+                        title: 'PopcornPals | Update Producer',
                         component: ProducerUpdateComponent
                     }
                 ]
@@ -97,12 +99,12 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                title: 'Studios',
+                title: 'PopcornPals | Studios',
                 component: StudioListComponent
             },
             {
                 path: 'create',
-                title: 'Create Studio',
+                title: 'PopcornPals | Create Studio',
                 component: StudioCreateComponent
             },
             {
@@ -114,6 +116,7 @@ export const routes: Routes = [
                     },
                     {
                         path: 'update',
+                        title: 'PopcornPals | Update Studio',
                         component: StudioUpdateComponent
                     },
                     {
@@ -128,6 +131,6 @@ export const routes: Routes = [
         path: '**',
         pathMatch: 'full',
         component: PageNotFoundComponent,
-        title: 'Page Not Found'
+        title: 'PopcornPals | Page Not Found'
     }
 ];
