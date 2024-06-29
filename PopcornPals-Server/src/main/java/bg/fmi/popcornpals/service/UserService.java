@@ -1,5 +1,6 @@
 package bg.fmi.popcornpals.service;
 
+import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
 import bg.fmi.popcornpals.dto.UserRequestDTO;
@@ -12,6 +13,7 @@ import bg.fmi.popcornpals.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,7 @@ public class UserService {
         this.playlistMapper = playlistMapper;
     }
 
-    public List<UserDTO> getUsers(Integer pageNo, Integer pageSize, String name, String username) {
+    public Page<UserDTO> getUsers(Integer pageNo, Integer pageSize, String name, String username) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<User> users = null;
         if(name != null) {
@@ -46,7 +48,7 @@ public class UserService {
         else {
             users = userRepository.findAll(pageable);
         }
-        return userMapper.toDTOList(users.getContent());
+        return users.map(user -> userMapper.toDTO(user));
     }
 
     public UserDTO getUserById(Long userId) {
@@ -80,9 +82,14 @@ public class UserService {
         userRepository.delete(toDelete);
     }
 
-    public List<PlaylistDTO> findPlaylistsByUser(Long userId) {
+    public Page<PlaylistDTO> findPlaylistsByUser(Long userId, Integer pageNo, Integer pageSize) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
-        return playlistMapper.toDTOList(playlistRepository.findAllByUser(user.getID()));
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<PlaylistDTO> playlistList = playlistMapper.toDTOList(user.getPlaylists());
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), playlistList.size());
+        List<PlaylistDTO> pageContent = playlistList.subList(start, end);
+        return new PageImpl<>(pageContent, pageable, playlistList.size());
     }
 }

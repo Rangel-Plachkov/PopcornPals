@@ -11,6 +11,7 @@ import { ProducerDetailsComponent } from './producer/producer-details/producer-d
 import { ProducerCreateComponent } from './producer/producer-create/producer-create.component';
 import { ProducerMediaComponent } from './producer/producer-media/producer-media.component';
 import { ProducerUpdateComponent } from './producer/producer-update/producer-update.component';
+import { UserListComponent } from './user/user-list/user-list.component';
 
 export const routes: Routes = [
     {
@@ -84,6 +85,16 @@ export const routes: Routes = [
                         component: ProducerUpdateComponent
                     }
                 ]
+            }
+        ]
+    },
+    {
+        path: 'api/users',
+        children: [
+            {
+                path: '',
+                title: 'PopcornPals | Users',
+                component: UserListComponent
             }
         ]
     },

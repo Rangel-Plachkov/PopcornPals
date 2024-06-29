@@ -8,6 +8,7 @@ import bg.fmi.popcornpals.util.PaginationProperties;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getUsers(
+    public ResponseEntity<Page<UserDTO>> getUsers(
             @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
             @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize,
             @RequestParam(value = "name", required = false) String name,
@@ -64,7 +65,10 @@ public class UserController {
     }
 
     @GetMapping("{id}/playlists")
-    public ResponseEntity<List<PlaylistDTO>> getPlaylists(@PathVariable("id") Long userId) {
-        return new ResponseEntity<>(userService.findPlaylistsByUser(userId), HttpStatus.OK);
+    public ResponseEntity<Page<PlaylistDTO>> getPlaylists(
+            @PathVariable("id") Long userId,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize) {
+        return new ResponseEntity<>(userService.findPlaylistsByUser(userId, pageNo, pageSize), HttpStatus.OK);
     }
 }

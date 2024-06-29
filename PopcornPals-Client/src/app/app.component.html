@@ -12,6 +12,11 @@
       <button mat-menu-item routerLink="api/producers">Producers</button>
       <button mat-menu-item routerLink="api/producers/create">Create Producer</button>
     </mat-menu>
+
+    <button mat-button color="accent" [matMenuTriggerFor]="usersMenu">Users</button>
+    <mat-menu #usersMenu="matMenu" color="accent">
+      <button mat-menu-item routerLink="api/users">Users</button>
+    </mat-menu>
     
 </mat-toolbar>
 <router-outlet></router-outlet>
