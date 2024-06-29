@@ -28,4 +28,12 @@ export class UserService {
   public createUser(user: any): Observable<User> {
     return this.http.post<User>(this.userUrl, user);
   }
+
+  public updateUser(id: number | string, user: any): Observable<User> {
+    return this.http.put<User>(this.userUrl + `${id}`, user);
+  }
+
+  public deleteUser(id: number | string) {
+    return this.http.delete(this.userUrl + `${id}`);
+  }
 }

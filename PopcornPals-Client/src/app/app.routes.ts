@@ -14,6 +14,7 @@ import { ProducerUpdateComponent } from './producer/producer-update/producer-upd
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { UserCreateComponent } from './user/user-create/user-create.component';
+import { UserUpdateComponent } from './user/user-update/user-update.component';
 
 export const routes: Routes = [
     {
@@ -109,6 +110,11 @@ export const routes: Routes = [
                     {
                         path: '',
                         component: UserDetailsComponent
+                    },
+                    {
+                        path: 'update',
+                        title: 'PopcornPals | Update User',
+                        component: UserUpdateComponent
                     }
                 ]
             }

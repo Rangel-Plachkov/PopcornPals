@@ -35,10 +35,11 @@ export class UserDetailsComponent implements OnInit {
   }
 
   updateUser() {
-
+    this.router.navigate([`./update`], {relativeTo: this.activatedRoute});
   }
 
   deleteUser() {
-    
+    this.userService.deleteUser(this.id).subscribe();
+    this.router.navigate([`api/users`]);
   }
 }
