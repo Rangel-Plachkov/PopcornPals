@@ -12,6 +12,7 @@ import { ProducerCreateComponent } from './producer/producer-create/producer-cre
 import { ProducerMediaComponent } from './producer/producer-media/producer-media.component';
 import { ProducerUpdateComponent } from './producer/producer-update/producer-update.component';
 import { UserListComponent } from './user/user-list/user-list.component';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
 
 export const routes: Routes = [
     {
@@ -95,6 +96,15 @@ export const routes: Routes = [
                 path: '',
                 title: 'PopcornPals | Users',
                 component: UserListComponent
+            },
+            {
+                path: ':id',
+                children: [
+                    {
+                        path: '',
+                        component: UserDetailsComponent
+                    }
+                ]
             }
         ]
     },

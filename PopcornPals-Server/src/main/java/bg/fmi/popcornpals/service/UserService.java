@@ -39,10 +39,10 @@ public class UserService {
     public Page<UserDTO> getUsers(Integer pageNo, Integer pageSize, String name, String username) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<User> users = null;
-        if(name != null) {
+        if(name != null && !name.isBlank()) {
             users = userRepository.findByNameIgnoreCaseContaining(name, pageable);
         }
-        else if(username != null) {
+        else if(username != null && !username.isBlank()) {
             users = userRepository.findByUsernameIgnoreCaseContaining(username, pageable);
         }
         else {

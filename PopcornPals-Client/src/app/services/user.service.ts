@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { User } from '../models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,9 @@ export class UserService {
                                       .append("name", name)
                                       .append("username", username);
     return this.http.get<any>(this.userUrl, { params: queryParams });
+  }
+
+  public getUser(id: number | string): Observable<User> {
+    return this.http.get<User>(this.userUrl + `${id}`);
   }
 }

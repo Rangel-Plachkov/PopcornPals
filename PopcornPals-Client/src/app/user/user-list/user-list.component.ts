@@ -46,6 +46,6 @@ export class UserListComponent implements OnInit {
   }
 
   viewDetails(id: number) {
-
+    this.router.navigate([`./${id}`], {relativeTo: this.activatedRoute});
   }
 }
