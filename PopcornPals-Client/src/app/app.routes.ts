@@ -12,6 +12,7 @@ import { ProducerCreateComponent } from './producer/producer-create/producer-cre
 import { ProducerMediaComponent } from './producer/producer-media/producer-media.component';
 import { ProducerUpdateComponent } from './producer/producer-update/producer-update.component';
 import { StudioListComponent } from './studio/studio-list/studio-list.component';
+import { StudioDetailsComponent } from './studio/studio-details/studio-details.component';
 
 export const routes: Routes = [
     {
@@ -95,6 +96,15 @@ export const routes: Routes = [
                 path: '',
                 title: 'Studios',
                 component: StudioListComponent
+            },
+            {
+                path: ':id',
+                children: [
+                    {
+                        path: '',
+                        component: StudioDetailsComponent
+                    }
+                ]
             }
         ]
     },
