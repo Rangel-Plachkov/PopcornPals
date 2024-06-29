@@ -11,6 +11,11 @@ import { ProducerDetailsComponent } from './producer/producer-details/producer-d
 import { ProducerCreateComponent } from './producer/producer-create/producer-create.component';
 import { ProducerMediaComponent } from './producer/producer-media/producer-media.component';
 import { ProducerUpdateComponent } from './producer/producer-update/producer-update.component';
+import { StudioListComponent } from './studio/studio-list/studio-list.component';
+import { StudioDetailsComponent } from './studio/studio-details/studio-details.component';
+import { StudioCreateComponent } from './studio/studio-create/studio-create.component';
+import { StudioUpdateComponent } from './studio/studio-update/studio-update.component';
+import { StudioMediaComponent } from './studio/studio-media/studio-media.component';
 
 export const routes: Routes = [
     {
@@ -29,12 +34,12 @@ export const routes: Routes = [
             { 
                 path: '',
                 component: ActorListComponent,
-                title: 'Actors'
+                title: 'PopcornPals | Actors'
             },
             {
                 path: 'create',
                 component: ActorFormComponent,
-                title: 'Create Actor'
+                title: 'PopcornPals | Create Actor'
             },
             {
                 path: ':id',
@@ -49,6 +54,7 @@ export const routes: Routes = [
                     },
                     {
                         path: 'update',
+                        title: 'PopcornPals | Update Actor',
                         component: ActorUpdateComponent
                     }
                 ]
@@ -61,12 +67,12 @@ export const routes: Routes = [
             {
                 path: '',
                 component: ProducerListComponent,
-                title: 'Producers'
+                title: 'PopcornPals | Producers'
             },
             {
                 path: 'create',
                 component: ProducerCreateComponent,
-                title: 'Create Producer'
+                title: 'PopcornPals | Create Producer'
             },
             {
                 path: ':id',
@@ -81,7 +87,41 @@ export const routes: Routes = [
                     },
                     {
                         path: 'update',
+                        title: 'PopcornPals | Update Producer',
                         component: ProducerUpdateComponent
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        path: 'api/studios',
+        children: [
+            {
+                path: '',
+                title: 'PopcornPals | Studios',
+                component: StudioListComponent
+            },
+            {
+                path: 'create',
+                title: 'PopcornPals | Create Studio',
+                component: StudioCreateComponent
+            },
+            {
+                path: ':id',
+                children: [
+                    {
+                        path: '',
+                        component: StudioDetailsComponent
+                    },
+                    {
+                        path: 'update',
+                        title: 'PopcornPals | Update Studio',
+                        component: StudioUpdateComponent
+                    },
+                    {
+                        path: 'media',
+                        component: StudioMediaComponent
                     }
                 ]
             }
@@ -91,6 +131,6 @@ export const routes: Routes = [
         path: '**',
         pathMatch: 'full',
         component: PageNotFoundComponent,
-        title: 'Page Not Found'
+        title: 'PopcornPals | Page Not Found'
     }
 ];
