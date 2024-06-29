@@ -4,6 +4,7 @@ import { Playlist } from '../../models/playlist';
 import { UserService } from '../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PageEvent } from '@angular/material/paginator';
+import { PlaylistService } from '../../services/playlist.service';
 
 @Component({
   selector: 'app-user-playlist',
@@ -21,7 +22,10 @@ export class UserPlaylistComponent implements OnInit {
   pageSize:number = 5;
   totalItems:number = 0;
 
-  constructor(private userService: UserService, private activatedRoute: ActivatedRoute, private router: Router) {
+  constructor(private userService: UserService, 
+              private activatedRoute: ActivatedRoute, 
+              private router: Router,
+              private playlistService: PlaylistService) {
     this.playlists = [];
   }
 
@@ -32,13 +36,14 @@ export class UserPlaylistComponent implements OnInit {
 
   loadPlaylists() {
     this.userService.getPlaylists(this.id, this.pageNo, this.pageSize).subscribe( (data: any) => {
+      console.log(data);
       this.playlists = data.content;
       this.totalItems = data.totalElements;
     });
   }
 
   viewContent(playlistId: number) {
-
+    this.router.navigate([`./${playlistId}`], {relativeTo: this.activatedRoute});
   }
 
   editPlaylist(playlistId: number) {
@@ -46,7 +51,7 @@ export class UserPlaylistComponent implements OnInit {
   }
 
   deletePlaylist(playlistId: number) {
-
+    this.playlistService.deletePlaylist(playlistId).subscribe();
   }
 
   getPageData(event: PageEvent) {

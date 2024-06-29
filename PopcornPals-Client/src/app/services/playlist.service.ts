@@ -25,4 +25,13 @@ export class PlaylistService {
     return this.http.put<Playlist>(this.playlistUrl + `${id}`, playlist);
   }
 
+  public getContent(id: number | string, pageNo: number, pageSize: number): Observable<any> {
+    let queryParams = new HttpParams().append("pageNo", pageNo)
+                                      .append("pageSize", pageSize);
+    return this.http.get<any>(this.playlistUrl + `${id}/media/`, { params: queryParams });
+  }
+
+  public deletePlaylist(id: number | string) {
+    return this.http.delete(this.playlistUrl + `${id}`);
+  }
 }
