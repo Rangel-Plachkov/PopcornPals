@@ -33,6 +33,12 @@ export class UserService {
     return this.http.put<User>(this.userUrl + `${id}`, user);
   }
 
+  public getPlaylists(id: number | string, pageNo: number, pageSize: number) {
+    let queryParams = new HttpParams().append("pageNo", pageNo)
+                                      .append("pageSize", pageSize);
+    return this.http.get<any>(this.userUrl + `${id}/playlists`, { params: queryParams });
+  }
+
   public deleteUser(id: number | string) {
     return this.http.delete(this.userUrl + `${id}`);
   }

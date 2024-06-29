@@ -15,6 +15,7 @@ import { UserListComponent } from './user/user-list/user-list.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { UserCreateComponent } from './user/user-create/user-create.component';
 import { UserUpdateComponent } from './user/user-update/user-update.component';
+import { UserPlaylistComponent } from './user/user-playlist/user-playlist.component';
 
 export const routes: Routes = [
     {
@@ -115,6 +116,10 @@ export const routes: Routes = [
                         path: 'update',
                         title: 'PopcornPals | Update User',
                         component: UserUpdateComponent
+                    },
+                    {
+                        path: 'playlists',
+                        component: UserPlaylistComponent
                     }
                 ]
             }
