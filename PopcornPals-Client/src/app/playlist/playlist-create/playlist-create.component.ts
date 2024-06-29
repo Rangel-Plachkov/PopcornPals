@@ -16,7 +16,7 @@ import { Location } from '@angular/common';
   standalone: true,
   templateUrl: './playlist-create.component.html',
   styleUrls: ['./playlist-create.component.css'],
-  imports: [ MaterialModule, ReactiveFormsModule, NgIf, NgFor],
+  imports: [ MaterialModule, ReactiveFormsModule, NgIf, NgFor ],
   providers: [provideNativeDateAdapter()]
 })
 export class PlaylistCreateComponent implements OnInit {
@@ -27,7 +27,7 @@ export class PlaylistCreateComponent implements OnInit {
     content: this.mediaControl
   });
 
-  id!: string;
+  userId!: string;
   mediaList: Media[] = [];
   title: string = '';
 
@@ -41,7 +41,7 @@ export class PlaylistCreateComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.id = this.activatedRoute.snapshot.params['id'];
+    this.userId = this.activatedRoute.snapshot.params['id'];
   }
 
   getMedia() {
@@ -54,7 +54,7 @@ export class PlaylistCreateComponent implements OnInit {
   }
 
   createPlaylist() {
-    this.playlistForm.value.creator = parseInt(this.id);
+    this.playlistForm.value.creator = parseInt(this.userId);
     this.playlistForm.value.content = this.mediaControl.value?.map(media => media.id);
     this.playlistService.createPlaylist(this.playlistForm.value).subscribe((data) => {
       this.location.back();

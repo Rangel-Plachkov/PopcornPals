@@ -22,6 +22,7 @@ import { StudioCreateComponent } from './studio/studio-create/studio-create.comp
 import { StudioUpdateComponent } from './studio/studio-update/studio-update.component';
 import { StudioMediaComponent } from './studio/studio-media/studio-media.component';
 import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
+import { PlaylistUpdateComponent } from './playlist/playlist-update/playlist-update.component';
 
 export const routes: Routes = [
     {
@@ -127,7 +128,16 @@ export const routes: Routes = [
                     },
                     {
                         path: 'playlists',
-                        component: UserPlaylistComponent
+                        children: [
+                            {
+                                path: '',
+                                component: UserPlaylistComponent
+                            },
+                            {
+                                path: ':playlistId/update',
+                                component: PlaylistUpdateComponent
+                            }
+                        ]
                     },
                     {
                         path: 'playlists/create',

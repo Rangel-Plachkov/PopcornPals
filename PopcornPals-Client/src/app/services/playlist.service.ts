@@ -13,8 +13,16 @@ export class PlaylistService {
     this.playlistUrl = 'http://localhost:8080/api/playlists/';
   }
 
+  public getPlaylist(id: number | string): Observable<Playlist> {
+    return this.http.get<Playlist>(this.playlistUrl + `${id}`);
+  }
+
   public createPlaylist(playlist: any): Observable<Playlist> {
     return this.http.post<Playlist>(this.playlistUrl, playlist);
+  }
+
+  public updatePlaylist(id: number | string, playlist: any): Observable<Playlist> {
+    return this.http.put<Playlist>(this.playlistUrl + `${id}`, playlist);
   }
 
 }
