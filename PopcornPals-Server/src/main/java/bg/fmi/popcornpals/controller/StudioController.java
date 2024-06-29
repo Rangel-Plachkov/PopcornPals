@@ -50,7 +50,7 @@ public class StudioController {
     }
 
     @GetMapping("{id}/media")
-    public ResponseEntity<List<MediaDTO>> getStudioMedia(
+    public ResponseEntity<Page<MediaDTO>> getStudioMedia(
             @PathVariable("id") Long studioId,
             @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
             @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize) {

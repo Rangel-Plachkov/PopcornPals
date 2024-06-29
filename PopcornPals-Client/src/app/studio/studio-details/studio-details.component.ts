@@ -39,11 +39,12 @@ export class StudioDetailsComponent implements OnInit {
   }
 
   updateStudio() {
-
+    this.router.navigate([`./update`], {relativeTo: this.activatedRoute});
   }
 
   deleteStudio() {
-    
+    this.studioService.deleteStudio(this.id).subscribe();
+    this.router.navigate([`api/studios`]);
   }
 
 }

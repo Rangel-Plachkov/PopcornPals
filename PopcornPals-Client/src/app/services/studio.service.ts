@@ -27,4 +27,12 @@ export class StudioService {
   public createStudio(studio: any): Observable<Studio> {
     return this.http.post<Studio>(this.studioUrl, studio);
   }
+
+  public updateStudio(id: number | string, studio: any): Observable<Studio> {
+    return this.http.put<Studio>(this.studioUrl + `${id}`, studio);
+  }
+
+  public deleteStudio(id: number | string) {
+    return this.http.delete(this.studioUrl + `${id}`);
+  }
 }

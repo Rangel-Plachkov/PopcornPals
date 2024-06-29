@@ -14,6 +14,7 @@ import { ProducerUpdateComponent } from './producer/producer-update/producer-upd
 import { StudioListComponent } from './studio/studio-list/studio-list.component';
 import { StudioDetailsComponent } from './studio/studio-details/studio-details.component';
 import { StudioCreateComponent } from './studio/studio-create/studio-create.component';
+import { StudioUpdateComponent } from './studio/studio-update/studio-update.component';
 
 export const routes: Routes = [
     {
@@ -109,6 +110,10 @@ export const routes: Routes = [
                     {
                         path: '',
                         component: StudioDetailsComponent
+                    },
+                    {
+                        path: 'update',
+                        component: StudioUpdateComponent
                     }
                 ]
             }

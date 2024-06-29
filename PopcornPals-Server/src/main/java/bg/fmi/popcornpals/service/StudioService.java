@@ -56,7 +56,7 @@ public class StudioService {
         }
         return studios.map(studio -> studioMapper.toDTO(studio));
     }
-    public List<MediaDTO> getStudioMedia(Integer pageNo, Integer pageSize,Long studioId) {
+    public Page<MediaDTO> getStudioMedia(Integer pageNo, Integer pageSize,Long studioId) {
         Studio studio = studioRepository.findById(studioId)
                 .orElseThrow(StudioNotFoundException::new);
         Pageable pageable = PageRequest.of(pageNo, pageSize);
@@ -65,7 +65,8 @@ public class StudioService {
         if(media.isEmpty()) {
             throw new NoAssignedMediaException();
         }
-        return mediaMapper.toDTOList(media.getContent());
+        return media.map(m -> mediaMapper.toDTO(m));
+        //return mediaMapper.toDTOList(media.getContent());
     }
 
 
@@ -73,6 +74,7 @@ public class StudioService {
         Studio studio = studioRepository.findById(studioId)
                 .orElseThrow(StudioNotFoundException::new);
         studio = studioMapper.toEntity(studioDTO);
+        studio.setID(studioId);
         Studio updatedStudio = studioRepository.save(studio);
         log.info("Studio with id {} was updated", updatedStudio.getID());
         return studioMapper.toDTO(updatedStudio);
