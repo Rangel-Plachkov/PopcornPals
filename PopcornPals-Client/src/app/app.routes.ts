@@ -15,6 +15,7 @@ import { StudioListComponent } from './studio/studio-list/studio-list.component'
 import { StudioDetailsComponent } from './studio/studio-details/studio-details.component';
 import { StudioCreateComponent } from './studio/studio-create/studio-create.component';
 import { StudioUpdateComponent } from './studio/studio-update/studio-update.component';
+import { StudioMediaComponent } from './studio/studio-media/studio-media.component';
 
 export const routes: Routes = [
     {
@@ -114,6 +115,10 @@ export const routes: Routes = [
                     {
                         path: 'update',
                         component: StudioUpdateComponent
+                    },
+                    {
+                        path: 'media',
+                        component: StudioMediaComponent
                     }
                 ]
             }

@@ -32,6 +32,12 @@ export class StudioService {
     return this.http.put<Studio>(this.studioUrl + `${id}`, studio);
   }
 
+  public getMedia(id: number | string, pageNo: number, pageSize: number) {
+    let queryParams = new HttpParams().append("pageNo", pageNo)
+                                      .append("pageSize", pageSize);
+    return this.http.get<any>(this.studioUrl + `${id}/media`, { params: queryParams });
+  }
+
   public deleteStudio(id: number | string) {
     return this.http.delete(this.studioUrl + `${id}`);
   }

@@ -35,7 +35,7 @@ export class StudioDetailsComponent implements OnInit {
   }
 
   viewMedia() {
-
+    this.router.navigate([`./media`], {relativeTo: this.activatedRoute});
   }
 
   updateStudio() {
