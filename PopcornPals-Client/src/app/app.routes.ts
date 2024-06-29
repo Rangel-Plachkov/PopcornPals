@@ -13,6 +13,7 @@ import { ProducerMediaComponent } from './producer/producer-media/producer-media
 import { ProducerUpdateComponent } from './producer/producer-update/producer-update.component';
 import { StudioListComponent } from './studio/studio-list/studio-list.component';
 import { StudioDetailsComponent } from './studio/studio-details/studio-details.component';
+import { StudioCreateComponent } from './studio/studio-create/studio-create.component';
 
 export const routes: Routes = [
     {
@@ -96,6 +97,11 @@ export const routes: Routes = [
                 path: '',
                 title: 'Studios',
                 component: StudioListComponent
+            },
+            {
+                path: 'create',
+                title: 'Create Studio',
+                component: StudioCreateComponent
             },
             {
                 path: ':id',

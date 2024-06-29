@@ -23,4 +23,8 @@ export class StudioService {
   public getStudio(id: string | number): Observable<Studio> {
     return this.http.get<Studio>(this.studioUrl + `${id}`);
   }
+
+  public createStudio(studio: any): Observable<Studio> {
+    return this.http.post<Studio>(this.studioUrl, studio);
+  }
 }
