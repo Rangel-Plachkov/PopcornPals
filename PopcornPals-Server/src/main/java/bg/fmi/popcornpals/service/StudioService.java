@@ -45,7 +45,7 @@ public class StudioService {
                 .orElseThrow(StudioNotFoundException::new);
         return studioMapper.toDTO(studio);
     }
-    public List<StudioDTO> getStudios(Integer pageNo, Integer pageSize, String studioName) {
+    public Page<StudioDTO> getStudios(Integer pageNo, Integer pageSize, String studioName) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Studio> studios = null;
         if(studioName != null) {
@@ -54,7 +54,7 @@ public class StudioService {
         else {
             studios = studioRepository.findAll(pageable);
         }
-        return studioMapper.toDTOList(studios.getContent());
+        return studios.map(studio -> studioMapper.toDTO(studio));
     }
     public List<MediaDTO> getStudioMedia(Integer pageNo, Integer pageSize,Long studioId) {
         Studio studio = studioRepository.findById(studioId)

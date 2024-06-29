@@ -8,6 +8,7 @@ import bg.fmi.popcornpals.util.PaginationProperties;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,7 +42,7 @@ public class StudioController {
     }
 
     @GetMapping
-    public ResponseEntity<List<StudioDTO>> getStudios(
+    public ResponseEntity<Page<StudioDTO>> getStudios(
             @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
             @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize,
             @RequestParam(value = "name", required = false) String studioName) {
