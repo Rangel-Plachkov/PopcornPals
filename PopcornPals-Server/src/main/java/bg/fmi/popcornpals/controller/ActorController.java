@@ -67,8 +67,8 @@ public class ActorController {
     @GetMapping("{id}/media/")
     public ResponseEntity<Page<MediaDTO>> getMedia(
             @PathVariable("id") Long actorId,
-            @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "5", required = false) Integer pageSize) {
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize) {
         Page<MediaDTO> media = actorService.getMedia(actorId, pageNo, pageSize);
         if(media.isEmpty()) {
             return new ResponseEntity<>(media, HttpStatus.NO_CONTENT);

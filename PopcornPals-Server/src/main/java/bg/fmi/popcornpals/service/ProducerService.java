@@ -13,6 +13,7 @@ import bg.fmi.popcornpals.repository.ProducerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ public class ProducerService {
         return producerMapper.toDTO(producer);
     }
 
-    public List<ProducerDTO> getProducers(Integer pageNo, Integer pageSize, String producerName) {
+    public Page<ProducerDTO> getProducers(Integer pageNo, Integer pageSize, String producerName) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Producer> producers = null;
         if(producerName != null) {
@@ -51,7 +52,7 @@ public class ProducerService {
         else {
             producers = producerRepository.findAll(pageable);
         }
-        return producerMapper.toDTOList(producers.getContent());
+        return producers.map(producer -> producerMapper.toDTO(producer));
     }
 
     public ProducerDTO createProducer(ProducerRequestDTO producerRequestDTO) {
@@ -94,9 +95,14 @@ public class ProducerService {
         producerRepository.delete(toDelete);
     }
 
-    public List<MediaDTO> getProducedMedia(Long producerId) {
+    public Page<MediaDTO> getProducedMedia(Long producerId, Integer pageNo, Integer pageSize) {
         Producer producer = producerRepository.findById(producerId)
                 .orElseThrow(ProducerNotFoundException::new);
-        return mediaMapper.toDTOList(producer.getProducedMedia());
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<MediaDTO> mediaList = mediaMapper.toDTOList(producer.getProducedMedia());
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), mediaList.size());
+        List<MediaDTO> pageContent = mediaList.subList(start, end);
+        return new PageImpl<>(pageContent, pageable, mediaList.size());
     }
 }
