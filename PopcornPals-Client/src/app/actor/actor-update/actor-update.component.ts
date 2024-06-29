@@ -14,7 +14,7 @@ import { Actor } from '../../models/actor';
 @Component({
   selector: 'app-actor-update',
   standalone: true,
-  imports: [MaterialModule, ReactiveFormsModule, NgIf, NgFor],
+  imports: [MaterialModule, ReactiveFormsModule, NgIf, NgFor ],
   providers: [provideNativeDateAdapter()],
   templateUrl: './actor-update.component.html',
   styleUrl: './actor-update.component.css'
