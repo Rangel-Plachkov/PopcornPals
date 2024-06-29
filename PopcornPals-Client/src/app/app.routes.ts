@@ -21,6 +21,7 @@ import { StudioDetailsComponent } from './studio/studio-details/studio-details.c
 import { StudioCreateComponent } from './studio/studio-create/studio-create.component';
 import { StudioUpdateComponent } from './studio/studio-update/studio-update.component';
 import { StudioMediaComponent } from './studio/studio-media/studio-media.component';
+import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
 
 export const routes: Routes = [
     {
@@ -127,6 +128,10 @@ export const routes: Routes = [
                     {
                         path: 'playlists',
                         component: UserPlaylistComponent
+                    },
+                    {
+                        path: 'playlists/create',
+                        component: PlaylistCreateComponent
                     }
                 ]
             }

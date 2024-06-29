@@ -38,6 +38,10 @@ export class UserDetailsComponent implements OnInit {
     this.router.navigate([`./playlists`], {relativeTo: this.activatedRoute});
   }
 
+  createPlaylist() {
+    this.router.navigate([`./playlists/create`], {relativeTo: this.activatedRoute});
+  }
+
   updateUser() {
     this.router.navigate([`./update`], {relativeTo: this.activatedRoute});
   }
