@@ -1,0 +1,23 @@
+<mat-card class="user-card" appearance="outlined">
+  <mat-card-header>
+      <mat-card-title>
+          {{ user.name }}
+      </mat-card-title>
+      <mat-card-subtitle>
+          Username: {{ user.username }}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        Birthdate: {{ user.birthday || 'Unknown' }}
+      </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+      {{ user.description }}
+  </mat-card-content>
+  <mat-card-actions>
+      <div class="button-row">
+      <button mat-flat-button color="primary" (click)="viewPlaylists()">Playlists</button>
+      <button mat-flat-button color="primary" (click)="updateUser()">Update User</button>
+      <button mat-flat-button color="accent" (click)="deleteUser()">Delete User</button>
+      </div>
+  </mat-card-actions>
+</mat-card>

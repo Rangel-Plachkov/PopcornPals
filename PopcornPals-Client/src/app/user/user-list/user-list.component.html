@@ -1,0 +1,49 @@
+<form>
+  <mat-form-field>
+    <input type="text" matInput 
+           placeholder="Search user by username" 
+           [(ngModel)]="username"
+           [ngModelOptions]="{standalone: true}"
+           (keyup)="search()">
+  </mat-form-field>
+</form>
+
+<table mat-table [dataSource]="users" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="username">
+    <th mat-header-cell *matHeaderCellDef> Username </th>
+    <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef> Description </th>
+    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="birthday">
+    <th mat-header-cell *matHeaderCellDef> Birthdate </th>
+    <td mat-cell *matCellDef="let element"> {{element.birthday}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="details">
+    <th mat-header-cell *matHeaderCellDef>Details</th>
+    <td mat-cell *matCellDef="let element">
+      <button mat-flat-button color="primary" (click)="viewDetails(element.id)">Details</button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator [length]="totalItems"
+               [pageSize]="pageSize"
+               [pageIndex]="pageNo"
+               [pageSizeOptions]="[5, 10, 20]"
+               (page)="getPageData($event)"
+              aria-label="Select page">
+</mat-paginator>
