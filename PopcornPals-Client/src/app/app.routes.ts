@@ -13,6 +13,7 @@ import { ProducerMediaComponent } from './producer/producer-media/producer-media
 import { ProducerUpdateComponent } from './producer/producer-update/producer-update.component';
 import { UserListComponent } from './user/user-list/user-list.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
+import { UserCreateComponent } from './user/user-create/user-create.component';
 
 export const routes: Routes = [
     {
@@ -96,6 +97,11 @@ export const routes: Routes = [
                 path: '',
                 title: 'PopcornPals | Users',
                 component: UserListComponent
+            },
+            {
+                path: 'create',
+                title: 'PopcornPals | Create User',
+                component: UserCreateComponent
             },
             {
                 path: ':id',
