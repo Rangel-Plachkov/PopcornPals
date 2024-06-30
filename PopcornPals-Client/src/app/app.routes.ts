@@ -21,6 +21,9 @@ import { StudioDetailsComponent } from './studio/studio-details/studio-details.c
 import { StudioCreateComponent } from './studio/studio-create/studio-create.component';
 import { StudioUpdateComponent } from './studio/studio-update/studio-update.component';
 import { StudioMediaComponent } from './studio/studio-media/studio-media.component';
+import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
+import { PlaylistUpdateComponent } from './playlist/playlist-update/playlist-update.component';
+import { PlaylistMediaComponent } from './playlist/playlist-media/playlist-media.component';
 
 export const routes: Routes = [
     {
@@ -117,6 +120,7 @@ export const routes: Routes = [
                 children: [
                     {
                         path: '',
+                        title: 'PopcornPals | Users',
                         component: UserDetailsComponent
                     },
                     {
@@ -125,8 +129,29 @@ export const routes: Routes = [
                         component: UserUpdateComponent
                     },
                     {
+                        path: 'playlists/create',
+                        title: 'PopcornPals | Create Playlist',
+                        component: PlaylistCreateComponent
+                    },
+                    {
                         path: 'playlists',
-                        component: UserPlaylistComponent
+                        children: [
+                            {
+                                path: '',
+                                title: 'PopcornPals | User Playlists',
+                                component: UserPlaylistComponent
+                            },
+                            {
+                                path: ':playlistId/update',
+                                title: 'PopcornPals | Update Playlist',
+                                component: PlaylistUpdateComponent
+                            },
+                            {
+                                path: ':playlistId',
+                                title: 'PopcornPals | Playlist',
+                                component: PlaylistMediaComponent
+                            }
+                        ]
                     }
                 ]
             }

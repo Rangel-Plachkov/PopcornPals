@@ -8,6 +8,7 @@ import bg.fmi.popcornpals.util.PaginationProperties;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +34,7 @@ public class PlaylistController {
     }
 
     @GetMapping
-    public ResponseEntity<List<PlaylistDTO>> getPlaylists(
+    public ResponseEntity<Page<PlaylistDTO>> getPlaylists(
             @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
             @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize,
             @RequestParam(value = "name", required = false) String name) {
@@ -63,8 +64,11 @@ public class PlaylistController {
     }
 
     @GetMapping("{id}/media/")
-    public ResponseEntity<List<MediaDTO>> getContent(@PathVariable("id") Long playlistId) {
-        List<MediaDTO> content = playlistService.getContent(playlistId);
+    public ResponseEntity<Page<MediaDTO>> getContent(
+            @PathVariable("id") Long playlistId,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO, required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize) {
+        Page<MediaDTO> content = playlistService.getContent(playlistId, pageNo, pageSize);
         if(content.isEmpty()) {
             return new ResponseEntity<>(content, HttpStatus.NO_CONTENT);
         }

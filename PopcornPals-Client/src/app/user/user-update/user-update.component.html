@@ -33,6 +33,6 @@
       <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
-  <button mat-flat-button color="primary" [disabled]="!userForm.valid" (click)="updateUser()">Update</button>
+  <button mat-flat-button color="primary" [disabled]="!userForm.valid || userForm.pristine" (click)="updateUser()">Update</button>
 </form>
 
