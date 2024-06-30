@@ -8,6 +8,7 @@ import bg.fmi.popcornpals.util.MediaType;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,6 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
-import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("api/media/")
@@ -36,7 +36,7 @@ public class MediaController {
         return new ResponseEntity<>(mediaService.getMediaById(id), HttpStatus.OK);
     }
     @GetMapping
-    public ResponseEntity<List<MediaDTO>> getMedia(@RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO , required = false) Integer pageNo,
+    public ResponseEntity<Page<MediaDTO>> getMedia(@RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO , required = false) Integer pageNo,
                                                    @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize,
                                                    @RequestParam (name = "title", required = false) String title,
                                                    @RequestParam (name = "type", required = false)  MediaType type,
@@ -44,12 +44,18 @@ public class MediaController {
         return new ResponseEntity<>(mediaService.getMedia(pageNo, pageSize, title, type, genre), HttpStatus.OK);
     }
     @GetMapping("{id}/actors")
-    public ResponseEntity<List<ActorDTO>> getActorsInMedia(@PathVariable Long id) {
-        return new ResponseEntity<>(mediaService.getActorsInMedia(id), HttpStatus.OK);
+    public ResponseEntity<Page<ActorDTO>> getActorsInMedia(
+            @PathVariable Long id,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO , required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize) {
+        return new ResponseEntity<>(mediaService.getActorsInMedia(id, pageNo, pageSize), HttpStatus.OK);
     }
     @GetMapping("{id}/producers")
-    public ResponseEntity<List<ProducerDTO>> getProducersInMedia(@PathVariable Long id) {
-        return new ResponseEntity<>(mediaService.getProducerOfMedia(id), HttpStatus.OK);
+    public ResponseEntity<Page<ProducerDTO>> getProducersInMedia(
+            @PathVariable Long id,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO , required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize){
+        return new ResponseEntity<>(mediaService.getProducerOfMedia(id,pageNo, pageSize), HttpStatus.OK);
     }
     @GetMapping("{id}/studio")
     public ResponseEntity<StudioDTO> getStudioOfMedia(@PathVariable Long id) {
