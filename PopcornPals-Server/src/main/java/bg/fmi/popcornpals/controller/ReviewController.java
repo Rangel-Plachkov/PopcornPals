@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -40,7 +40,7 @@ public class ReviewController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ReviewDTO>> getReview(
+    public ResponseEntity<Page<ReviewDTO>> getReview(
             @RequestParam(value = "mediaID" , required = false) Long mediaID,
             @RequestParam(value = "userID" ,required = false) Long userID,
             @RequestBody(required = false)ReviewSortTypes sortType,
