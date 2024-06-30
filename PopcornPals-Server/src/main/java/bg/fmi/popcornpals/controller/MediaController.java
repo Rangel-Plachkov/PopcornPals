@@ -61,6 +61,13 @@ public class MediaController {
     public ResponseEntity<StudioDTO> getStudioOfMedia(@PathVariable Long id) {
         return new ResponseEntity<>(mediaService.getStudioOfMedia(id), HttpStatus.OK);
     }
+    @GetMapping("{id}/reviews")
+    public ResponseEntity<Page<ReviewDTO>> getReviewsOfMedia(
+            @PathVariable Long id,
+            @RequestParam(value = "pageNo", defaultValue = PaginationProperties.DEFAULT_PAGE_NO , required = false) Integer pageNo,
+            @RequestParam(value = "pageSize", defaultValue = PaginationProperties.DEFAULT_PAGE_SIZE, required = false) Integer pageSize) {
+        return new ResponseEntity<>(mediaService.getReviewsOfMedia(id, pageNo, pageSize), HttpStatus.OK);
+    }
 
     @PutMapping("{id}")
     public ResponseEntity<MediaDTO> updateMedia(@PathVariable Long id,
