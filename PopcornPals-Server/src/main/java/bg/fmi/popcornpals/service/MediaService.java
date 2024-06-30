@@ -94,6 +94,7 @@ public class MediaService {
         Media existingMedia = mediaRepository.findById(mediaId)
                 .orElseThrow(MediaNotFoundException::new);
         existingMedia = mediaMapper.toEntity(media);
+        existingMedia.setID(mediaId);
         Media updatedMedia = mediaRepository.save(existingMedia);
         log.info("Media with id {} was updated", updatedMedia.getID());
         return mediaMapper.toDTO(updatedMedia);

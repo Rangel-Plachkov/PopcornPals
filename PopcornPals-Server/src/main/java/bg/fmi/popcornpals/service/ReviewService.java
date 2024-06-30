@@ -81,6 +81,7 @@ public class ReviewService {
         Review existingReview = reviewRepository.findById(reviewID)
                 .orElseThrow(ReviewNotFoundException::new);
         existingReview = reviewMapper.toEntity(review);
+        existingReview.setID(reviewID);
         Review updatedReview = reviewRepository.save(existingReview);
         log.info("Review with id {} was updated", updatedReview.getID());
         return reviewMapper.toDTO(updatedReview);
