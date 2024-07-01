@@ -225,14 +225,17 @@ export const routes: Routes = [
                     },
                     {
                         path: 'actors',
+                        title: 'PopcornPals | Media | Actors',
                         component: MediaActorsComponent
                     },
                     {
                         path: 'producers',
+                        title: 'PopcornPals | Media | Producers',
                         component: MediaProducersComponent
                     },
                     {
                         path: 'reviews',
+                        title: 'PopcornPals | Media | Reviews',
                         component: MediaReviewsComponent
                     }
                 ]
