@@ -1,7 +1,7 @@
 import { Studio } from "./studio";
 
 export interface Media {
-    id?: number,
+    id: number,
     type?: string,
     title?: string,
     genre?: string,

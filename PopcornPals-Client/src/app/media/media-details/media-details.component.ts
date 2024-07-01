@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { MaterialModule } from '../../material/material.module';
-import { Media } from '../../models/media';
-import { MediaService } from '../../services/media.service';
+
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Studio } from '../../models/studio';
+import { Media } from '../../models/media';
+import { MaterialModule } from '../../material/material.module';
+import { MediaService } from '../../services/media.service';
+
 
 @Component({
   selector: 'app-media-details',

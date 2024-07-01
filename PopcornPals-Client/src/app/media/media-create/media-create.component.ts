@@ -21,14 +21,14 @@ import { HttpErrorResponse } from '@angular/common/http';
   providers: [provideNativeDateAdapter()]
 })
 export class MediaCreateComponent implements OnInit {
+  studioControl = new FormControl<Studio>({});
   mediaForm: FormGroup = this.formBuilder.group({
     title: ['', Validators.required],
     type: ['', Validators.required],
     genre: ['', Validators.required],
     description: ['', Validators.required],
     length: ['', Validators.required],
-    releaseDate: [],
-    //studio: []
+    releaseDate: []
   });
 
   studioList: Studio[] = [];
@@ -54,7 +54,11 @@ export class MediaCreateComponent implements OnInit {
   createMedia() {
     //this.mediaForm.value.studio = this.mediaForm.value.studio?.id;
     console.log(this.mediaForm.value);
+    console.log(this.studioControl.value?.id);
     this.mediaService.createMedia(this.mediaForm.value).subscribe((data) => {
+      if(this.studioControl.value && this.studioControl.value.id) {
+        this.mediaService.assignStudio(data.id, this.studioControl.value.id).subscribe();
+      }
       this.router.navigate([`api/media`]);
     }, (error: HttpErrorResponse) => {
       console.log(error.error.errors);

@@ -32,4 +32,8 @@ export class MediaService {
   public createMedia(media: any): Observable<Media> {
     return this.http.post<Media>(this.mediaUrl, media);
   }
+
+  public assignStudio(id: number | string, studioId: string | number):Observable<Media> {
+    return this.http.patch<any>(this.mediaUrl + `${id}/studio/${studioId}`, {});
+  }
 }

@@ -41,14 +41,14 @@
       <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 
-  <!-- <mat-form-field>
+  <mat-form-field>
       <mat-label>Studio</mat-label>
-      <mat-select formControlName="studio">
+      <mat-select [formControl]="studioControl">
         @for (studio of studioList; track studio) {
           <mat-option [value]="studio">{{ studio.name }}</mat-option>
         }
       </mat-select>
-  </mat-form-field> -->
+  </mat-form-field>
 
   <button mat-flat-button color="primary" [disabled]="!mediaForm.valid" (click)="createMedia()">Create</button>
 </form>
