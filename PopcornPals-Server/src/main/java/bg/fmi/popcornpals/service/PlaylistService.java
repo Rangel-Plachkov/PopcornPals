@@ -54,12 +54,14 @@ public class PlaylistService {
         else {
             playlists = playlistRepository.findAll(pageable);
         }
+        log.info("Found " + playlists.getTotalElements() + " playlists");
         return playlists.map(playlist -> playlistMapper.toDTO(playlist));
     }
 
     public PlaylistDTO getPlaylistById(Long playlistId) {
         Playlist playlist = playlistRepository.findById(playlistId)
                 .orElseThrow(PlaylistNotFoundException::new);
+        log.info("Found playlist with id: " + playlistId);
         return playlistMapper.toDTO(playlist);
     }
 
@@ -111,6 +113,7 @@ public class PlaylistService {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), mediaList.size());
         List<MediaDTO> pageContent = mediaList.subList(start, end);
+        log.info("Found " + mediaList.size() + " media in playlist with id " + playlistId);
         return new PageImpl<>(pageContent, pageable, mediaList.size());
     }
 }

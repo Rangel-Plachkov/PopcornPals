@@ -40,6 +40,7 @@ public class ProducerService {
     public ProducerDTO getProducerById(Long producerId) {
         Producer producer = producerRepository.findById(producerId)
                 .orElseThrow(ProducerNotFoundException::new);
+        log.info("Found producer with id: " + producerId);
         return producerMapper.toDTO(producer);
     }
 
@@ -52,6 +53,7 @@ public class ProducerService {
         else {
             producers = producerRepository.findAll(pageable);
         }
+        log.info("Found " + producers.getTotalElements() + " producers");
         return producers.map(producer -> producerMapper.toDTO(producer));
     }
 
@@ -103,6 +105,7 @@ public class ProducerService {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), mediaList.size());
         List<MediaDTO> pageContent = mediaList.subList(start, end);
+        log.info("Found " + mediaList.size() + " media produced by producer with id " + producerId);
         return new PageImpl<>(pageContent, pageable, mediaList.size());
     }
 }
