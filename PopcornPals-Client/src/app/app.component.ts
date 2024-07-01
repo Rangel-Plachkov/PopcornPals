@@ -6,7 +6,7 @@ import { CdkColumnDef } from '@angular/cdk/table';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive, MaterialModule],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, MaterialModule ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
   providers:[CdkColumnDef]

@@ -1,0 +1,16 @@
+.review-card {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.button-row {
+    display: table-cell;
+    max-width: 600px;
+}
+
+.button-row .mat-mdc-button-base {
+    margin: 8px 8px 8px 0;
+}

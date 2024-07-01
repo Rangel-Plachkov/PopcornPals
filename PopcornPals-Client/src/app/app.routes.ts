@@ -24,6 +24,14 @@ import { StudioMediaComponent } from './studio/studio-media/studio-media.compone
 import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
 import { PlaylistUpdateComponent } from './playlist/playlist-update/playlist-update.component';
 import { PlaylistMediaComponent } from './playlist/playlist-media/playlist-media.component';
+import { MediaListComponent } from './media/media-list/media-list.component';
+import { MediaDetailsComponent } from './media/media-details/media-details.component';
+import { MediaCreateComponent } from './media/media-create/media-create.component';
+import { MediaUpdateComponent } from './media/media-update/media-update.component';
+import { MediaActorsComponent } from './media/media-actors/media-actors.component';
+import { MediaProducersComponent } from './media/media-producers/media-producers.component';
+import { MediaReviewsComponent } from './media/media-reviews/media-reviews.component';
+import { ReviewDetailsComponent } from './review/review-details/review-details.component';
 
 export const routes: Routes = [
     {
@@ -172,7 +180,7 @@ export const routes: Routes = [
             },
             {
                 path: ':id',
-                children:[
+                children: [
                     {
                         path: '',
                         component: StudioDetailsComponent
@@ -189,6 +197,54 @@ export const routes: Routes = [
                 ]
             }
         ]
+    },
+    {
+        path: 'api/media',
+        children: [
+            {
+                path: '',
+                title: 'PopcornPals | Media',
+                component: MediaListComponent
+            },
+            {
+                path: 'create',
+                title: 'PopcornPals | Create Media',
+                component: MediaCreateComponent
+            },
+            {
+                path: ':id',
+                children: [
+                    {
+                        path: '',
+                        component: MediaDetailsComponent
+                    },
+                    {
+                        path: 'update',
+                        title: 'PopcornPals | Update Media',
+                        component: MediaUpdateComponent
+                    },
+                    {
+                        path: 'actors',
+                        title: 'PopcornPals | Media | Actors',
+                        component: MediaActorsComponent
+                    },
+                    {
+                        path: 'producers',
+                        title: 'PopcornPals | Media | Producers',
+                        component: MediaProducersComponent
+                    },
+                    {
+                        path: 'reviews',
+                        title: 'PopcornPals | Media | Reviews',
+                        component: MediaReviewsComponent
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        path: 'api/reviews/:id',
+        component: ReviewDetailsComponent
     },
     {
         path: '**',
