@@ -45,8 +45,8 @@ export class PlaylistCreateComponent implements OnInit {
   }
 
   getMedia() {
-    this.mediaService.getMedia(this.title).subscribe((data: Media[]) => {
-      this.mediaList = data;
+    this.mediaService.getMedia(this.title).subscribe((data: any) => {
+      this.mediaList = data.content;
       this.mediaList.forEach(media => {
         media.releaseDate = new Date(media.releaseDate);
       })

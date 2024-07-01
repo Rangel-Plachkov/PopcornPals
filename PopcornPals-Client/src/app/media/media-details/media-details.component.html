@@ -1,0 +1,31 @@
+<mat-card class="media-card" appearance="outlined">
+  <mat-card-header>
+      <mat-card-title>
+          {{ media.title }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        Type: {{ media.type }}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        Genre: {{ media.genre }}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        Release Date: {{ media.releaseDate || 'Unknown' }}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        Length: {{ media.length || 'Unknown' }}
+      </mat-card-subtitle>
+      <mat-card-subtitle>
+        Studio: {{ media.studio?.name || 'Unknown' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+  <mat-card-content>
+      {{ media.description }}
+  </mat-card-content>
+  <mat-card-actions>
+      <div class="button-row">
+      <button mat-flat-button color="primary" (click)="updateMedia()">Update Media</button>
+      <button mat-flat-button color="accent" (click)="deleteMedia()">Delete Media</button>
+      </div>
+  </mat-card-actions>
+</mat-card>

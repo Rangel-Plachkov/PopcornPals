@@ -67,7 +67,7 @@ export class ProducerUpdateComponent implements OnInit {
     if(this.producer.producedMedia && this.mediaList) {
       const selectedMedia = this.producer.producedMedia.map(selected =>
         this.mediaList.find(media =>
-          media.title === selected.title && media.releaseDate.getTime() === selected.releaseDate.getTime()
+          media.title === selected.title //&& media.releaseDate.getTime() === selected.releaseDate.getTime()
         )
       ).filter((media): media is Media => media !== undefined);
       this.mediaControl.setValue(selectedMedia);
@@ -75,8 +75,8 @@ export class ProducerUpdateComponent implements OnInit {
   }
 
   getMedia() {
-    this.mediaService.getMedia(this.title).subscribe((data: Media[]) => {
-      this.mediaList = data;
+    this.mediaService.getMedia(this.title).subscribe((data) => {
+      this.mediaList = data.content;
       this.mediaList.forEach(media => {
         media.releaseDate = new Date(media.releaseDate);
       });

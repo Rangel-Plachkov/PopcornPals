@@ -40,9 +40,9 @@ export class ProducerCreateComponent implements OnInit {
   }
 
   loadMedia() {
-    this.mediaService.getMedia(this.title).subscribe((data: Media[]) => {
+    this.mediaService.getMedia(this.title).subscribe((data) => {
       console.log(data);
-      this.mediaList = data;
+      this.mediaList = data.content;
       this.mediaList.forEach(media => {
         media.releaseDate = new Date(media.releaseDate);
       })

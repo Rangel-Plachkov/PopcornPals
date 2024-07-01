@@ -24,6 +24,9 @@ import { StudioMediaComponent } from './studio/studio-media/studio-media.compone
 import { PlaylistCreateComponent } from './playlist/playlist-create/playlist-create.component';
 import { PlaylistUpdateComponent } from './playlist/playlist-update/playlist-update.component';
 import { PlaylistMediaComponent } from './playlist/playlist-media/playlist-media.component';
+import { MediaListComponent } from './media/media-list/media-list.component';
+import { MediaDetailsComponent } from './media/media-details/media-details.component';
+import { MediaCreateComponent } from './media/media-create/media-create.component';
 
 export const routes: Routes = [
     {
@@ -172,7 +175,7 @@ export const routes: Routes = [
             },
             {
                 path: ':id',
-                children:[
+                children: [
                     {
                         path: '',
                         component: StudioDetailsComponent
@@ -185,6 +188,30 @@ export const routes: Routes = [
                     {
                         path: 'media',
                         component: StudioMediaComponent
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        path: 'api/media',
+        children: [
+            {
+                path: '',
+                title: 'PopcornPals | Media',
+                component: MediaListComponent
+            },
+            {
+                path: 'create',
+                title: 'PopcornPals | Create Media',
+                component: MediaCreateComponent
+            },
+            {
+                path: ':id',
+                children: [
+                    {
+                        path: '',
+                        component: MediaDetailsComponent
                     }
                 ]
             }

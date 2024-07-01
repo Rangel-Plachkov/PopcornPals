@@ -1,0 +1,54 @@
+<form class="form-container" [formGroup]="mediaForm">
+  <h1>Create Media</h1>
+  <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" class="form-control" required>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Type</mat-label>
+    <mat-select formControlName="type" required>
+      @for (mediaType of mediaTypes; track mediaType) {
+        <mat-option [value]="mediaType">{{ mediaType }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Genre</mat-label>
+    <mat-select formControlName="genre" required>
+      @for (genre of genres; track genre) {
+        <mat-option [value]="genre">{{ genre }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Length</mat-label>
+    <input matInput formControlName="length" class="form-control" type="number" required>
+  </mat-form-field>
+
+  <mat-form-field >
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description">
+  </mat-form-field>
+  
+  <mat-form-field>
+      <mat-label>Enter Release Date</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="releaseDate">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <!-- <mat-form-field>
+      <mat-label>Studio</mat-label>
+      <mat-select formControlName="studio">
+        @for (studio of studioList; track studio) {
+          <mat-option [value]="studio">{{ studio.name }}</mat-option>
+        }
+      </mat-select>
+  </mat-form-field> -->
+
+  <button mat-flat-button color="primary" [disabled]="!mediaForm.valid" (click)="createMedia()">Create</button>
+</form>

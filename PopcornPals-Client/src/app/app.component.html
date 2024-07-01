@@ -19,6 +19,12 @@
       <button mat-menu-item routerLink="api/studios/create">Create Studio</button>
     </mat-menu>
 
+    <button mat-button color="accent" [matMenuTriggerFor]="mediaMenu">Media</button>
+    <mat-menu #mediaMenu="matMenu" color="accent">
+      <button mat-menu-item routerLink="api/media">Media</button>
+      <button mat-menu-item routerLink="api/media/create">Create Media</button>
+    </mat-menu>
+
     <button mat-button color="accent" [matMenuTriggerFor]="usersMenu">Users</button>
     <mat-menu #usersMenu="matMenu" color="accent">
       <button mat-menu-item routerLink="api/users">Users</button>
