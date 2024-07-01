@@ -46,12 +46,14 @@ public class ActorService {
         else {
             actors = actorRepository.findAll(pageable);
         }
+        log.info("Found " + actors.getTotalElements() + " actors");
         return actors.map(actor -> actorMapper.toDTO(actor));
     }
 
     public ActorDTO getActorById(Long actorId) {
         Actor actor = actorRepository.findById(actorId)
                 .orElseThrow(ActorNotFoundException::new);
+        log.info("Found actor with id: " + actorId);
         return actorMapper.toDTO(actor);
     }
 
@@ -103,6 +105,7 @@ public class ActorService {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), mediaList.size());
         List<MediaDTO> pageContent = mediaList.subList(start, end);
+        log.info("Found " + mediaList.size() + " media for actor with id: " + actorId);
         return new PageImpl<>(pageContent, pageable, mediaList.size());
     }
 }

@@ -1,11 +1,9 @@
 package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.*;
-import bg.fmi.popcornpals.exception.notfound.ActorNotFoundException;
 import bg.fmi.popcornpals.exception.notfound.MediaNotFoundException;
 import bg.fmi.popcornpals.exception.nocontent.NoAssignedStudioException;
 import bg.fmi.popcornpals.mapper.*;
-import bg.fmi.popcornpals.model.Actor;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.model.Studio;
 import bg.fmi.popcornpals.exception.notfound.StudioNotFoundException;
@@ -50,6 +48,7 @@ public class MediaService {
     public MediaDTO getMediaById(Long id) {
         Media media = mediaRepository.findById(id)
                 .orElseThrow(MediaNotFoundException::new);
+        log.info("Found media with id: {}", id);
         return mediaMapper.toDTO(media);
     }
 
@@ -65,6 +64,7 @@ public class MediaService {
         } else {
             media = mediaRepository.findAll(pageable);
         }
+        log.info("Found {} media", media.getTotalElements());
         return media.map(mediaMapper::toDTO);
     }
     public Page<ActorDTO> getActorsInMedia(Long id, Integer pageNo, Integer pageSize) {
@@ -76,6 +76,7 @@ public class MediaService {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), actorsList.size());
         List<ActorDTO> pageContent = actorsList.subList(start, end);
+        log.info("Found {} actors in media with id {}", actorsList.size(), id);
         return new PageImpl<>(pageContent, pageable, actorsList.size());
     }
     public Page<ProducerDTO> getProducerOfMedia(Long id, Integer pageNo, Integer pageSize) {
@@ -86,7 +87,7 @@ public class MediaService {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), producersList.size());
         List<ProducerDTO> pageContent = producersList.subList(start, end);
-
+        log.info("Found {} producers in media with id {}", producersList.size(), id);
         return new PageImpl<>(pageContent, pageable, producersList.size());
     }
     public StudioDTO getStudioOfMedia(Long id) {
@@ -96,6 +97,7 @@ public class MediaService {
         if(studio == null) {
             throw new NoAssignedStudioException();
         }
+        log.info("Found studio with id {} for media with id {}", studio.getID(), id);
         return studioMapper.toDTO(media.getStudio());
     }
 
@@ -107,6 +109,7 @@ public class MediaService {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), reviewsList.size());
         List<ReviewDTO> pageContent = reviewsList.subList(start, end);
+        log.info("Found {} reviews for media with id {}", reviewsList.size(), id);
         return new PageImpl<>(pageContent, pageable, reviewsList.size());
     }
 

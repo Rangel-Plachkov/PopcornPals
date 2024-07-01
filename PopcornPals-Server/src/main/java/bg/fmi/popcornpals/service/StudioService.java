@@ -42,6 +42,7 @@ public class StudioService {
     public StudioDTO getStudioById(Long id) {
         Studio studio = studioRepository.findById(id)
                 .orElseThrow(StudioNotFoundException::new);
+        log.info("Found studio with id: {}", id);
         return studioMapper.toDTO(studio);
     }
     public Page<StudioDTO> getStudios(Integer pageNo, Integer pageSize, String studioName) {
@@ -53,6 +54,7 @@ public class StudioService {
         else {
             studios = studioRepository.findAll(pageable);
         }
+        log.info("Found " + studios.getTotalElements() + " studios");
         return studios.map(studio -> studioMapper.toDTO(studio));
     }
     public Page<MediaDTO> getStudioMedia(Integer pageNo, Integer pageSize,Long studioId) {
@@ -64,8 +66,8 @@ public class StudioService {
         if(media.isEmpty()) {
             throw new NoAssignedMediaException();
         }
+        log.info("Found " + media.getTotalElements() + " media assigned to studio with id: " + studioId);
         return media.map(m -> mediaMapper.toDTO(m));
-        //return mediaMapper.toDTOList(media.getContent());
     }
 
 

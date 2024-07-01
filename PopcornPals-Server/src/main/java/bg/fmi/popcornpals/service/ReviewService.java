@@ -19,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Slf4j
 @Service
@@ -50,6 +49,7 @@ public class ReviewService {
     public ReviewDTO getReviewById(Long id) {
         Review review = reviewRepository.findById(id)
                 .orElseThrow(ReviewNotFoundException::new);
+        log.info("Found review with id: {}", id);
         return reviewMapper.toDTO(review);
     }
 
@@ -74,6 +74,7 @@ public class ReviewService {
         }else{
             reviews = reviewRepository.findAll(pageable);
         }
+        log.info("Found {} reviews", reviews.getTotalElements());
         return reviews.map(review -> reviewMapper.toDTO(review));
 
     }

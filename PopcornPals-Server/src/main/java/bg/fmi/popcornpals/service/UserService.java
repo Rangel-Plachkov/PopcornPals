@@ -1,6 +1,5 @@
 package bg.fmi.popcornpals.service;
 
-import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
 import bg.fmi.popcornpals.dto.UserRequestDTO;
@@ -48,12 +47,14 @@ public class UserService {
         else {
             users = userRepository.findAll(pageable);
         }
+        log.info("Found " + users.getTotalElements() + " users");
         return users.map(user -> userMapper.toDTO(user));
     }
 
     public UserDTO getUserById(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
+        log.info("Found user with id: " + userId);
         return userMapper.toDTO(user);
     }
 
@@ -90,6 +91,7 @@ public class UserService {
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), playlistList.size());
         List<PlaylistDTO> pageContent = playlistList.subList(start, end);
+        log.info("Found {} playlists for user with id {}", playlistList.size(), userId);
         return new PageImpl<>(pageContent, pageable, playlistList.size());
     }
 }
