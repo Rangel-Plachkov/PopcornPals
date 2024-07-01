@@ -30,6 +30,7 @@ import { MediaCreateComponent } from './media/media-create/media-create.componen
 import { MediaUpdateComponent } from './media/media-update/media-update.component';
 import { MediaActorsComponent } from './media/media-actors/media-actors.component';
 import { MediaProducersComponent } from './media/media-producers/media-producers.component';
+import { MediaReviewsComponent } from './media/media-reviews/media-reviews.component';
 
 export const routes: Routes = [
     {
@@ -228,6 +229,10 @@ export const routes: Routes = [
                     {
                         path: 'producers',
                         component: MediaProducersComponent
+                    },
+                    {
+                        path: 'reviews',
+                        component: MediaReviewsComponent
                     }
                 ]
             }

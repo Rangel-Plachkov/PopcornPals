@@ -53,6 +53,12 @@ export class MediaService {
     return this.http.get<any>(this.mediaUrl + `${id}/producers`, { params: queryParams });
   }
 
+  public getReviews(id: number | string, pageNo: number, pageSize: number): Observable<any> {
+    let queryParams = new HttpParams().append("pageNo", pageNo)
+                                      .append("pageSize", pageSize);
+    return this.http.get<any>(this.mediaUrl + `${id}/reviews`, { params: queryParams });
+  }
+
   public deleteMedia(id: number | string) {
     return this.http.delete(this.mediaUrl + `${id}`);
   }

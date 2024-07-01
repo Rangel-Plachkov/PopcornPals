@@ -47,6 +47,10 @@ export class MediaDetailsComponent implements OnInit {
     });
   }
 
+  viewReviews() {
+    this.router.navigate([`./reviews`], { relativeTo: this.activatedRoute });
+  }
+
   viewActors() {
     this.router.navigate([`./actors`], { relativeTo: this.activatedRoute });
   }
