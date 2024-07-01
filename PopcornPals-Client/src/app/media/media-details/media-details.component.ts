@@ -47,6 +47,14 @@ export class MediaDetailsComponent implements OnInit {
     });
   }
 
+  viewActors() {
+    this.router.navigate([`./actors`], { relativeTo: this.activatedRoute });
+  }
+
+  viewProducers() {
+    this.router.navigate([`./producers`], { relativeTo: this.activatedRoute });
+  }
+
   updateMedia() {
     this.router.navigate([`./update`], { relativeTo: this.activatedRoute });
   }

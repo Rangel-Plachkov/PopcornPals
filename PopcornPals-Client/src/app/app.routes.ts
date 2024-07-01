@@ -28,6 +28,8 @@ import { MediaListComponent } from './media/media-list/media-list.component';
 import { MediaDetailsComponent } from './media/media-details/media-details.component';
 import { MediaCreateComponent } from './media/media-create/media-create.component';
 import { MediaUpdateComponent } from './media/media-update/media-update.component';
+import { MediaActorsComponent } from './media/media-actors/media-actors.component';
+import { MediaProducersComponent } from './media/media-producers/media-producers.component';
 
 export const routes: Routes = [
     {
@@ -218,6 +220,14 @@ export const routes: Routes = [
                         path: 'update',
                         title: 'PopcornPals | Update Media',
                         component: MediaUpdateComponent
+                    },
+                    {
+                        path: 'actors',
+                        component: MediaActorsComponent
+                    },
+                    {
+                        path: 'producers',
+                        component: MediaProducersComponent
                     }
                 ]
             }

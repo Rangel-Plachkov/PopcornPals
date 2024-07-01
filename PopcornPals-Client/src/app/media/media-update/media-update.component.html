@@ -50,6 +50,6 @@
       </mat-select>
   </mat-form-field>
 
-  <button mat-flat-button color="primary" [disabled]="!mediaForm.valid || mediaForm.pristine || studioControl.pristine" (click)="updateMedia()">Update</button>
+  <button mat-flat-button color="primary" [disabled]="!mediaForm.valid || mediaForm.pristine && studioControl.pristine" (click)="updateMedia()">Update</button>
 </form>
 
