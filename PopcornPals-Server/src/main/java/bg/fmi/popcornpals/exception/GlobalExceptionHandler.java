@@ -2,6 +2,7 @@ package bg.fmi.popcornpals.exception;
 
 import bg.fmi.popcornpals.exception.nocontent.NoContentException;
 import bg.fmi.popcornpals.exception.notfound.NotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -12,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
@@ -20,6 +22,7 @@ public class GlobalExceptionHandler {
         errorResponse.put("status", 404);
         errorResponse.put("message", ex.getMessage());
         errorResponse.put("timestamp", new Date());
+        log.warn("Resource not found: " + ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(NoContentException.class)
@@ -28,6 +31,7 @@ public class GlobalExceptionHandler {
         response.put("status", 204);
         response.put("message", ex.getMessage());
         response.put("timestamp", new Date());
+        log.info("No content found: " + ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }
 
@@ -46,6 +50,7 @@ public class GlobalExceptionHandler {
         errorResponse.put("status", 400);
         errorResponse.put("message", "Validation Errors");
         errorResponse.put("timestamp", new Date());
+        log.warn("Validation errors occurred: " + errors);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
@@ -55,6 +60,7 @@ public class GlobalExceptionHandler {
         errorResponse.put("message", ex.getMessage() != null ? ex.getMessage() : "Unexpected error occurred");
         errorResponse.put("status", 500);
         errorResponse.put("timestamp", new Date());
+        log.error("Unexpected error occurred: " + ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
