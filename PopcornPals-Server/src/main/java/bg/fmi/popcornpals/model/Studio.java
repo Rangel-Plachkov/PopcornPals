@@ -2,11 +2,7 @@ package bg.fmi.popcornpals.model;
 
 import bg.fmi.popcornpals.util.StringSize;
 import bg.fmi.popcornpals.util.RegexPattern;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -41,7 +37,7 @@ public class Studio {
 
     private LocalDate foundingDate;
 
-    @OneToMany(mappedBy = "studio")
+    @OneToMany(mappedBy = "studio", cascade = CascadeType.ALL)
     private List<Media> media;
 
     public Studio(String name) {

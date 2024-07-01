@@ -4,14 +4,7 @@ import bg.fmi.popcornpals.util.RegexPattern;
 import bg.fmi.popcornpals.util.StringSize;
 import bg.fmi.popcornpals.util.Genre;
 import bg.fmi.popcornpals.util.MediaType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -67,20 +60,20 @@ public class Media {
     private List<Media> children;
 
 
-    @OneToMany(mappedBy = "media")
+    @OneToMany(mappedBy = "media", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
     @ManyToOne
     @JoinColumn(name = "studio_id")
     private Studio studio;
 
-    @ManyToMany(mappedBy = "starsIn")
+    @ManyToMany(mappedBy = "starsIn", cascade = CascadeType.ALL)
     private List<Actor> actors;
 
-    @ManyToMany(mappedBy = "producedMedia")
+    @ManyToMany(mappedBy = "producedMedia", cascade = CascadeType.ALL)
     private List<Producer> producers;
 
-    @ManyToMany(mappedBy = "content")
+    @ManyToMany(mappedBy = "content", cascade = CascadeType.ALL)
     private List<Playlist> playlists;
     public Media(MediaType type, String title){
         this.type = type;

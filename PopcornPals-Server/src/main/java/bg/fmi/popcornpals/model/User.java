@@ -63,7 +63,7 @@ public class User {
     @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Playlist> playlists;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
     private List<Review> reviews;
 
     public User(String username, String password, String name, String email) {
