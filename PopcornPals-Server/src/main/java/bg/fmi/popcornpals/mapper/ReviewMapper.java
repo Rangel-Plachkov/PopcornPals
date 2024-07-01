@@ -17,11 +17,13 @@ public interface ReviewMapper {
     @Mapping(source = "ID", target = "ID")
     @Mapping(source = "rating", target = "rating")
     @Mapping(source = "description", target = "description")
+    @Mapping(source = "date", target = "date")
     ReviewDTO toDTO(Review review);
 
     @Mapping(source = "ID", target = "ID")
     @Mapping(source = "rating", target = "rating")
     @Mapping(source = "description", target = "description")
+    @Mapping(source = "date", target = "date")
     Review toEntity(ReviewDTO reviewDTO);
 
     @Mapping(source = "rating", target = "rating")
