@@ -46,7 +46,7 @@ public interface MediaMapper {
     Media toEntity(MediaRequestDTO mediaRequestDTO);
 
     @AfterMapping
-    default void setParentId(MediaDTO source, @MappingTarget Media destination) {
+    default void setParentId(MediaRequestDTO source, @MappingTarget Media destination) {
         if (source.getParent_id() == null) {
             destination.setParent(null);
         }
