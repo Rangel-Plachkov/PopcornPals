@@ -53,7 +53,7 @@ public class ReviewService {
         return reviewMapper.toDTO(review);
     }
 
-    public List<ReviewDTO> getReview(Long mediaID, Long userID, ReviewSortTypes sortType, Integer pageNo, Integer pageSize) {
+    public Page<ReviewDTO> getReview(Long mediaID, Long userID, ReviewSortTypes sortType, Integer pageNo, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Review> reviews = null;
 
@@ -74,7 +74,8 @@ public class ReviewService {
         }else{
             reviews = reviewRepository.findAll(pageable);
         }
-        return reviewMapper.toDTOList(reviews.getContent());
+        return reviews.map(review -> reviewMapper.toDTO(review));
+
     }
 
     public ReviewDTO updateReview(Long reviewID , ReviewRequestDTO review) {

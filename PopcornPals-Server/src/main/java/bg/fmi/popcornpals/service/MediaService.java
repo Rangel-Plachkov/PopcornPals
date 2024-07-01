@@ -1,26 +1,22 @@
 package bg.fmi.popcornpals.service;
 
-import bg.fmi.popcornpals.dto.ActorDTO;
-import bg.fmi.popcornpals.dto.MediaDTO;
-import bg.fmi.popcornpals.dto.MediaRequestDTO;
-import bg.fmi.popcornpals.dto.ProducerDTO;
-import bg.fmi.popcornpals.dto.StudioDTO;
+import bg.fmi.popcornpals.dto.*;
+import bg.fmi.popcornpals.exception.notfound.ActorNotFoundException;
 import bg.fmi.popcornpals.exception.notfound.MediaNotFoundException;
 import bg.fmi.popcornpals.exception.nocontent.NoAssignedStudioException;
-import bg.fmi.popcornpals.mapper.ProducerMapper;
-import bg.fmi.popcornpals.mapper.StudioMapper;
+import bg.fmi.popcornpals.mapper.*;
+import bg.fmi.popcornpals.model.Actor;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.model.Studio;
 import bg.fmi.popcornpals.exception.notfound.StudioNotFoundException;
 import bg.fmi.popcornpals.repository.MediaRepository;
-import bg.fmi.popcornpals.mapper.ActorMapper;
-import bg.fmi.popcornpals.mapper.MediaMapper;
 import bg.fmi.popcornpals.repository.StudioRepository;
 import bg.fmi.popcornpals.util.MediaType;
 import bg.fmi.popcornpals.util.Genre;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -41,6 +37,8 @@ public class MediaService {
     private ActorMapper actorMapper;
     @Autowired
     private ProducerMapper producerMapper;
+    @Autowired
+    private ReviewMapper reviewMapper;
 
     public MediaDTO createMedia(MediaRequestDTO media) {
         Media newMedia = mediaMapper.toEntity(media);
@@ -55,7 +53,7 @@ public class MediaService {
         return mediaMapper.toDTO(media);
     }
 
-    public List<MediaDTO> getMedia(Integer pageNo, Integer pageSize, String title, MediaType type, Genre genre) {
+    public Page<MediaDTO> getMedia(Integer pageNo, Integer pageSize, String title, MediaType type, Genre genre) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         Page<Media> media = null;
         if(title != null) {
@@ -67,17 +65,29 @@ public class MediaService {
         } else {
             media = mediaRepository.findAll(pageable);
         }
-        return mediaMapper.toDTOList(media.getContent());
+        return media.map(mediaMapper::toDTO);
     }
-    public List<ActorDTO> getActorsInMedia(Long id) {
+    public Page<ActorDTO> getActorsInMedia(Long id, Integer pageNo, Integer pageSize) {
         Media media = mediaRepository.findById(id)
                 .orElseThrow(MediaNotFoundException::new);
-        return actorMapper.toDTOList(media.getActors());
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<ActorDTO> actorsList = actorMapper.toDTOList(media.getActors());
+
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), actorsList.size());
+        List<ActorDTO> pageContent = actorsList.subList(start, end);
+        return new PageImpl<>(pageContent, pageable, actorsList.size());
     }
-    public List<ProducerDTO> getProducerOfMedia(Long id) {
+    public Page<ProducerDTO> getProducerOfMedia(Long id, Integer pageNo, Integer pageSize) {
         Media media = mediaRepository.findById(id)
                 .orElseThrow(MediaNotFoundException::new);
-        return producerMapper.toDTOList(media.getProducers());
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<ProducerDTO> producersList = producerMapper.toDTOList(media.getProducers());
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), producersList.size());
+        List<ProducerDTO> pageContent = producersList.subList(start, end);
+
+        return new PageImpl<>(pageContent, pageable, producersList.size());
     }
     public StudioDTO getStudioOfMedia(Long id) {
         Media media = mediaRepository.findById(id)
@@ -89,6 +99,16 @@ public class MediaService {
         return studioMapper.toDTO(media.getStudio());
     }
 
+    public Page<ReviewDTO> getReviewsOfMedia(Long id, Integer pageNo, Integer pageSize) {
+        Media media = mediaRepository.findById(id)
+                .orElseThrow(MediaNotFoundException::new);
+        Pageable pageable = PageRequest.of(pageNo, pageSize);
+        List<ReviewDTO> reviewsList =  reviewMapper.toDTOList(media.getReviews());
+        int start = (int) pageable.getOffset();
+        int end = Math.min((start + pageable.getPageSize()), reviewsList.size());
+        List<ReviewDTO> pageContent = reviewsList.subList(start, end);
+        return new PageImpl<>(pageContent, pageable, reviewsList.size());
+    }
 
     public MediaDTO updateMedia(Long mediaId ,MediaRequestDTO media) {
         Media existingMedia = mediaRepository.findById(mediaId)
