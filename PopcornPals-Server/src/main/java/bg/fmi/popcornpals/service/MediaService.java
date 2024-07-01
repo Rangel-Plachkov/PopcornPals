@@ -1,11 +1,9 @@
 package bg.fmi.popcornpals.service;
 
 import bg.fmi.popcornpals.dto.*;
-import bg.fmi.popcornpals.exception.notfound.ActorNotFoundException;
 import bg.fmi.popcornpals.exception.notfound.MediaNotFoundException;
 import bg.fmi.popcornpals.exception.nocontent.NoAssignedStudioException;
 import bg.fmi.popcornpals.mapper.*;
-import bg.fmi.popcornpals.model.Actor;
 import bg.fmi.popcornpals.model.Media;
 import bg.fmi.popcornpals.model.Studio;
 import bg.fmi.popcornpals.exception.notfound.StudioNotFoundException;

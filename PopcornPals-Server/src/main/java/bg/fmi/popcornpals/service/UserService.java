@@ -1,6 +1,5 @@
 package bg.fmi.popcornpals.service;
 
-import bg.fmi.popcornpals.dto.MediaDTO;
 import bg.fmi.popcornpals.dto.PlaylistDTO;
 import bg.fmi.popcornpals.dto.UserDTO;
 import bg.fmi.popcornpals.dto.UserRequestDTO;
