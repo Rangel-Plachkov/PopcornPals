@@ -30,3 +30,5 @@ Our admins have the priority to take good care of our users, answer their questi
 ## Endpoints
 
 ## Database model
+
+![db_model](https://github.com/Rangel-Plachkov/PopcornPals/blob/master/resources/db_schema-dark.png?raw=true)
