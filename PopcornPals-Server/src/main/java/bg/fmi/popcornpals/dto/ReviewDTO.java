@@ -13,6 +13,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,8 +31,12 @@ public class ReviewDTO {
     @Pattern(regexp = RegexPattern.DESCRIPTION , message = "Review: Invalid symbols in review")
     private String description;
 
-    ReviewDTO(Integer rating, String description) {
+    @NotNull(message = "Review: Date cannot be null")
+    private LocalDate date;
+
+    ReviewDTO(Integer rating, String description, LocalDate date) {
         this.rating = rating;
         this.description = description;
+        this.date = date;
     }
 }
