@@ -3,7 +3,7 @@ import { MaterialModule } from '../../material/material.module';
 import { Review } from '../../models/review';
 import { PageEvent } from '@angular/material/paginator';
 import { MediaService } from '../../services/media.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-media-reviews',
@@ -20,7 +20,7 @@ export class MediaReviewsComponent implements OnInit {
   pageSize:number = 5;
   totalItems:number = 0;
 
-  constructor(private mediaService: MediaService, private activatedRoute: ActivatedRoute) { }
+  constructor(private mediaService: MediaService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     this.id = this.activatedRoute.snapshot.params['id'];
@@ -41,6 +41,6 @@ export class MediaReviewsComponent implements OnInit {
   }
 
   viewDetails(id: number) {
-    
+    this.router.navigate([`api/reviews/${id}`]);
   }
 }

@@ -31,6 +31,7 @@ import { MediaUpdateComponent } from './media/media-update/media-update.componen
 import { MediaActorsComponent } from './media/media-actors/media-actors.component';
 import { MediaProducersComponent } from './media/media-producers/media-producers.component';
 import { MediaReviewsComponent } from './media/media-reviews/media-reviews.component';
+import { ReviewDetailsComponent } from './review/review-details/review-details.component';
 
 export const routes: Routes = [
     {
@@ -237,6 +238,10 @@ export const routes: Routes = [
                 ]
             }
         ]
+    },
+    {
+        path: 'api/reviews/:id',
+        component: ReviewDetailsComponent
     },
     {
         path: '**',

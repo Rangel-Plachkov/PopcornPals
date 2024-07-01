@@ -1,35 +1,35 @@
 <mat-toolbar>
-    <button mat-button color="accent" routerLink="">Home</button>
-    
-    <button mat-button color="accent" [matMenuTriggerFor]="actorsMenu">Actors</button>
-    <mat-menu #actorsMenu="matMenu" color="accent">
-      <button mat-menu-item routerLink="api/actors">Actors</button>
-      <button mat-menu-item routerLink="api/actors/create">Create Actor</button>
-    </mat-menu>
-    
-    <button mat-button color="accent" [matMenuTriggerFor]="producersMenu">Producers</button>
-    <mat-menu #producersMenu="matMenu" color="accent">
-      <button mat-menu-item routerLink="api/producers">Producers</button>
-      <button mat-menu-item routerLink="api/producers/create">Create Producer</button>
-    </mat-menu>
+  <button mat-button color="accent" routerLink="">Home</button>
+  
+  <button mat-button color="accent" [matMenuTriggerFor]="actorsMenu">Actors</button>
+  <mat-menu #actorsMenu="matMenu" color="accent">
+    <button mat-menu-item routerLink="api/actors">Actors</button>
+    <button mat-menu-item routerLink="api/actors/create">Create Actor</button>
+  </mat-menu>
+  
+  <button mat-button color="accent" [matMenuTriggerFor]="producersMenu">Producers</button>
+  <mat-menu #producersMenu="matMenu" color="accent">
+    <button mat-menu-item routerLink="api/producers">Producers</button>
+    <button mat-menu-item routerLink="api/producers/create">Create Producer</button>
+  </mat-menu>
 
-    <button mat-button color="accent" [matMenuTriggerFor]="studiosMenu">Studios</button>
-    <mat-menu #studiosMenu="matMenu" color="accent">
-      <button mat-menu-item routerLink="api/studios">Studios</button>
-      <button mat-menu-item routerLink="api/studios/create">Create Studio</button>
-    </mat-menu>
+  <button mat-button color="accent" [matMenuTriggerFor]="studiosMenu">Studios</button>
+  <mat-menu #studiosMenu="matMenu" color="accent">
+    <button mat-menu-item routerLink="api/studios">Studios</button>
+    <button mat-menu-item routerLink="api/studios/create">Create Studio</button>
+  </mat-menu>
 
-    <button mat-button color="accent" [matMenuTriggerFor]="mediaMenu">Media</button>
-    <mat-menu #mediaMenu="matMenu" color="accent">
-      <button mat-menu-item routerLink="api/media">Media</button>
-      <button mat-menu-item routerLink="api/media/create">Create Media</button>
-    </mat-menu>
+  <button mat-button color="accent" [matMenuTriggerFor]="mediaMenu">Media</button>
+  <mat-menu #mediaMenu="matMenu" color="accent">
+    <button mat-menu-item routerLink="api/media">Media</button>
+    <button mat-menu-item routerLink="api/media/create">Create Media</button>
+  </mat-menu>
 
-    <button mat-button color="accent" [matMenuTriggerFor]="usersMenu">Users</button>
-    <mat-menu #usersMenu="matMenu" color="accent">
-      <button mat-menu-item routerLink="api/users">Users</button>
-      <button mat-menu-item routerLink="api/users/create">Create User</button>
-    </mat-menu>
-    
+  <button mat-button color="accent" [matMenuTriggerFor]="usersMenu">Users</button>
+  <mat-menu #usersMenu="matMenu" color="accent">
+    <button mat-menu-item routerLink="api/users">Users</button>
+    <button mat-menu-item routerLink="api/users/create">Create User</button>
+  </mat-menu>
+  
 </mat-toolbar>
 <router-outlet></router-outlet>
