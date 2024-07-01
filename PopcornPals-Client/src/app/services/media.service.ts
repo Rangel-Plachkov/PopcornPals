@@ -33,7 +33,27 @@ export class MediaService {
     return this.http.post<Media>(this.mediaUrl, media);
   }
 
+  public updateMedia(id: number | string, media: any): Observable<Media> {
+    return this.http.put<Media>(this.mediaUrl + `${id}`, media);
+  }
+
   public assignStudio(id: number | string, studioId: string | number):Observable<Media> {
     return this.http.patch<any>(this.mediaUrl + `${id}/studio/${studioId}`, {});
+  }
+
+  public getActors(id: number, pageNo: number, pageSize: number): Observable<any> {
+    let queryParams = new HttpParams().append("pageNo", pageNo)
+                                      .append("pageSize", pageSize);
+    return this.http.get<any>(this.mediaUrl + `${id}/actors`, { params: queryParams });
+  }
+
+  public getProducers(id: number, pageNo: number, pageSize: number): Observable<any> {
+    let queryParams = new HttpParams().append("pageNo", pageNo)
+                                      .append("pageSize", pageSize);
+    return this.http.get<any>(this.mediaUrl + `${id}/producers`, { params: queryParams });
+  }
+
+  public deleteMedia(id: number | string) {
+    return this.http.delete(this.mediaUrl + `${id}`);
   }
 }

@@ -48,10 +48,11 @@ export class MediaDetailsComponent implements OnInit {
   }
 
   updateMedia() {
-
+    this.router.navigate([`./update`], { relativeTo: this.activatedRoute });
   }
 
   deleteMedia() {
-
+    this.mediaService.deleteMedia(this.id).subscribe();
+    this.router.navigate([`api/media`]);
   }
 }
