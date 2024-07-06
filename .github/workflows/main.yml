@@ -1,0 +1,60 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - ci-cd-setup
+  pull_request:
+    branches:
+      - ci-cd-setup
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Set up JDK for server
+    - name: Set up JDK 21
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '21'
+
+    # # Build and test server
+    # - name: Build and test server
+    #   run: |
+    #     cd PopcornPals-Server
+    #     mvn clean install
+    #     mvn test
+
+    # # Set up Node.js for AngularJS client
+    # - name: Set up Node.js
+    #   uses: actions/setup-node@v2
+    #   with:
+    #     node-version: '14'
+
+    # # Install AngularJS dependencies
+    # - name: Install AngularJS dependencies
+    #   run: |
+    #     cd PopcornPals-Client
+    #     npm install
+
+    # # Build and test client
+    # - name: Build and test client
+    #   run: |
+    #     cd PopcornPals-Client
+    #     npm install
+    #     npm test
+
+    # # Optionally, package the application (if needed)
+    # - name: Package the application
+    #   run: |
+    #     # Add packaging steps for both client and server if required
+    #     cd PopcornPals-Server
+    #     mvn package
+
+    #     cd ../PopcornPals-Client
+    #     # Package client if needed (e.g., npm run build)
