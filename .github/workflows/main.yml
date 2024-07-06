@@ -20,15 +20,15 @@ jobs:
     - name: Set up JDK 21
       uses: actions/setup-java@v3
       with:
-        distribution: 'temurin'
+        distribution: 'openjdk'
         java-version: '21'
 
-    # # Build and test server
-    # - name: Build and test server
-    #   run: |
-    #     cd PopcornPals-Server
-    #     mvn clean install
-    #     mvn test
+    # Build and test server
+    - name: Build and test server
+      run: |
+        cd PopcornPals-Server
+        mvn clean install
+        mvn test
 
     # # Set up Node.js for AngularJS client
     # - name: Set up Node.js
