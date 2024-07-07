@@ -31,7 +31,7 @@ jobs:
         java-version: '21'
         cache: 'maven'
 
-       # Build and test server with Maven wrapper
+    # Build and test server with Maven wrapper
     - name: Build and test server
       run: |
         cd PopcornPals-Server
@@ -41,8 +41,27 @@ jobs:
           mvn -N io.takari:maven:wrapper
         fi
 
+        # Make mvnw executable
+        chmod +x mvnw
+
+        # Build and test
         ./mvnw -B clean install
         ./mvnw -B test
+
+
+
+    #    # Build and test server with Maven wrapper
+    # - name: Build and test server
+    #   run: |
+    #     cd PopcornPals-Server
+
+    #     # Download Maven Wrapper if not present
+    #     if [ ! -f ./mvnw ]; then
+    #       mvn -N io.takari:maven:wrapper
+    #     fi
+
+    #     ./mvnw -B clean install
+    #     ./mvnw -B test
 
 
     # # Build and test server
@@ -54,31 +73,3 @@ jobs:
     #     # mvn clean install
     #     # mvn test
 
-    # # Set up Node.js for AngularJS client
-    # - name: Set up Node.js
-    #   uses: actions/setup-node@v2
-    #   with:
-    #     node-version: '14'
-
-    # # Install AngularJS dependencies
-    # - name: Install AngularJS dependencies
-    #   run: |
-    #     cd PopcornPals-Client
-    #     npm install
-
-    # # Build and test client
-    # - name: Build and test client
-    #   run: |
-    #     cd PopcornPals-Client
-    #     npm install
-    #     npm test
-
-    # # Optionally, package the application (if needed)
-    # - name: Package the application
-    #   run: |
-    #     # Add packaging steps for both client and server if required
-    #     cd PopcornPals-Server
-    #     mvn package
-
-    #     cd ../PopcornPals-Client
-    #     # Package client if needed (e.g., npm run build)
