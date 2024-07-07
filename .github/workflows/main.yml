@@ -23,14 +23,36 @@ jobs:
         distribution: 'adopt'
         java-version: '21'
 
-    # Build and test server
+    # Ensure Maven is installed
+    - name: Set up Maven
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'adopt'
+        java-version: '21'
+        cache: 'maven'
+
+       # Build and test server with Maven wrapper
     - name: Build and test server
       run: |
         cd PopcornPals-Server
 
+        # Download Maven Wrapper if not present
+        if [ ! -f ./mvnw ]; then
+          mvn -N io.takari:maven:wrapper
+        fi
+
+        ./mvnw -B clean install
+        ./mvnw -B test
+
+
+    # # Build and test server
+    # - name: Build and test server
+    #   run: |
+    #     cd PopcornPals-Server
+
         
-        # mvn clean install
-        # mvn test
+    #     # mvn clean install
+    #     # mvn test
 
     # # Set up Node.js for AngularJS client
     # - name: Set up Node.js
