@@ -27,8 +27,9 @@ jobs:
     - name: Build and test server
       run: |
         cd PopcornPals-Server
-        mvn clean install
-      
+
+        
+        # mvn clean install
         # mvn test
 
     # # Set up Node.js for AngularJS client
