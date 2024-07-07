@@ -23,6 +23,15 @@ jobs:
         distribution: 'adopt'
         java-version: '21'
 
+    # Cache Maven dependencies
+    - name: Cache Maven dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+
     # Ensure Maven is installed
     - name: Set up Maven
       uses: actions/setup-java@v3
@@ -48,28 +57,10 @@ jobs:
         ./mvnw -B clean install
         ./mvnw -B test
 
-
-
-    #    # Build and test server with Maven wrapper
-    # - name: Build and test server
-    #   run: |
-    #     cd PopcornPals-Server
-
-    #     # Download Maven Wrapper if not present
-    #     if [ ! -f ./mvnw ]; then
-    #       mvn -N io.takari:maven:wrapper
-    #     fi
-
-    #     ./mvnw -B clean install
-    #     ./mvnw -B test
-
-
-    # # Build and test server
-    # - name: Build and test server
-    #   run: |
-    #     cd PopcornPals-Server
-
-        
-    #     # mvn clean install
-    #     # mvn test
-
+    # Upload surefire reports
+    - name: Upload Surefire Reports
+      if: failure()
+      uses: actions/upload-artifact@v3
+      with:
+        name: surefire-reports
+        path: PopcornPals-Server/target/surefire-reports/
