@@ -4,7 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-application.properties
+/PopcornPals-Server/logs
 
 ### STS ###
 .apt_generated
@@ -33,4 +33,6 @@ build/
 
 ### VS Code ###
 .vscode/
-/PopcornPals-Server/logs
+
+### private ###
+private.txt
