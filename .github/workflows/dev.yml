@@ -55,6 +55,12 @@ jobs:
         working-directory: ${{ env.SERVER_PATH }}
         run: mvn clean install
 
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: ${{ env.SERVER_PATH }}/target
+
   # Unit-tests:
   #   runs-on: ubuntu-latest
   #   needs: Build
@@ -114,11 +120,14 @@ jobs:
     runs-on: ubuntu-latest
     needs: Build
     steps:
-      - name: Download server code
+      - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: server-code
-          path: ${{ env.SERVER_PATH }}
+          name: build-artifacts
+          path: target
+
+      - name: Verify target path after download
+        run: ls -R target
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -126,16 +135,16 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DISTRIBUTION }}
 
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven-
+      - name: Install Checkstyle
+        run: |
+          wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.45/checkstyle-8.45-all.jar
+          wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
 
-      - name: Run SonarQube Analysis
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        working-directory: ${{ env.SERVER_PATH }}
-        run: mvn sonar:sonar -Dsonar.host.url=https://your-sonarqube-server.com -Dsonar.login=$SONAR_TOKEN
+      - name: Verify server path files
+        run: ls -R
+
+      - name: Run Checkstyle
+        env: 
+          CHECK_FILE: 'checks.xml'
+        run: |
+          java -jar checkstyle.jar -c ${{ env.CHECK_FILE }} ${{ env.SERVER_PATH }}/src/main/java/**/*.java
