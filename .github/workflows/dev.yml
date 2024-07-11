@@ -109,47 +109,14 @@ jobs:
   #       with:
   #         name: dependency-check-report
   #         path: ./dependency-check-report.html
-  ZAP-Scan:
+  
+  Static-analysis:
     runs-on: ubuntu-latest
-    needs: Build
+    needs: Clone-repo
     steps:
-    - name: Download server code
-      uses: actions/download-artifact@v4
-      with:
-        name: server-code
-        path: ${{ env.SERVER_PATH }}
-    
-    - name: Set up JDK
-      uses: actions/setup-java@v4
-      with:
-        java-version: ${{ env.JAVA_VERSION }}
-        distribution: ${{ env.JAVA_DISTRIBUTION }}
-
-    - name: Build with Maven
-      working-directory: ${{ env.SERVER_PATH }}
-      run: mvn clean install
-
-    - name: Start Spring Boot Application
-      working-directory: ${{ env.SERVER_PATH }}
-      run: |
-        nohup java -jar target/*.jar > output.log 2>&1 &
-        sleep 30
-
-    - name: Pull OWASP ZAP Docker image
-      run: docker pull ictu/zap2docker-weekly
-
-    - name: Run OWASP ZAP in daemon mode
-      run: docker run -u zap -p 8090:8090 -d -v $(pwd)/zap_home:/home/zap/.ZAP -v $(pwd)/zap_reports:/zap/wrk ictu/zap2docker-weekly zap.sh -daemon -port 8090 -host 0.0.0.0 -config api.disablekey=true
-
-    - name: Wait for OWASP ZAP to start
-      run: sleep 30
-
-    - name: Run ZAP scan
-      run: |
-        docker exec $(docker ps -q -f ancestor=ictu/zap2docker-weekly) /usr/local/bin/zap-baseline.py -t http://host.docker.internal:8080 -g /zap/gen.conf -r /zap/zap_report.html
-
-    - name: Upload ZAP HTML Report
-      uses: actions/upload-artifact@v4
-      with:
-        name: zap-report-html
-        path: zap/zap_report.html
+      - uses: actions/download-artifact@v3
+        with:
+          name: source-code
+          path: .
+      - name: Run static analysis
+        run: make static-analysis
