@@ -109,11 +109,10 @@ jobs:
   #       with:
   #         name: dependency-check-report
   #         path: ./dependency-check-report.html
-
-ZAP-Scan:
-  runs-on: ubuntu-latest
-  needs: Build
-  steps:
+  ZAP-Scan:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
     - name: Download server code
       uses: actions/download-artifact@v4
       with:
@@ -162,4 +161,3 @@ ZAP-Scan:
       with:
         name: zap-report-xml
         path: report.xml
-
