@@ -146,11 +146,10 @@ jobs:
 
     - name: Run ZAP scan
       run: |
-        docker exec $(docker ps -q -f ancestor=ictu/zap2docker-weekly) /zap/zap-baseline.py -t http://host.docker.internal:8080 -g gen.conf -r zap_report.html
+        docker exec $(docker ps -q -f ancestor=ictu/zap2docker-weekly) /usr/local/bin/zap-baseline.py -t http://host.docker.internal:8080 -g /zap/gen.conf -r /zap/zap_report.html
 
     - name: Upload ZAP HTML Report
       uses: actions/upload-artifact@v4
       with:
         name: zap-report-html
-        path: zap_report.html
-
+        path: zap/zap_report.html
