@@ -80,8 +80,7 @@ public class ReviewService {
     }
 
     public ReviewDTO updateReview(Long reviewID , ReviewRequestDTO review) {
-        Review existingReview = reviewRepository.findById(reviewID)
-                .orElseThrow(ReviewNotFoundException::new);
+        Review existingReview;
         existingReview = reviewMapper.toEntity(review);
         existingReview.setID(reviewID);
         Review updatedReview = reviewRepository.save(existingReview);

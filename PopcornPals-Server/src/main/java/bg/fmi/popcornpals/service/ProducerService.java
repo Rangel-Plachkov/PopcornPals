@@ -60,7 +60,7 @@ public class ProducerService {
     public ProducerDTO createProducer(ProducerRequestDTO producerRequestDTO) {
         List<Media> producedMedia = producerRequestDTO.getProducedMedia() != null
                 ? mediaRepository.findAllById(producerRequestDTO.getProducedMedia())
-                : new ArrayList<Media>();
+                : new ArrayList<>();
 
         Producer producer = new Producer();
         producer.setName(producerRequestDTO.getName());
@@ -82,7 +82,7 @@ public class ProducerService {
         producer.setBirthdate(producerRequestDTO.getBirthdate());
         List<Media> producedMedia = producerRequestDTO.getProducedMedia() != null
                 ? mediaRepository.findAllById(producerRequestDTO.getProducedMedia())
-                : new ArrayList<Media>();
+                : new ArrayList<>();
         producer.setProducedMedia(producedMedia);
 
         Producer newProducer = producerRepository.save(producer);

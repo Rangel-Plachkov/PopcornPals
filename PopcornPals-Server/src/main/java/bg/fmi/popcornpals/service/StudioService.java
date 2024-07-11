@@ -72,8 +72,7 @@ public class StudioService {
 
 
     public StudioDTO updateStudio(Long studioId, StudioRequestDTO studioDTO) {
-        Studio studio = studioRepository.findById(studioId)
-                .orElseThrow(StudioNotFoundException::new);
+        Studio studio;
         studio = studioMapper.toEntity(studioDTO);
         studio.setID(studioId);
         Studio updatedStudio = studioRepository.save(studio);

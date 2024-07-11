@@ -71,7 +71,7 @@ public class PlaylistService {
 
         List<Media> mediaList = playlistDTO.getContent() != null
                 ? mediaRepository.findAllById(playlistDTO.getContent())
-                : new ArrayList<Media>();
+                : new ArrayList<>();
 
         Playlist playlist = new Playlist();
         playlist.setName(playlistDTO.getName());
@@ -90,7 +90,7 @@ public class PlaylistService {
         playlist.setName(playlistDTO.getName());
         List<Media> mediaList = playlistDTO.getContent() != null
                 ? mediaRepository.findAllById(playlistDTO.getContent())
-                : new ArrayList<Media>();
+                : new ArrayList<>();
         playlist.setContent(mediaList);
 
         Playlist updatedPlaylist = playlistRepository.save(playlist);
