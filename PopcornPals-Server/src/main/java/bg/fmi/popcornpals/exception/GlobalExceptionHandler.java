@@ -16,21 +16,25 @@ import java.util.Map;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    private static final String STATUS_STRING = "status";
+    private static final String MESSAGE_STRING = "message";
+    private static final String TIMESTAMP_STRING = "timestamp";
+
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleNotFoundException(NotFoundException ex) {
         Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("status", 404);
-        errorResponse.put("message", ex.getMessage());
-        errorResponse.put("timestamp", new Date());
+        errorResponse.put(STATUS_STRING, 404);
+        errorResponse.put(MESSAGE_STRING, ex.getMessage());
+        errorResponse.put(TIMESTAMP_STRING, new Date());
         log.warn("Resource not found: " + ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(NoContentException.class)
     public ResponseEntity<Map<String, Object>> handleNoContentException(NoContentException ex) {
         Map<String, Object> response = new HashMap<>();
-        response.put("status", 204);
-        response.put("message", ex.getMessage());
-        response.put("timestamp", new Date());
+        response.put(STATUS_STRING, 204);
+        response.put(MESSAGE_STRING, ex.getMessage());
+        response.put(TIMESTAMP_STRING, new Date());
         log.info("No content found: " + ex.getMessage());
         return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }
@@ -40,16 +44,16 @@ public class GlobalExceptionHandler {
         Map<String, Object> errorResponse = new HashMap<>();
         Map<String, Object> errors = new HashMap<>();
 
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+        ex.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
 
         errorResponse.put("errors", errors);
-        errorResponse.put("status", 400);
-        errorResponse.put("message", "Validation Errors");
-        errorResponse.put("timestamp", new Date());
+        errorResponse.put(STATUS_STRING, 400);
+        errorResponse.put(MESSAGE_STRING, "Validation Errors");
+        errorResponse.put(TIMESTAMP_STRING, new Date());
         log.warn("Validation errors occurred: " + errors);
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
@@ -57,9 +61,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Map<String, Object>> handleGeneralError(Exception ex) {
         Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("message", ex.getMessage() != null ? ex.getMessage() : "Unexpected error occurred");
-        errorResponse.put("status", 500);
-        errorResponse.put("timestamp", new Date());
+        errorResponse.put(MESSAGE_STRING, ex.getMessage() != null ? ex.getMessage() : "Unexpected error occurred");
+        errorResponse.put(STATUS_STRING, 500);
+        errorResponse.put(TIMESTAMP_STRING, new Date());
         log.error("Unexpected error occurred: " + ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
     }

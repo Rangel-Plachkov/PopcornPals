@@ -60,7 +60,7 @@ public class ActorService {
     public ActorDTO createActor(ActorRequestDTO actorRequestDTO) {
         List<Media> starsIn = actorRequestDTO.getStarsIn() != null
                 ? mediaRepository.findAllById(actorRequestDTO.getStarsIn())
-                : new ArrayList<Media>();
+                : new ArrayList<>();
 
         Actor actor = new Actor();
         actor.setName(actorRequestDTO.getName());
@@ -82,7 +82,7 @@ public class ActorService {
         actor.setBirthdate(actorRequestDTO.getBirthdate());
         List<Media> starsIn = actorRequestDTO.getStarsIn() != null
                 ? mediaRepository.findAllById(actorRequestDTO.getStarsIn())
-                : new ArrayList<Media>();
+                : new ArrayList<>();
         actor.setStarsIn(starsIn);
 
         Actor updatedActor = actorRepository.save(actor);
