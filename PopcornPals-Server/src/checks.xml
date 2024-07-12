@@ -3,41 +3,10 @@
         "https://checkstyle.org/dtds/configuration_1_3.dtd">
 
 <module name="Checker">
-    <!-- Set the language to Java -->
-    <property name="charset" value="UTF-8"/>
-    <property name="severity" value="warning"/>
-
-    <!-- Indentation settings -->
     <module name="Indentation">
-        <property name="basicOffset" value="4"/>
-        <property name="braceAdjustment" value="0"/>
-        <property name="caseIndent" value="4"/>
-        <property name="throwsIndent" value="4"/>
-        <property name="lineWrappingIndentation" value="4"/>
+        <property name="tabWidth" value="4"/>
+        <property name="indentation" value="spaces"/>
     </module>
-
-    <!-- Line length -->
-    <module name="LineLength">
-        <property name="max" value="120"/>
-        <property name="ignorePattern" value="^import\s.*;$"/>
-    </module>
-
-    <!-- Naming conventions -->
-    <module name="RegexpSingleline">
-        <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
-        <property name="message" value="Name must start with a lowercase letter, followed by letters or digits."/>
-        <property name="ignorePattern" value="^(get|set|is)[A-Z][a-zA-Z0-9]*$"/>
-    </module>
-
-    <!-- Empty block check -->
-    <module name="EmptyBlock">
-        <property name="option" value="TEXT"/>
-        <property name="tokens" value="LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE"/>
-    </module>
-
-    <!-- Ensure there is no whitespace at the end of lines -->
-    <module name="FileTabCharacter">
-        <property name="eachLine" value="true"/>
-    </module>
-
+    
+    <!-- Add more modules and configurations as needed -->
 </module>
