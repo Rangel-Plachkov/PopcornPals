@@ -1,4 +1,4 @@
-name: Server Tests
+name: Dev pipe
 
 on:
   push:
@@ -59,11 +59,11 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: ${{ env.SERVER_PATH }}/target
+          path: ${{ env.SERVER_PATH }}/target/*.jar
 
   Unit-tests:
     runs-on: ubuntu-latest
-    needs: Build
+    needs: Clone-repo
     steps:
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -81,73 +81,50 @@ jobs:
         working-directory: ${{ env.SERVER_PATH }}
         run: mvn test
 
-  # Dependency-Check:
-  #   runs-on: ubuntu-latest
-  #   needs: Build
-  #   steps:
-  #     - name: Checkout repository
-  #       uses: actions/checkout@v4
-  #       with:
-  #         submodules: recursive
-
-  #     - name: Set up Java
-  #       uses: actions/setup-java@v4
-  #       with:
-  #         java-version: ${{ env.JAVA_VERSION }}
-  #         distribution: ${{ env.JAVA_DISTRIBUTION }}
-
-  #     - name: Download OWASP Dependency-Check
-  #       run: |
-  #         wget https://github.com/jeremylong/DependencyCheck/releases/download/v10.0.2/dependency-check-10.0.2-release.zip
-  #         unzip dependency-check-10.0.2-release.zip -d dependency-check
-
-  #     - name: Set executable permissions
-  #       run: chmod +x ./dependency-check/dependency-check/bin/dependency-check.sh
-
-  #     - name: Run OWASP Dependency-Check on Server
-  #       env:
-  #         NVD_API_KEY: ${{ secrets.NVD_API }}
-  #       run: |
-  #         ./dependency-check/dependency-check/bin/dependency-check.sh --project "Popcorn Pals Server" --scan ./PopcornPals-Server --format "ALL" --nvdApiKey $NVD_API_KEY
-
-  #     - name: Upload Dependency-Check Report
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         name: dependency-check-report
-  #         path: ./dependency-check-report.html
-  
-  # Static-Analysis:
-  #   runs-on: ubuntu-latest
-  #   needs: Build
-  #   steps:
-  #     - name: Download build artifacts
-  #       uses: actions/download-artifact@v4
-  #       with:
-  #         name: server-code
-
-  #     - name: Set up JDK
-  #       uses: actions/setup-java@v4
-  #       with:
-  #         java-version: ${{ env.JAVA_VERSION }}
-  #         distribution: ${{ env.JAVA_DISTRIBUTION }}
-
-  #     - name: Install Checkstyle
-  #       run: |
-  #         wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.45/checkstyle-8.45-all.jar
-  #         wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
-
-  #     - name: Run Checkstyle
-  #       env: 
-  #         CHECK_FILE: './src/checks.xml'
-  #       run: |
-  #         java -jar checkstyle.jar -c ${{ env.CHECK_FILE }} src/
-          
-  Docker-Deploy:
+  Dependency-Check:
     runs-on: ubuntu-latest
-    needs: Unit-tests
+    needs: Clone-repo
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Download server code
+        uses: actions/download-artifact@v4
+        with:
+          name: server-code
+          path: ${{ env.SERVER_PATH }}
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
+
+      - name: Download OWASP Dependency-Check
+        run: |
+          wget https://github.com/jeremylong/DependencyCheck/releases/download/v10.0.2/dependency-check-10.0.2-release.zip
+          unzip dependency-check-10.0.2-release.zip -d dependency-check
+
+      - name: Set executable permissions
+        run: chmod +x ./dependency-check/dependency-check/bin/dependency-check.sh
+
+      - name: Run OWASP Dependency-Check on Server
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API }}
+        run: |
+          ./dependency-check/dependency-check/bin/dependency-check.sh --project "Popcorn Pals Server" --scan ./PopcornPals-Server --format "ALL" --nvdApiKey $NVD_API_KEY
+
+      - name: Upload Dependency-Check Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-check-report
+          path: ./dependency-check-report.html
+  
+  Static-Analysis:
+    runs-on: ubuntu-latest
+    needs: Build
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: server-code
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -155,11 +132,63 @@ jobs:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.JAVA_DISTRIBUTION }}
 
+      - name: Install Checkstyle
+        run: |
+          wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.45/checkstyle-8.45-all.jar
+          wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
+
+      - name: Run Checkstyle
+        env: 
+          CHECK_FILE: './src/checks.xml'
+        run: |
+          java -jar checkstyle.jar -c ${{ env.CHECK_FILE }} src/
+
+  Create-Dockerfile:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Create Dockerfile
+        run: |
+          echo "FROM eclipse-temurin:21-jre" > Dockerfile
+          echo "COPY target/*.jar app.jar" >> Dockerfile
+          echo "ENTRYPOINT [\"java\", \"-jar\", \"/app.jar\"]" >> Dockerfile
+      
+      - name: Upload Dockerfile
+        uses: actions/upload-artifact@v4
+        with:
+          name: dockerfile
+          path: Dockerfile
+          
+  Docker-Deploy:
+    runs-on: ubuntu-latest
+    needs: 
+      - Create-Dockerfile
+      - Build
+      - Unit-tests
+    steps:
+
+      - name: Download Dockerfile
+        uses: actions/download-artifact@v4
+        with:
+          name: dockerfile
+          path: .
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: target
+
       - name: Log in to Docker Hub
-        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker image
-        run: docker build -t your-dockerhub-username/your-repo-name:latest .
+      - name: Check Docker Hub login status
+        run: docker info
 
-      - name: Push Docker image
-        run: docker push your-dockerhub-username/your-repo-name:latest
+      - name: Build and push Docker image
+        run: |
+          docker build -t rangelplachkov/popcorn-pals-server:latest .
+          docker push rangelplachkov/popcorn-pals-server:latest
