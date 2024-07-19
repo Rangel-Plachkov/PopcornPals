@@ -82,7 +82,7 @@ jobs:
         run: mvn test
 
       - name: Run SpotBugs
-        run: mvn com.github.spotbugs:spotbugs-maven-plugin:spotbugs
+        run: cd ${{ env.SERVER_PATH }} && mvn com.github.spotbugs:spotbugs-maven-plugin:spotbugs
 
   # Dependency-Check:
   #   runs-on: ubuntu-latest
