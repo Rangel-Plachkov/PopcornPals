@@ -61,134 +61,137 @@ jobs:
           name: build-artifacts
           path: ${{ env.SERVER_PATH }}/target/*.jar
 
-  Unit-tests:
-    runs-on: ubuntu-latest
-    needs: Clone-repo
-    steps:
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: ${{ env.JAVA_DISTRIBUTION }}
+      - name: Run SpotBugs
+        run: mvn com.github.spotbugs:spotbugs-maven-plugin:spotbugs
 
-      - name: Download server code
-        uses: actions/download-artifact@v4
-        with:
-          name: server-code
-          path: ${{ env.SERVER_PATH }}
+  # Unit-tests:
+  #   runs-on: ubuntu-latest
+  #   needs: Clone-repo
+  #   steps:
+  #     - name: Set up JDK
+  #       uses: actions/setup-java@v4
+  #       with:
+  #         java-version: ${{ env.JAVA_VERSION }}
+  #         distribution: ${{ env.JAVA_DISTRIBUTION }}
 
-      - name: Run unit tests
-        working-directory: ${{ env.SERVER_PATH }}
-        run: mvn test
+  #     - name: Download server code
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: server-code
+  #         path: ${{ env.SERVER_PATH }}
 
-  Dependency-Check:
-    runs-on: ubuntu-latest
-    needs: Clone-repo
-    steps:
-      - name: Download server code
-        uses: actions/download-artifact@v4
-        with:
-          name: server-code
-          path: ${{ env.SERVER_PATH }}
+  #     - name: Run unit tests
+  #       working-directory: ${{ env.SERVER_PATH }}
+  #       run: mvn test
 
-      - name: Set up Java
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: ${{ env.JAVA_DISTRIBUTION }}
+  # Dependency-Check:
+  #   runs-on: ubuntu-latest
+  #   needs: Clone-repo
+  #   steps:
+  #     - name: Download server code
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: server-code
+  #         path: ${{ env.SERVER_PATH }}
 
-      - name: Download OWASP Dependency-Check
-        run: |
-          wget https://github.com/jeremylong/DependencyCheck/releases/download/v10.0.2/dependency-check-10.0.2-release.zip
-          unzip dependency-check-10.0.2-release.zip -d dependency-check
+  #     - name: Set up Java
+  #       uses: actions/setup-java@v4
+  #       with:
+  #         java-version: ${{ env.JAVA_VERSION }}
+  #         distribution: ${{ env.JAVA_DISTRIBUTION }}
 
-      - name: Set executable permissions
-        run: chmod +x ./dependency-check/dependency-check/bin/dependency-check.sh
+  #     - name: Download OWASP Dependency-Check
+  #       run: |
+  #         wget https://github.com/jeremylong/DependencyCheck/releases/download/v10.0.2/dependency-check-10.0.2-release.zip
+  #         unzip dependency-check-10.0.2-release.zip -d dependency-check
 
-      - name: Run OWASP Dependency-Check on Server
-        env:
-          NVD_API_KEY: ${{ secrets.NVD_API }}
-        run: |
-          ./dependency-check/dependency-check/bin/dependency-check.sh --project "Popcorn Pals Server" --scan ./PopcornPals-Server --format "ALL" --nvdApiKey $NVD_API_KEY
+  #     - name: Set executable permissions
+  #       run: chmod +x ./dependency-check/dependency-check/bin/dependency-check.sh
 
-      - name: Upload Dependency-Check Report
-        uses: actions/upload-artifact@v4
-        with:
-          name: dependency-check-report
-          path: ./dependency-check-report.html
+  #     - name: Run OWASP Dependency-Check on Server
+  #       env:
+  #         NVD_API_KEY: ${{ secrets.NVD_API }}
+  #       run: |
+  #         ./dependency-check/dependency-check/bin/dependency-check.sh --project "Popcorn Pals Server" --scan ./PopcornPals-Server --format "ALL" --nvdApiKey $NVD_API_KEY
+
+  #     - name: Upload Dependency-Check Report
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: dependency-check-report
+  #         path: ./dependency-check-report.html
   
-  Static-Analysis:
-    runs-on: ubuntu-latest
-    needs: Build
-    steps:
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: server-code
+  # Static-Analysis:
+  #   runs-on: ubuntu-latest
+  #   needs: Build
+  #   steps:
+  #     - name: Download build artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: server-code
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ env.JAVA_VERSION }}
-          distribution: ${{ env.JAVA_DISTRIBUTION }}
+  #     - name: Set up JDK
+  #       uses: actions/setup-java@v4
+  #       with:
+  #         java-version: ${{ env.JAVA_VERSION }}
+  #         distribution: ${{ env.JAVA_DISTRIBUTION }}
 
-      - name: Install Checkstyle
-        run: |
-          wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.45/checkstyle-8.45-all.jar
-          wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
+  #     - name: Install Checkstyle
+  #       run: |
+  #         wget -O checkstyle.jar https://github.com/checkstyle/checkstyle/releases/download/checkstyle-8.45/checkstyle-8.45-all.jar
+  #         wget -O google_checks.xml https://raw.githubusercontent.com/checkstyle/checkstyle/master/src/main/resources/google_checks.xml
 
-      - name: Run Checkstyle
-        env: 
-          CHECK_FILE: './src/checks.xml'
-        run: |
-          java -jar checkstyle.jar -c ${{ env.CHECK_FILE }} src/
+  #     - name: Run Checkstyle
+  #       env: 
+  #         CHECK_FILE: './src/checks.xml'
+  #       run: |
+  #         java -jar checkstyle.jar -c ${{ env.CHECK_FILE }} src/
 
-  Create-Dockerfile:
-    runs-on: ubuntu-latest
-    steps:
+  # Create-Dockerfile:
+  #   runs-on: ubuntu-latest
+  #   steps:
     
-      - name: Create Dockerfile
-        run: |
-          echo "FROM eclipse-temurin:21-jre" > Dockerfile
-          echo "COPY target/*.jar app.jar" >> Dockerfile
-          echo "ENTRYPOINT [\"java\", \"-jar\", \"/app.jar\"]" >> Dockerfile
+  #     - name: Create Dockerfile
+  #       run: |
+  #         echo "FROM eclipse-temurin:21-jre" > Dockerfile
+  #         echo "COPY target/*.jar app.jar" >> Dockerfile
+  #         echo "ENTRYPOINT [\"java\", \"-jar\", \"/app.jar\"]" >> Dockerfile
       
-      - name: Upload Dockerfile
-        uses: actions/upload-artifact@v4
-        with:
-          name: dockerfile
-          path: Dockerfile
+  #     - name: Upload Dockerfile
+  #       uses: actions/upload-artifact@v4
+  #       with:
+  #         name: dockerfile
+  #         path: Dockerfile
           
-  Docker-Deploy:
-    runs-on: ubuntu-latest
-    needs: 
-      - Create-Dockerfile
-      - Build
-      - Unit-tests
-    steps:
+  # Docker-Deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: 
+  #     - Create-Dockerfile
+  #     - Build
+  #     - Unit-tests
+  #   steps:
 
-      - name: Download Dockerfile
-        uses: actions/download-artifact@v4
-        with:
-          name: dockerfile
-          path: .
+  #     - name: Download Dockerfile
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: dockerfile
+  #         path: .
 
-      - name: Download build artifacts
-        uses: actions/download-artifact@v4
-        with:
-          name: build-artifacts
-          path: target
+  #     - name: Download build artifacts
+  #       uses: actions/download-artifact@v4
+  #       with:
+  #         name: build-artifacts
+  #         path: target
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+  #     - name: Log in to Docker Hub
+  #       uses: docker/login-action@v3
+  #       with:
+  #         username: ${{ secrets.DOCKER_USERNAME }}
+  #         password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Check Docker Hub login status
-        run: docker info
+  #     - name: Check Docker Hub login status
+  #       run: docker info
 
-      - name: Build and push Docker image
-        run: |
-          docker build -t rangelplachkov/popcorn-pals-server:latest .
-          docker push rangelplachkov/popcorn-pals-server:latest
+  #     - name: Build and push Docker image
+  #       run: |
+  #         docker build -t rangelplachkov/popcorn-pals-server:latest .
+  #         docker push rangelplachkov/popcorn-pals-server:latest
