@@ -48,7 +48,7 @@ public interface ActorMapper {
         if(mediaList == null) {
             return null;
         }
-        List<Long> starsIn = new ArrayList<Long>();
+        List<Long> starsIn = new ArrayList<>();
         for(Media media : mediaList) {
             starsIn.add(media.getID());
         }
@@ -59,7 +59,7 @@ public interface ActorMapper {
         if(mediaIdList == null) {
             return null;
         }
-        List<Media> starsIn = new ArrayList<Media>();
+        List<Media> starsIn = new ArrayList<>();
         for(Long media : mediaIdList) {
             Media newMedia = new Media();
             newMedia.setID(media);

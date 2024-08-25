@@ -22,15 +22,13 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final PlaylistRepository playlistRepository;
     private final UserMapper userMapper;
     private final PlaylistMapper playlistMapper;
 
     @Autowired
-    public UserService(UserRepository userRepository, PlaylistRepository playlistRepository,
+    public UserService(UserRepository userRepository,
                        UserMapper userMapper, PlaylistMapper playlistMapper) {
         this.userRepository = userRepository;
-        this.playlistRepository = playlistRepository;
         this.userMapper = userMapper;
         this.playlistMapper = playlistMapper;
     }

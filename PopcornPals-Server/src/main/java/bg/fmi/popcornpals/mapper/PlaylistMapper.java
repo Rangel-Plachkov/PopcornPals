@@ -44,11 +44,11 @@ public interface PlaylistMapper {
         if(mediaIdList == null) {
             return null;
         }
-        List<Media> content = new ArrayList<Media>();
+        List<Media> content = new ArrayList<>();
         for(Long media : mediaIdList) {
-             Media newMedia = new Media();
-             newMedia.setID(media);
-             content.add(newMedia);
+            Media newMedia = new Media();
+            newMedia.setID(media);
+            content.add(newMedia);
         }
         return content;
     }
@@ -57,7 +57,7 @@ public interface PlaylistMapper {
         if(mediaList == null) {
             return null;
         }
-        List<Long> content = new ArrayList<Long>();
+        List<Long> content = new ArrayList<>();
         for(Media media : mediaList) {
             content.add(media.getID());
         }

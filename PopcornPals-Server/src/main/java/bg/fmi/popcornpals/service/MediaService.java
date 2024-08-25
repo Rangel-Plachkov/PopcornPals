@@ -114,8 +114,7 @@ public class MediaService {
     }
 
     public MediaDTO updateMedia(Long mediaId ,MediaRequestDTO media) {
-        Media existingMedia = mediaRepository.findById(mediaId)
-                .orElseThrow(MediaNotFoundException::new);
+        Media existingMedia;
         existingMedia = mediaMapper.toEntity(media);
         existingMedia.setID(mediaId);
         Media updatedMedia = mediaRepository.save(existingMedia);

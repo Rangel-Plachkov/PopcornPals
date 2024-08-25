@@ -48,7 +48,7 @@ public interface ProducerMapper {
         if(mediaList == null) {
             return null;
         }
-        List<Long> producedMedia = new ArrayList<Long>();
+        List<Long> producedMedia = new ArrayList<>();
         for(Media media : mediaList) {
             producedMedia.add(media.getID());
         }
@@ -59,7 +59,7 @@ public interface ProducerMapper {
         if(mediaIdList == null) {
             return null;
         }
-        List<Media> producedMedia = new ArrayList<Media>();
+        List<Media> producedMedia = new ArrayList<>();
         for(Long media : mediaIdList) {
             Media newMedia = new Media();
             newMedia.setID(media);
