@@ -1,6 +1,4 @@
-# CI Workflow
-
-This Markdown file describes the structure and functionality of the Continuous Integration (CI) workflow configured in the provided GitHub Actions YAML file.
+# CI Pipeline Workflow
 
 ## Overview
 
