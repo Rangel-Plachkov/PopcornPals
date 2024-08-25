@@ -1,5 +1,5 @@
 
-name: CD pipe
+name: CD workflow
 
 on:
   workflow_run:
