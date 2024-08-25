@@ -9,6 +9,12 @@ on:
       branches:
         - master
 
+env:
+  SERVER_PATH: PopcornPals-Server
+  JAVA_VERSION: '21'
+  JAVA_DISTRIBUTION: 'temurin'
+  OS_VERSION: ubuntu-latest   #${{ runner.os }}
+
 jobs:        
   Clone-repo:
     runs-on: ubuntu-latest
