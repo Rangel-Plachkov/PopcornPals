@@ -59,8 +59,6 @@ Join our community and let others get to know you!
 
 Our admins have the priority to take good care of our users, answer their questions and improve our services to make your experience even better and more enjoyable. We are constantly providing you with up-to-date information about hit films and tv series, actors, producers and film studios so you can stay caught up with the newest trends in the industry. 
 
-## Endpoints
-
 ## Database model
 
 ![db_model](https://github.com/Rangel-Plachkov/PopcornPals/blob/master/resources/db_schema-dark.png?raw=true)
