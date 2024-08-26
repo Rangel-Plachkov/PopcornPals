@@ -71,7 +71,7 @@ This job performs Static Application Security Testing (SAST) using SpotBugs to d
   - **Download server code**: Retrieves the uploaded server code artifact.
   - **Run SpotBugs**: Executes SpotBugs to analyze the code for security issues.
 
-### 6. Static-Analysis
+### 6. Checkstyle
 
 This job runs a static analysis using Checkstyle to enforce coding standards and identify potential issues in the code.
 

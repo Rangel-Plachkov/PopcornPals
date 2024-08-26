@@ -136,7 +136,7 @@ jobs:
         run: cd ${{ env.SERVER_PATH }} && mvn com.github.spotbugs:spotbugs-maven-plugin:spotbugs
 
 
-  Static-Analysis:
+  Checkstyle:
     runs-on: ubuntu-latest
     needs: Build
     steps:
